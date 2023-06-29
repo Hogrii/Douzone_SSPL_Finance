@@ -51,7 +51,7 @@
     text-align: right;
 }
 
-button{
+.replyBtn > button {
     margin-top: 10px;
     width: 100px;
     height: 33px;
@@ -61,6 +61,14 @@ button{
 
 .btns {
     display: flex;
+}
+
+.btns button {
+    margin-top: 10px;
+    width: 100px;
+    height: 33px;
+    font-size: small;
+    font-weight: 600;
 }
 
 .listBtn {
