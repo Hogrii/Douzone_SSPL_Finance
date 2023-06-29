@@ -23,6 +23,7 @@
 	rel="stylesheet" type="text/css">
 </head>
 <body>
+	<div class="listContainer">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<div class="main py-5">
 		<!-- 검색버튼 시작 -->
@@ -76,6 +77,7 @@
 			<button type="button" class="btn btn-secondary">글쓰기</button>
 		</div>
 		<!-- 글쓰기 버튼 끝 -->
+	</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
