@@ -1,0 +1,34 @@
+.searchBar {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.searchBar > div {
+    margin-left: 10px;
+}
+
+.searchBtn > button {
+    width: 100px;
+    height: 33px;
+    font-size: small;
+    font-weight: 600;
+}
+
+.totalPostContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.writeContainer {
+    display: flex;
+    justify-content: end;
+}
+
+.writeContainer > button {
+    width: 100px;
+    height: 33px;
+    font-size: small;
+    font-weight: 600;
+}

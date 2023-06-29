@@ -1,0 +1,78 @@
+.titles {
+    display: flex;
+}
+
+.titles > div{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: larger;
+    font-weight: 600;
+}
+
+.writeInfo {
+    display: flex;
+}
+
+.writeInfo > div {
+    margin-right: 10px;
+    margin-bottom: 50px;
+}
+
+.replyContainer {
+    border: 1px solid #5e5e5e;
+    margin-top: 50px;
+}
+
+.replyText {
+    border-bottom: 1px solid #5e5e5e;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.replyText > span {
+    margin-left: 10px;
+}
+
+.replyContentBox {
+    padding: 20px;
+}
+
+.replyContent {
+    width: 100%;
+}
+
+.replyContent > input {
+    width: 100%;
+    height: 30px;
+}
+
+.replyBtn { 
+    text-align: right;
+}
+
+button{
+    margin-top: 10px;
+    width: 100px;
+    height: 33px;
+    font-size: small;
+    font-weight: 600;
+}
+
+.btns {
+    display: flex;
+}
+
+.listBtn {
+    width: 50%;
+}
+
+.otherBtns {
+    width: 50%;
+    display: flex;
+    justify-content: end;
+}
+
+.otherBtns > button {
+    margin-left: 10px;
+}

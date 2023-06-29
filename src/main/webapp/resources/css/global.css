@@ -1,0 +1,10 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+.btn-secondary {
+    background-color: #5e5e5e;
+    border-color: #5e5e5e;
+}
