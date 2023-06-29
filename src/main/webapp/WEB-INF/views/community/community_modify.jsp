@@ -61,15 +61,14 @@
 	<!-- 목록, 수정, 삭제 버튼 시작 -->
 	<div class="btns">
 		<div class="listBtn">
-			<button type="button" class="btn btn-secondary">목록</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">목록</button>
 		</div>
 		<div class="otherBtns">
-			<button type="button" class="btn btn-secondary">수정</button>
-			<button type="button" class="btn btn-secondary">완료</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='detail.do'">완료</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='detail.do'">취소</button>
 		</div>
 	</div>
 	<!-- 목록, 수정, 삭제 버튼 끝 -->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
     <script>
         $(document).ready(function () {
