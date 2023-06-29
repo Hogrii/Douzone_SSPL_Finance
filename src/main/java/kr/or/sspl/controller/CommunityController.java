@@ -4,17 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class CommunityController {
+public class CommunityController {	
 	@GetMapping("list.do")
 	public String list() {
 		System.out.println("진입");
 		return "community/community_list";
 	}
 	
-	@GetMapping("/")
-	public String test() {
+	@GetMapping("detail.do")
+	public String detail() {
 		System.out.println("진입");
-		return "common/header";
+		return "community/community_detail";
 	}
 	
 	@GetMapping("modify.do")
