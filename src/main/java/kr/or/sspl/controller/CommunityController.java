@@ -21,5 +21,10 @@ public class CommunityController {
 	public String list() {
 		System.out.println("진입");
 		return "community/community_list";
+	
+	@GetMapping("write.do")
+	public String write() {
+		System.out.println("진입");
+		return "community/community_write";
 	}
 }
