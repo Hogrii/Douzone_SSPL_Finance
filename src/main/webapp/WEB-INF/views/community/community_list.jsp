@@ -15,10 +15,15 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 	crossorigin="anonymous"></script>
-	<link href="${pageContext.request.contextPath }/resources/css/global.css" rel="stylesheet" type="text/css">
-	<link href="${pageContext.request.contextPath }/resources/css/communityList.css" rel="stylesheet" type="text/css">
-</head> 
+<link
+	href="${pageContext.request.contextPath }/resources/css/global.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath }/resources/css/communityList.css"
+	rel="stylesheet" type="text/css">
+</head>
 <body>
+	<div class="listContainer">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<div class="main py-5">
 		<!-- 검색버튼 시작 -->
@@ -59,7 +64,7 @@
 				<tr>
 					<td>1</td>
 					<td>매도</td>
-					<td>힘내라 힘!</td>
+					<td><a href="detail.do">힘내라 힘!</a></td>
 					<td>난_민아라고해</td>
 					<td>2023-06-26</td>
 				</tr>
@@ -69,9 +74,10 @@
 
 		<!-- 글쓰기 버튼 시작 -->
 		<div class="writeContainer">
-			<button type="button" class="btn btn-secondary">글쓰기</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='write.do'">글쓰기</button>
 		</div>
 		<!-- 글쓰기 버튼 끝 -->
+	</div>
 	</div>
 </body>
 </html>
