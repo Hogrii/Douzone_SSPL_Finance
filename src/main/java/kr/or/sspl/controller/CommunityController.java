@@ -10,13 +10,7 @@ public class CommunityController {
 		System.out.println("??");
 		return "common/header";
 	}
-	
-	@GetMapping("/")
-	public String test() {
-		System.out.println("진입");
-		return "common/header";
-	}
-	
+
 	@GetMapping("list.do")
 	public String list() {
 		System.out.println("진입");
