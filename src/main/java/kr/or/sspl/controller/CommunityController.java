@@ -17,10 +17,11 @@ public class CommunityController {
 		return "common/header";
 	}
 	
-	@GetMapping("list.do")
-	public String list() {
+	@GetMapping("modify.do")
+	public String modify() {
 		System.out.println("진입");
-		return "community/community_list";
+		return "community/community_modify";
+	}
 	
 	@GetMapping("write.do")
 	public String write() {
