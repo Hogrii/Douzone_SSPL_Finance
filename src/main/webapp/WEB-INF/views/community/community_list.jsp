@@ -64,7 +64,7 @@
 				<tr>
 					<td>1</td>
 					<td>매도</td>
-					<td>힘내라 힘!</td>
+					<td><a href="detail.do">힘내라 힘!</a></td>
 					<td>난_민아라고해</td>
 					<td>2023-06-26</td>
 				</tr>
@@ -74,11 +74,10 @@
 
 		<!-- 글쓰기 버튼 시작 -->
 		<div class="writeContainer">
-			<button type="button" class="btn btn-secondary">글쓰기</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='write.do'">글쓰기</button>
 		</div>
 		<!-- 글쓰기 버튼 끝 -->
 	</div>
 	</div>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>

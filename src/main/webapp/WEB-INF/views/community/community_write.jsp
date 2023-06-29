@@ -64,7 +64,6 @@
 		<button type="button" class="btn btn-secondary">취소</button>
 	</div>
 	<!-- 글쓰기 버튼 끝 -->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
     <script>
         $(document).ready(function () {
