@@ -1,9 +1,9 @@
 body {
-    width: 100vw;
+    width: 65%;
     height: 100vh;
-    padding-left: 300px;
-    padding-right: 300px;
+    margin: auto;
     padding-top: 50px;
+    padding-bottom: 150px;
 }
 
 h1{

@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunityDto {
-	private int comm_seq;
+public class QnaDto {
+	private int qna_seq;
 	private String user_id;
-	private String comm_title;
-	private String comm_content;
-	private Date comm_writen_date;
-	private String comm_category;
-	private int comm_view_count;	
+	private String qna_title;
+	private String qna_content;
+	private Date qna_date;
+	private String qna_category;
+	private String qna_status;
+
 }
