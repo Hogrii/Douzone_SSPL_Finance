@@ -47,20 +47,54 @@ hr {
 				dataType : "JSON",
 				success : function(data) {
 					console.log(data);
+					$("#tbody").empty();
 					data.forEach(item => {
-						  let tr = "<tr>";
-						  tr += "<td>" + item.stock_name + "</td>";
-						  tr += "<td>" + item.stock_price + "</td>";
-						  tr += "<td>" + item.stock_quantity + "</td>";
-						  tr += "<td>" + item.stock_date + "</td>";
-						  tr += "</tr>";
-						  $('tbody').append(tr);
-						});
+						let stock_code = item.stock_code;
+						let stock_name = item.stock_name;
+						let tr = "<tr id="+ stock_code +"></tr>";
+						$('tbody').append(tr); 
+						detail_data(stock_code, stock_name);
+					});
 				}
-				
 			});
-			
-		})
+		});
+		function detail_data(stock_code, stock_name) {
+			$.ajax({
+				url : "searchByCode.do",
+				type : "GET",
+				data : { 
+					"stock_code" : stock_code
+				},
+				dataType : "JSON",
+				success : function(data) {
+					let tr = $("#"+stock_code);
+					let td;
+					//현재가
+					let price = data.output.stck_prpr;
+					//전일대비
+					let yesterday = data.output.prdy_vrss;
+					//전일대비 부호
+					let sign = data.output.prdy_vrss_sign;
+					//전일대비율
+					let per = data.output.prdy_ctrt;
+					td += "<td><a href='searchDetail.do?stock_code="+stock_code+"'>" + stock_name + "</a></td>";
+					if(parseInt(sign) < 3) {
+					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-danger'>▲" + yesterday + "</td>";
+					td += "<td class='text-danger'>+" + per + "</td>";						
+					}else if(parseInt(sign) > 3) {
+					td += "<td class='text-primary'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-primary'>▼" + yesterday + "</td>";
+					td += "<td class='text-primary'>" + per + "</td>";												
+					}else if(parseInt(sign) == 3){
+					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-danger'>" + yesterday + "</td>";
+					td += "<td class='text-danger'>" + per + "</td>";
+					}
+					tr.append(td);
+				}
+			});
+		}
 	});
 </script>
 </head>
@@ -70,14 +104,14 @@ hr {
 	<!-- content 영역 -->
 	<div class="container my-5">
 		<div class="row">
-			<div class="col-md-9 align-self-center">
+			<div class="col-md-8 align-self-center">
 				<h5>검색목록</h5>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<form action="searchKeyword.do">
 					<div class="input-group mb-3">
 						<input type="text" id="keyword" class="form-control"
-							placeholder="검색어를 입력하세요" name="stock_name" value="삼성" />
+							placeholder="검색어를 입력하세요" name="stock_name" value="" />
 						<button type="button" id="search" class="btn btn-secondary">검색</button>
 					</div>
 				</form>
@@ -95,7 +129,8 @@ hr {
 							<th>등락률</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody">
+					<!-- 
 						<tr>
 							<td>삼성화재</td>
 							<td>229,000</td>
@@ -120,6 +155,7 @@ hr {
 							<td class="text-primary">▼21,000</td>
 							<td class="text-primary">-3.10%</td>
 						</tr>
+					 -->
 					</tbody>
 				</table>
 			</div>
