@@ -101,11 +101,9 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                             class="form-control"
                                         >
                                             <option value="제목">제목</option>
+                                            <option value="내용">내용</option>
                                             <option value="작성자">
                                                 작성자
-                                            </option>
-                                            <option value="글제목">
-                                                글제목
                                             </option>
                                         </select>
                                     </div>
@@ -144,6 +142,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                             <td>순번</td>
                             <td>카테고리</td>
                             <td>제목</td>
+                            <td>내용</td>
                             <td>글쓴이</td>
                             <td>작성날짜</td>
                             <td>조회수</td>
@@ -156,8 +155,9 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                 <td>${list2.comm_seq}</td>
                                 <td>${list2.comm_category}</td>
                                 <td>
-                                    <a href="detail.do">${list2.comm_title}</a>
+                                    <a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a>
                                 </td>
+                                <td>${list2.comm_content}</td>
                                 <td>${list2.user_id}</td>
                                 <td>${list2.comm_writen_date}</td>
                                 <td>${list2.comm_view_count}</td>
@@ -166,7 +166,6 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                     </tbody>
                 </table>
                 <!-- 테이블 끝 -->
-
                 <!-- 글쓰기 버튼 시작 -->
                 <div class="writeContainer">
                     <button

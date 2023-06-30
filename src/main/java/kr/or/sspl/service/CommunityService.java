@@ -42,8 +42,8 @@ public class CommunityService {
 		int pagesize = Integer.parseInt(ps);
 		int cpage = Integer.parseInt(cp);
 
-		System.out.println("pagesize : " + pagesize);
-		System.out.println("cpage : " + cpage);
+		//System.out.println("pagesize : " + pagesize);
+		//System.out.println("cpage : " + cpage);
 		int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
 		int end = cpage * pagesize; // 1 * 5 = 5
 
@@ -63,13 +63,18 @@ public class CommunityService {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		List<CommunityDto> list = comunityDao.list(map);
 
-		System.out.println(list.toString());
+		//System.out.println(list.toString());
 		model.addAttribute("list", list);
 		model.addAttribute("pagesize", pagesize);
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
 	}
 	
+	public void getDetailList(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
+		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
+		CommunityDto communityDto= comunityDao.getDetailList(comm_seq);
+		model.addAttribute("detaillist", communityDto);
+	}
 	
 
 //	// 비동기 조건 검색(form의 value로 조건 검색할 예정)
