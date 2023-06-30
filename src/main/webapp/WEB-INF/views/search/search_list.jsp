@@ -14,7 +14,7 @@
 <!-- boxicons js cdn -->
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!-- jQuery cdn -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>종목검색</title>
 <style>
 * {
@@ -31,6 +31,38 @@ hr {
 	border-width: 0.125em;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		let keyword = '';
+		$('#keyword').on('change', function() {
+			keyword = $(this).val();
+		});
+		$('#search').on('click', function() {
+			$.ajax({
+				url : "searchKeyword.do",
+				type : "GET",
+				data : {
+					"stock_name" : keyword
+				},
+				dataType : "JSON",
+				success : function(data) {
+					console.log(data);
+					data.forEach(item => {
+						  let tr = "<tr>";
+						  tr += "<td>" + item.stock_name + "</td>";
+						  tr += "<td>" + item.stock_price + "</td>";
+						  tr += "<td>" + item.stock_quantity + "</td>";
+						  tr += "<td>" + item.stock_date + "</td>";
+						  tr += "</tr>";
+						  $('tbody').append(tr);
+						});
+				}
+				
+			});
+			
+		})
+	});
+</script>
 </head>
 <body>
 	<!-- header 영역 -->
@@ -42,11 +74,11 @@ hr {
 				<h5>검색목록</h5>
 			</div>
 			<div class="col-md-3">
-				<form action="#">
+				<form action="searchKeyword.do">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요"
-							value="삼성" />
-						<button type="submit" class="btn btn-secondary">검색</button>
+						<input type="text" id="keyword" class="form-control"
+							placeholder="검색어를 입력하세요" name="stock_name" value="삼성" />
+						<button type="button" id="search" class="btn btn-secondary">검색</button>
 					</div>
 				</form>
 			</div>
