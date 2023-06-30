@@ -11,7 +11,7 @@
             integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
             crossorigin="anonymous"
         />
-        <link href="${pageContext.request.contextPath }/resources/css/global.css" rel="stylesheet" type="text/css">
+        
         <style>
             .container {
                 display: flex;
@@ -23,6 +23,8 @@
                 width: 275px;
             }
         </style>
+        <link href="${pageContext.request.contextPath }/resources/css/global.css" rel="stylesheet" type="text/css">
+
         
     </head>
     <body>
@@ -110,9 +112,7 @@
                 </div>
             </form>
         </main>
-        <footer>
-			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-		</footer>
+       
         
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -124,5 +124,8 @@
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"
         ></script>
+      <footer>
+			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		</footer> 
     </body>
 </html>
