@@ -102,38 +102,6 @@ hr {
 			</div>
 		</div>
 	</div>
-	<!-- footer 영역 -->
-	<!-- 
-	<script>
-		$("#qnaWriteBtn").on("click", function(){
-			if($("#user_id").val()=="") {
-				alert("아이디를 입력해주세요");
-				return false;
-			}
-				
-			if($("#qna_title").val()=="") {
-				alert("글제목을 입력해주세요");
-				return false;
-			}
-			
-			if($("#qna_category").val()=="") {
-				alert("말머리를 입력해주세요");
-				return false;
-			}
-			
-			let summernote = $("#summernote").val();
-			summernote = summernote.replace(/&nbsp;/g, " ");
-			if(summernote=="") {
-				alert("내용을 입력해주세요");
-				return false;
-			}
-			console.log(summernote);
-			if(confirm("문의글을 작성하시겠습니까?")) {
-				$("#frmWrite").submit();
-			}else return false;
-		})
-	</script>
-	 -->
 </body>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
