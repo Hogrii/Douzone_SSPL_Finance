@@ -24,15 +24,15 @@ form {
 </style>
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
-	rel="stylesheet" type="text/css">
-
+	rel="stylesheet" type="text/css" />
 
 </head>
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
-	<main class="container py-5">
+	<!-- 여기서부터 메인 -->
+	<div class="container my-5">
 		<h3 class="">SSPL Finance</h3>
 
 		<form action="${pageContext.request.contextPath	}/member/joinOk"
@@ -74,7 +74,7 @@ form {
 					취소하기</button>
 			</div>
 		</form>
-	</main>
+	</div>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

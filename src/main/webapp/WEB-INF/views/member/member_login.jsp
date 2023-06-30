@@ -34,7 +34,8 @@
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
-	<main id="main" class="container pt-4 mt-1">
+	<!-- 여기서부터 메인 -->
+	<div id="main" class="container pt-4 mt-1 my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<div class="card-body">
@@ -68,6 +69,6 @@
 				</div>
 			</div>
 		</div>
-	</main>
+	</div>
 </body>
 </html>

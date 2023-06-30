@@ -34,7 +34,8 @@
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
-	<main id="main" class="container py-5">
+	<!-- 여기서부터 메인 -->
+	<div id="main" class="container my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<h3 class="text-center mb-4">SSPL Finance</h3>
@@ -52,6 +53,6 @@
 				</form>
 			</div>
 		</div>
-	</main>
+	</div>
 </body>
 </html>
