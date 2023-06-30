@@ -11,4 +11,7 @@ public interface QnaDao {
 	
 	// 글 출력
 	public List<QnaDto> qnaList();
+	
+	// 상세 페이지 출력
+	public QnaDto qna(String qna_title);
 }

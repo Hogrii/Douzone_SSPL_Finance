@@ -18,23 +18,27 @@ public class QnAController {
 	@Autowired
 	private QnaService qnaService;
 
-	// 이동
+	// 리스트 페이지 이동
 	@GetMapping("qnaList.do")
 	public String qnaList(Model model) {
 		qnaService.qnaList(model);
 		return "qna/qna_list";
 	}
 	
+	// 상세 페이지 이동
 	@GetMapping("qnaDetail.do")
-	public String qnaDetail() {
+	public String qnaDetail(Model model, String qna_title) {
+		qnaService.qnaDetail(model, qna_title);
 		return "qna/qna_detail";
 	}
 	
+	// 수정 페이지 이동
 	@GetMapping("qnaModify.do")
 	public String qnaModify() {
 		return "qna/qna_modify";
 	}
 	
+	// 글쓰기 페이지 이동
 	@GetMapping("qnaWrite.do")
 	public String qnaWrite() {
 		return "qna/qna_write";

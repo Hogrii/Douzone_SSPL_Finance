@@ -45,5 +45,19 @@ public class QnaService {
 		System.out.println(qnaList.toString());
 		model.addAttribute("qnaList", qnaList);
 	}
+	
+	// 상세 페이지 출력
+	public void qnaDetail(Model model, String qna_title) {
+		System.out.println("service : " + qna_title);
+		QnaDto qna = null;
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qna = qnaDao.qna(qna_title);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("qna : " + qna);
+		model.addAttribute("qna", qna);
+	}
 
 }
