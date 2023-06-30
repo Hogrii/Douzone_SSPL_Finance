@@ -50,7 +50,7 @@ hr {
 .navContainer > div {
     margin-right: 25px;
 }
-.navContainer > div > button {
+.navContainer > div button {
     width: 100px;
     height: 33px;
     font-size: small;

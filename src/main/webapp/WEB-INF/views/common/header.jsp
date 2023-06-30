@@ -50,7 +50,7 @@
 					<button type="button" class="btn btn-secondary">홈</button>
 				</div>
 				<div class="community">
-					<button type="button" class="btn btn-secondary">커뮤니티</button>
+					<a href="Community/list.do"><button type="button" class="btn btn-secondary">커뮤니티</button></a>
 				</div>
 				<div class="qna">
 					<button type="button" class="btn btn-secondary">문의</button>
