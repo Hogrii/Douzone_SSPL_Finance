@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,7 +20,8 @@ public class QnAController {
 
 	// 이동
 	@GetMapping("qnaList.do")
-	public String qnaList() {
+	public String qnaList(Model model) {
+		qnaService.qnaList(model);
 		return "qna/qna_list";
 	}
 	
@@ -42,6 +44,6 @@ public class QnAController {
 	@RequestMapping("/qnaWriteOk.do")
 	public String qnaWriteOk(QnaDto qnaDto, HttpServletRequest request, HttpServletResponse response) {
 		qnaService.qnaWriteOk(qnaDto, request, response);
-		return "qna/qna_list";		
+		return "redirect:/qna/qnaList.do";		
 	}
 }

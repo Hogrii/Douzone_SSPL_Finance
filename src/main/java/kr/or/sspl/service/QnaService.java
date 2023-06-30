@@ -1,11 +1,14 @@
 package kr.or.sspl.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import kr.or.sspl.dao.QnaDao;
 import kr.or.sspl.dto.QnaDto;
@@ -19,6 +22,7 @@ public class QnaService {
 		this.sqlsession = sqlsession;
 	}
 	
+	// 글쓰기
 	public void qnaWriteOk(QnaDto qnaDto, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			System.out.println(qnaDto.getUser_id() + " " + qnaDto.getQna_title() + " " + qnaDto.getQna_content() + " " + qnaDto.getQna_category());
@@ -27,6 +31,19 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 글출력
+	public void qnaList(Model model) {
+		List<QnaDto> qnaList = null;
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaList = qnaDao.qnaList();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(qnaList.toString());
+		model.addAttribute("qnaList", qnaList);
 	}
 
 }
