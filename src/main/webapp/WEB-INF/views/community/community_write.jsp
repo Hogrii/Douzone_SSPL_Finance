@@ -60,8 +60,8 @@
 
 	<!-- 글쓰기 버튼 시작 -->
 	<div class="writeBtns">
-		<button type="button" class="btn btn-secondary">완료</button>
-		<button type="button" class="btn btn-secondary">취소</button>
+		<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">완료</button>
+		<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">취소</button>
 	</div>
 	<!-- 글쓰기 버튼 끝 -->
 

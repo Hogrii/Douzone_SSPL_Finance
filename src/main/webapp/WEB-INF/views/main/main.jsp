@@ -84,12 +84,13 @@
         <!-- content 영역 -->
         <main class="container">
             <div class="d-flex justify-content-end">
-                <form action="#">
+            <!-- 검색목록 페이지 이동 (8번)-->
+                <form action="#" method="post">
                     <div class="input-group mb-3">
                         <input
                             type="text"
                             class="form-control"
-                            placeholder="검색어를 입력하세요"
+                            placeholder="종목명 또는 종목코드 검색"
                         />
                         <button type="submit" class="btn btn-secondary">
                             검색

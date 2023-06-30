@@ -8,3 +8,7 @@
     background-color: #5e5e5e;
     border-color: #5e5e5e;
 }
+
+a:link { color: white; text-decoration: none;}
+a:visited { color: white; text-decoration: none;}
+a:hover { color: white; text-decoration: underline;} 

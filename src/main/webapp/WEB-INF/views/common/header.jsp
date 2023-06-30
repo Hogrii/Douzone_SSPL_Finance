@@ -36,10 +36,19 @@
 				</div>
 				<div class="userMessage">유저님 반갑습니다!</div>
 				<div class="myPage">
-					<button type="button" class="btn btn-secondary">마이페이지</button>
+					<button type="button" class="btn btn-secondary">
+						<a href="${pageContext.request.contextPath}/member/mypage">마이페이지</a>
+					</button>
 				</div>
-				<div class="logout">
-					<button type="button" class="btn btn-secondary">로그아웃</button>
+				<div class="join">
+					<button type="button" class="btn btn-secondary">
+						<a href="${pageContext.request.contextPath}/member/join">회원가입</a>
+					</button>
+				</div>
+				<div class="login">
+					<button type="button" class="btn btn-secondary">
+						<a href="${pageContext.request.contextPath}/member/login">로그인</a>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -50,7 +59,7 @@
 					<button type="button" class="btn btn-secondary">홈</button>
 				</div>
 				<div class="community">
-					<button type="button" class="btn btn-secondary">커뮤니티</button>
+					<a href="Community/list.do"><button type="button" class="btn btn-secondary">커뮤니티</button></a>
 				</div>
 				<div class="qna">
 					<button type="button" class="btn btn-secondary">문의</button>
