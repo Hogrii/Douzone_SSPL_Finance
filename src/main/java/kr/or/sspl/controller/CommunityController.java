@@ -24,16 +24,18 @@ public class CommunityController {
 	
 	@GetMapping("list.do")
 	public String CommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
-		
-		System.out.println("진입1");
+	 
 		List<CommunityDto> list = new ArrayList<CommunityDto>();
 		communityservice.getCommunityList(ps,cp,model);
 		return "community/community_list";
 		
 	}
 	@GetMapping("detail.do")
-	public String detail() {
+	public String detail(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
+		System.out.println("comm_seq : "+comm_seq);
 		System.out.println("진입2");
+		communityservice.getDetailList(comm_seq,model);
+		
 		return "community/community_detail";
 	}
 	

@@ -11,11 +11,11 @@ public interface CommunityDao {
 
 	//전체 게시물 갯수 조회 
 	int communityCount() throws ClassNotFoundException, SQLException;
-	// 전제 게시물 조회 - 완료
+	// 전제 게시물 조회
 	List<CommunityDto> list(Map<String,Integer> map) throws ClassNotFoundException, SQLException;
  
 	// 게시물 상세 - 예정
-	CommunityDto listDetail(CommunityDto communityDto)throws ClassNotFoundException, SQLException;
+	CommunityDto getDetailList(int comm_seq)throws ClassNotFoundException, SQLException;
 	
 	// 비동기 조건 검색(form의 value로 조건 검색할 예정)
 	List<CommunityDto> searchList(String search) throws ClassNotFoundException, SQLException;

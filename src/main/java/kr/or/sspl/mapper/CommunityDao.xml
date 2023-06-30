@@ -3,11 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.sspl.dao.CommunityDao">
+	<!-- 전체데이터 갯수 -->
 	<select id="communityCount" resultType="int">
 		select count(*)
     		from community
 	</select>
 	
+	<!-- 전체리스트 조회 -->
 	<select id="list" parameterType ="HashMap" resultType="kr.or.sspl.dto.CommunityDto">
 		select comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
 		from (select rownum as rn, comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
@@ -15,6 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by rn asc)
 		where rn between #{start} and #{end}
 	</select>
-
-
+	
+	<!-- 상세페이지 -->
+	<select id ="getDetailList" parameterType="int" resultType="kr.or.sspl.dto.CommunityDto">
+		select comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
+		from community
+		where comm_seq =#{comm_seq}
+	</select>
 </mapper>
