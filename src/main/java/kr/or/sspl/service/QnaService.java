@@ -48,7 +48,6 @@ public class QnaService {
 	
 	// 상세 페이지 출력
 	public void qnaDetail(Model model, String qna_title) {
-		System.out.println("service : " + qna_title);
 		QnaDto qna = null;
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
@@ -56,8 +55,17 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("qna : " + qna);
 		model.addAttribute("qna", qna);
+	}
+	
+	// 글 삭제
+	public void qnadelete(String qna_seq) {
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaDelete(Integer.parseInt(qna_seq));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

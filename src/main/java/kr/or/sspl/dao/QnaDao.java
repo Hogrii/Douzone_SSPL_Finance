@@ -14,4 +14,7 @@ public interface QnaDao {
 	
 	// 상세 페이지 출력
 	public QnaDto qna(String qna_title);
+	
+	// 글 삭제
+	public void qnaDelete(int qna_seq);
 }

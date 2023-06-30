@@ -24,5 +24,10 @@ int insert(Member member) throws ClassNotFoundException, SQLException;
 	SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS 
 	FROM QNA WHERE QNA_TITLE = #{qna_title} 
 </select>
+
+<!-- 글삭제 -->
+<delete id="qnaDelete" parameterType="int">
+	DELETE FROM QNA WHERE QNA_SEQ = #{qna_seq}
+</delete>
 </mapper>
 

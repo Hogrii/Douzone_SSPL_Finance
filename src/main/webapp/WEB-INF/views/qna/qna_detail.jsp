@@ -99,6 +99,8 @@
 								onclick="location.href='qnaList.do'">등록</button>
 							<button type="button" class="btn btn-secondary"
 								onclick="location.href='qnaList.do'">취소</button>
+							<button type="button" class="btn btn-secondary"
+								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'">삭제</button>								
 						</div>
 					</div>
 				</form>

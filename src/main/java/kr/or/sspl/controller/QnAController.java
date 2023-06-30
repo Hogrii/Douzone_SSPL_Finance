@@ -50,4 +50,11 @@ public class QnAController {
 		qnaService.qnaWriteOk(qnaDto, request, response);
 		return "redirect:/qna/qnaList.do";		
 	}
+	
+	// 글삭제
+	@RequestMapping("/delete.do")
+	public String delete(String qna_seq) {
+		qnaService.qnadelete(qna_seq);
+		return "redirect:/qna/qnaList.do";
+	}
 }
