@@ -64,13 +64,3 @@
 	<bean id="bCryptPasswordEncoder"   class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 </bean>
 </beans>
-
-
-
-
-
-
-
-
-
-
