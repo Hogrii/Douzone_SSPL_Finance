@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +35,13 @@ public class SearchController {
 		stockList = searchService.searchList(stock_name);
 		System.out.println(stockList);
 		return stockList;
+	}
+	
+	@GetMapping("searchByCode.do")
+	@ResponseBody
+	public String searchByCode(String stock_code) {
+		String jsonResponse = searchService.searchByCode(stock_code);
+		return jsonResponse;
 	}
 	
 	@GetMapping("searchDetail.do")
