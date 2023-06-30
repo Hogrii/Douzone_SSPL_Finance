@@ -41,24 +41,27 @@ hr {
 	<div class="container my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
-				<form action="qnaWriteOk.do">
+				<form action="qnaWriteOk.do" method="post" id="frmWrite">
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
-							class="text-danger">*</span>아이디</label> <input type="text"
-							class="form-control" id="id" placeholder="아이디를 입력하세요" />
+							class="text-danger">* </span>아이디</label> <input type="text"
+							class="form-control" id="user_id" name="user_id"
+							placeholder="아이디를 입력하세요" />
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="title" class="form-label col-md-2"><span
-							class="text-danger">*</span>제목</label> <input type="text"
-							class="form-control" id="title" placeholder="제목을 입력하세요" />
+							class="text-danger">* </span>제목</label> <input type="text"
+							class="form-control" id="qna_title" name="qna_title"
+							placeholder="제목을 입력하세요" />
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="category" class="form-label col-md-2"><span
-							class="text-danger">*</span>카테고리</label> <select
-							class="form-select form-control" id="category">
+							class="text-danger">* </span>카테고리</label> <select
+							class="form-select form-control" id="qna_category"
+							name="qna_category">
 							<option value="시세">시세</option>
 							<option value="환율">환율</option>
 							<option value="매수">매수</option>
@@ -68,28 +71,29 @@ hr {
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="content" class="form-label col-md-2"><span
-							class="text-danger">*</span>내용</label>
+							class="text-danger">* </span>내용</label>
 						<div class="col-md-10">
-							<div id="summernote"></div>
+							<textarea id="summernote" name="qna_content"></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
 							<!-- 
                                 <input
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    value="등록"
-                                    id="qnaWriteOk"
-                                />
-                                <input
-                                    type="button"
+                                    type="submit"
                                     class="btn btn-secondary"
                                     value="취소"
                                 />
                              -->
-							<button type="button" class="btn btn-secondary"
-								onclick="location.href='qnaList.do'">등록</button>
+                                <input
+                                    type="submit"
+                                    class="btn btn-secondary"
+                                    value="등록"
+                                    id="qnaWriteOk"
+                                />
+							<!-- 
+							<button type="button" class="btn btn-secondary" id="qnaWriteBtn">등록</button>
+ -->
 							<button type="button" class="btn btn-secondary"
 								onclick="location.href='qnaList.do'">취소</button>
 						</div>
@@ -99,7 +103,39 @@ hr {
 		</div>
 	</div>
 	<!-- footer 영역 -->
+	<!-- 
+	<script>
+		$("#qnaWriteBtn").on("click", function(){
+			if($("#user_id").val()=="") {
+				alert("아이디를 입력해주세요");
+				return false;
+			}
+				
+			if($("#qna_title").val()=="") {
+				alert("글제목을 입력해주세요");
+				return false;
+			}
+			
+			if($("#qna_category").val()=="") {
+				alert("말머리를 입력해주세요");
+				return false;
+			}
+			
+			let summernote = $("#summernote").val();
+			summernote = summernote.replace(/&nbsp;/g, " ");
+			if(summernote=="") {
+				alert("내용을 입력해주세요");
+				return false;
+			}
+			console.log(summernote);
+			if(confirm("문의글을 작성하시겠습니까?")) {
+				$("#frmWrite").submit();
+			}else return false;
+		})
+	</script>
+	 -->
 </body>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+
 </html>

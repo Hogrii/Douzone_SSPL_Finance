@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+Member getMember(String uid) throws ClassNotFoundException, SQLException;
+int insert(Member member) throws ClassNotFoundException, SQLException; 
+ -->
+<mapper namespace="kr.or.sspl.dao.QnaDao">
+
+<select id="qnaWrite" parameterType="kr.or.sspl.dto.QnaDto">
+	INSERT INTO QNA(qna_seq, user_id, qna_title, qna_content, qna_date, qna_category, qna_status)
+	VALUES (qna_seq.nextval, #{user_id}, #{qna_title}, #{qna_content}, sysdate, #{qna_category}, '답변중')
+</select>
+
+</mapper>
+
