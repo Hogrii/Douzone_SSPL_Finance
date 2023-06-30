@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -64,50 +65,22 @@ box-icon {
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="border-bottom border-2">
-							<td>4</td>
-							<td>시세</td>
-							<td><a href="qnaDetail.do"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;문의드립니다.</a>
-							</td>
-							<td>김유신</td>
-							<td>2023-06-27</td>
-							<td>답변완료</td>
-							<td><box-icon name="file"></box-icon></td>
-						</tr>
-						<tr class="border-bottom border-2">
-							<td>3</td>
-							<td>매수</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;문의드립니다.</a>
-							</td>
-							<td>김유신</td>
-							<td>2023-06-26</td>
-							<td>답변완료</td>
-							<td></td>
-						</tr>
-						<tr class="border-bottom border-2">
-							<td>2</td>
-							<td>매도</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;문의드립니다.</a>
-							</td>
-							<td>이순신</td>
-							<td>2023-06-25</td>
-							<td>답변 중</td>
-							<td><box-icon name="file"></box-icon></td>
-						</tr>
-						<tr class="border-bottom border-2">
-							<td>1</td>
-							<td>매수</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;문의드립니다.</a>
-							</td>
-							<td>홍길동</td>
-							<td>2023-06-22</td>
-							<td>답변완료</td>
-							<td><box-icon name="file"></box-icon></td>
-						</tr>
+						<c:forEach var="list" items="${qnaList}">
+							<tr class="border-bottom border-2">
+								<td>${list.qna_seq }</td>
+								<td>${list.qna_category }</td>
+								<td>
+									<a href="qnaDetail.do?qna_title=${list.qna_title }">
+										<box-icon name="lock" type="solid"></box-icon>
+										${list.qna_title }
+									</a>
+								</td>
+								<td>${list.user_id }</td>
+								<td>${list.qna_date}</td>
+								<td>${list.qna_status }</td>
+								<td><box-icon name="file"></box-icon></td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
