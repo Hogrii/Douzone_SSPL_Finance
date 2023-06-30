@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath }/resources/css/footer.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-@import url("css/global.css");
-@import url("css/footer.css");
+
 </style>
 </head>
 
@@ -17,3 +16,4 @@
 	<!-- footer 끝 -->
 
 </html>
+

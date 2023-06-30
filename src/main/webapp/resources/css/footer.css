@@ -2,7 +2,7 @@
     width: 100vw;
     height: 150px;
     background-color: #5e5e5e;
-    position: absolute;
+    /* position: fixed; */
     bottom: 0px;
     left:0px;
     text-align: center;

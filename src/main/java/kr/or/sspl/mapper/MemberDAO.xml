@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+Member getMember(String uid) throws ClassNotFoundException, SQLException;
+int insert(Member member) throws ClassNotFoundException, SQLException; 
+ -->
+<mapper namespace="kr.or.sspl.dao.MemberDAO">
+
+<select id="join" parameterType="kr.or.sspl.dto.MemberDTO"  >
+	INSERT INTO MEMBER(USER_ID, PASSWORD, NAME, EMAIL, ENABLED, PHONE_NUMBER)
+	VALUES (#{user_id}, #{password}, #{name}, #{email}, #{enabled}, #{phone_number})
+</select>
+
+</mapper>
+

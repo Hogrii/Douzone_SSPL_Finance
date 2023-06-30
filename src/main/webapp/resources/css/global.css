@@ -9,8 +9,6 @@
     border-color: #5e5e5e;
 }
 
-a {
-	text-decoration : none;
-	text-decoration-line : none;
-	color : black;
-}
+a:link { color: white; text-decoration: none;}
+a:visited { color: white; text-decoration: none;}
+a:hover { color: white; text-decoration: underline;} 
