@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kr.or.sspl.dto.MemberDTO;
+import kr.or.sspl.dto.MemberDto;
 import kr.or.sspl.service.MemberService;
 
 @Controller
@@ -23,7 +23,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("joinOk")
-	public String joinOk(MemberDTO memberdto) {
+	public String joinOk(MemberDto memberdto) {
 		System.out.println(memberdto.toString());
 		memberService.join(memberdto);
 		

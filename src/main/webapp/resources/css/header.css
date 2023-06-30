@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
 }
-.logo > img {
+.logo > a > img {
     width: 50%;
     height: 50%;
 }
@@ -30,7 +30,7 @@
 .userContainer > div {
     margin-left: 25px;
 }
-.userImage > img {
+.userImage > a > img {
     width: 40px;
     height: 40px;
 }

@@ -2,13 +2,13 @@ package kr.or.sspl.dao;
 
 
 
-import kr.or.sspl.dto.MemberDTO;
+import kr.or.sspl.dto.MemberDto;
 
 
-public interface MemberDAO {
+public interface MemberDao {
 
 	//회원가입
-	int join(MemberDTO memberdto) ;
+	int join(MemberDto memberdto) ;
 	
 	//로그인
 	void login(String user_id, String password);
@@ -17,6 +17,6 @@ public interface MemberDAO {
 	void userSelect(String password);
 	
 	//유저 정보 수정
-	void userUpdate(MemberDTO memberdto);
+	void userUpdate(MemberDto memberdto);
 	
 }
