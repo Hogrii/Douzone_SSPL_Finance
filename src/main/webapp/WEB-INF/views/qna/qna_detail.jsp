@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -42,7 +43,7 @@
 						<label for="id" class="form-label col-md-2"><span
 							class="text-danger">*</span>아이디</label>
 						<div>
-							<p>난_민아라고해</p>
+							<p>${qna.user_id}</p>
 						</div>
 					</div>
 					<hr />
@@ -50,7 +51,7 @@
 						<label for="title" class="form-label col-md-2"><span
 							class="text-danger">*</span>제목</label>
 						<div>
-							<p>문의드립니다.</p>
+							<p>${qna.qna_title}</p>
 						</div>
 					</div>
 					<hr />
@@ -69,7 +70,7 @@
 						<label for="content" class="form-label col-md-2"><span
 							class="text-danger">*</span>내용</label>
 						<div>
-							<p>10월 3일 휴강인가요?</p>
+							${qna.qna_content }
 						</div>
 					</div>
 					<hr />
