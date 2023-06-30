@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 
 
-import kr.or.sspl.dao.MemberDAO;
-import kr.or.sspl.dto.MemberDTO;
+import kr.or.sspl.dao.MemberDao;
+import kr.or.sspl.dto.MemberDto;
 
 @Service
 public class MemberService {
@@ -25,14 +25,14 @@ public class MemberService {
 	}
 	
 	
-	public int join(MemberDTO memberdto) {
+	public int join(MemberDto memberdto) {
 		
 		int loginResult = 0;
 		memberdto.setEnabled(1);
 		memberdto.setPassword(this.bCryptPasswordEncoder.encode(memberdto.getPassword()));
 		try {
 			
-			MemberDAO dao = sqlsession.getMapper(MemberDAO.class);
+			MemberDao dao = sqlsession.getMapper(MemberDao.class);
 			loginResult =dao.join(memberdto);
 			System.out.println(loginResult);
 			
