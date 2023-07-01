@@ -22,29 +22,40 @@ form {
 	width: 275px;
 }
 </style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/member/member.join.js"></script>
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
 	rel="stylesheet" type="text/css" />
 
 </head>
+
+
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
 	<!-- 여기서부터 메인 -->
-	<div class="container my-5">
+	<div class="container my-5 ">
 		<h3 class="">SSPL Finance</h3>
 
-		<form action="${pageContext.request.contextPath	}/member/joinOk"
-			method="post" class="pt-5 mt-2">
+		<form class="pt-5 mt-2" id="form">
 			<div class="form-group pt-4">
 				<label for="name">이름</label> <input type="text" class="form-control"
 					id="name" name="name" placeholder="이름을 입력하세요" />
 			</div>
-			<div class="form-group pt-3">
-				<label for="user_id">아이디</label> <input type="text"
-					class="form-control" id="user_id" name="user_id"
-					placeholder="아이디를 입력하세요" />
+			<div class="form-group pt-3 row">
+				<label for="user_id" class="col-sm-3 col-form-label">아이디</label>
+				<div class="col-sm-9 input-group">
+					<input type="text" class="form-control" id="user_id" name="user_id"
+						placeholder="아이디를 입력하세요" />
+					<div class="input-group-append">
+						<button id="id_check" class="btn btn-secondary btn-sm">
+							중복확인</button>
+					</div>
+				</div>
 			</div>
 			<div class="form-group pt-3">
 				<label for="password">비밀번호</label> <input type="password"
@@ -75,6 +86,27 @@ form {
 			</div>
 		</form>
 	</div>
+
+
+	<div class="modal fade" id="resultModal" tabindex="-1" role="dialog"
+		aria-labelledby="resultModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="resultModalLabel">결과</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="resultMessage"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
