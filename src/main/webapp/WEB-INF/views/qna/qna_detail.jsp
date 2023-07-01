@@ -74,16 +74,15 @@
 							<span class="text-danger">*</span>
 							카테고리
 						</label>
-						<select 
-							class="form-control"
-							id="qna_category"
-							name="qna_category" 
-							disabled>
-							<option value="1" selected>시세</option>
-							<option value="2">환율</option>
-							<option value="3">매수</option>
-							<option value="4">매도</option>
-						</select>
+						<div>
+							<input 
+								type="text" 
+								id="qna_category" 
+								name="qna_category" 
+								value="${qna.qna_category}"
+								style="border:0"
+								readonly />
+						</div>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
