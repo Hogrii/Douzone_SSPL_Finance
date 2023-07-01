@@ -41,21 +41,32 @@ public class SearchService {
 	}
 	
 	public String searchByCode(String stock_code) {
-		System.out.println(stock_code);
+		String jsonResponse = null;
+		//주식현재가 시세 요청 주소
+		String apiUrl = "inquire-price?";
+		//GET방식 Query param 설정
+		apiUrl += "fid_cond_mrkt_div_code=J&fid_input_iscd="+stock_code;
+		//Header 데이터
+		//주식현재가 시세 조회 코드
+		String tr_id = "FHKST01010100";
+		jsonResponse = connectAPI(apiUrl, tr_id);
+		 return jsonResponse;
+	}
+	
+	//한국투자 api
+	public String connectAPI(String apiUrl, String tr_id) {
 		String jsonResponse = null;
 		 try {
-	            URL url = new URL("https://openapivts.koreainvestment.com:29443//uapi/domestic-stock/v1/quotations/inquire-price?fid_cond_mrkt_div_code=J&fid_input_iscd="+stock_code);
+	            URL url = new URL("https://openapivts.koreainvestment.com:29443//uapi/domestic-stock/v1/quotations/"+apiUrl);
 	            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	            connection.setRequestMethod("GET");
-
+	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjFiNjMxMDAzLTlhZmMtNDVmZS1hYTY3LTYzOWQzMmE2NzkwYyIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4MTk4NTMwLCJpYXQiOjE2ODgxMTIxMzAsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.TOXRC7cJDILMSe6RApVwd4ryMRynNAGcsyWpFpe5nNv74m1htUHXP8kcgCv_x0SIougih2l5FyMAd7PbBjX2BA");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU0ZjE1ZmI2LTAyYjctNDE2MS04Y2UzLTJiZDBmNTQ5YTg1ZCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4Mjg1MTExLCJpYXQiOjE2ODgxOTg3MTEsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.gSXf4rgyJUN-9sxggq03RyYT53Ht-uVe-t1vUHj1xf6v2KMBRQSlbdPqjh6qOlLszCb2zBUD5R4kyNmjMgY5Qg");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
-	            connection.setRequestProperty("tr_id", "FHKST01010100");
-
-
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+	            connection.setRequestProperty("tr_id", tr_id);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 	            String line;
 	            StringBuilder response = new StringBuilder();
 	            while ((line = reader.readLine()) != null) {
@@ -64,7 +75,6 @@ public class SearchService {
 	            reader.close();
 
 	            jsonResponse = response.toString();
-	            System.out.println(jsonResponse);
 	        } catch (Exception e) {
 	        	System.out.println(e.getMessage());
 	            e.printStackTrace();
