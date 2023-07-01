@@ -126,4 +126,25 @@ public class QnaService {
 			e.printStackTrace();
 		}
 	}
+	
+	// 수정 페이지 이동
+	public void qnaModify(String qna_seq, HttpServletRequest request) {
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			QnaDto qnaInfo = qnaDao.qna(qna_seq);
+			request.setAttribute("qna", qnaInfo);			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	// 글 수정
+	public void qnaModifyOk(QnaDto qnaDto) {
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaModify(qnaDto);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

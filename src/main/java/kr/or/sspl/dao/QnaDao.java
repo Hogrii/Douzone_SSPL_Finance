@@ -28,4 +28,7 @@ public interface QnaDao {
 	
 	// 총 게시글 수
 	public int totallistCount();
+	
+	// 글 수정
+	public void qnaModify(QnaDto qnaDto);
 }

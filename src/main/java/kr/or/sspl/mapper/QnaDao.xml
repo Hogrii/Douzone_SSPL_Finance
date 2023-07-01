@@ -28,8 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 상세 페이지 -->
 	<select id="qna" resultType="kr.or.sspl.dto.QnaDto">
-		SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY,
-		QNA_STATUS
+		SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
 		FROM QNA WHERE QNA_SEQ = #{qna_seq}
 	</select>
 
@@ -59,5 +58,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*)
 		FROM QNA
 	</select>
+	
+	<!-- 글 수정 -->
+	<update id="qnaModify" parameterType="kr.or.sspl.dto.QnaDto">
+		UPDATE QNA
+		SET
+			QNA_TITLE = #{qna_title}, 
+			QNA_CONTENT = #{qna_content},
+			QNA_CATEGORY = #{qna_category}
+		WHERE QNA_SEQ = #{qna_seq}
+	</update>
 </mapper>
 

@@ -33,8 +33,9 @@ public class QnAController {
 	}
 	
 	// 수정 페이지 이동
-	@GetMapping("qnaModify.do")
-	public String qnaModify() {
+	@RequestMapping("qnaModify.do")
+	public String qnaModify(String qna_seq, HttpServletRequest request) {
+		qnaService.qnaModify(qna_seq, request);
 		return "qna/qna_modify";
 	}
 	
@@ -56,6 +57,13 @@ public class QnAController {
 	public String delete(String qna_seq) {
 		qnaService.qnadelete(qna_seq);
 		return "redirect:/qna/qnaList.do";
+	}
+	
+	// 글수정
+	@RequestMapping("/qnaModifyOk.do")
+	public String qnaModifyOk(QnaDto qnaDto) {
+		qnaService.qnaModifyOk(qnaDto);
+		return "redirect:/qna/qnaDetail.do?qna_seq="+qnaDto.getQna_seq();
 	}
 	
 	// 댓글 작성

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -41,29 +42,42 @@ hr {
 	<div class="container my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
-				<form action="#">
+				<form action="qnaModifyOk.do?qna_seq=${qna.qna_seq }" method="post">
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
 							class="text-danger">*</span>아이디</label>
-						<p>난_민아라고해</p>
+						<input 
+							type="text" 
+							name="user_id" 
+							value="${qna.user_id }" 
+							style="border: 0"
+							readonly />
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="title" class="form-label col-md-2"><span
-							class="text-danger">*</span>제목</label> <input type="text"
-							class="form-control" id="title" placeholder="제목을 입력하세요"
-							value="문의드립니다." />
+							class="text-danger">*</span>제목</label> 
+						<input 
+							type="text"
+							class="form-control" 
+							id="title"
+							name="qna_title"
+							placeholder="제목을 입력하세요"
+							value=${qna.qna_title } />
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="category" class="form-label col-md-2"><span
-							class="text-danger">*</span>카테고리</label> <select
-							class="form-select form-control" id="category">
+							class="text-danger">*</span>카테고리</label> 
+						<select
+							class="form-select form-control" 
+							id="category"
+							name="qna_category">
 							<option value="시세">시세</option>
 							<option value="환율">환율</option>
 							<option value="매수">매수</option>
-							<option value="매도" selected>매도</option>
+							<option value="매도">매도</option>
 						</select>
 					</div>
 					<hr />
@@ -71,7 +85,7 @@ hr {
 						<label for="content" class="form-label col-md-2"><span
 							class="text-danger">*</span>내용</label>
 						<div class="col-md-10">
-							<div id="summernote">10월 3일 휴강인가요?</div>
+							<textarea id="summernote" name="qna_content">${qna.qna_content }</textarea>
 						</div>
 					</div>
 					<div class="row">

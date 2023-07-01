@@ -38,29 +38,47 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<form
-					action="qnaReplyOk.do?qna_seq=${qna.qna_seq }&user_id=${qna.user_id}"
+					action="qnaModify.do?qna_seq=${qna.qna_seq }"
 					method="post">
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
-							class="text-danger">*</span>아이디</label>
+							class="text-danger">*</span> 아이디</label>
 						<div>
-							<p>${qna.user_id}</p>
+							<input 
+								type="text" 
+								id="user_id" 
+								name="user_id" 
+								value="${qna.user_id }"
+								style="border:0"
+								readonly />
 						</div>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="title" class="form-label col-md-2"><span
-							class="text-danger">*</span>제목</label>
+							class="text-danger">*</span> 제목</label>
 						<div>
-							<p>${qna.qna_title}</p>
+							<input 
+								type="text" 
+								id="qna_title" 
+								name="qna_title" 
+								value="${qna.qna_title}"
+								style="border:0"
+								readonly />
 						</div>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
-						<label for="category" class="form-label col-md-2"><span
-							class="text-danger">*</span>카테고리</label> <select class="form-control"
-							id="category" disabled>
+						<label for="category" class="form-label col-md-2">
+							<span class="text-danger">*</span>
+							카테고리
+						</label>
+						<select 
+							class="form-control"
+							id="qna_category"
+							name="qna_category" 
+							disabled>
 							<option value="1" selected>시세</option>
 							<option value="2">환율</option>
 							<option value="3">매수</option>
@@ -70,9 +88,40 @@
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="content" class="form-label col-md-2"><span
-							class="text-danger">*</span>내용</label>
-						<div>${qna.qna_content }</div>
+							class="text-danger">*</span> 내용</label>
+						<div class="col-md-10">
+							<div
+							 	type="text" 
+							 	id="qna_title" 
+							 	name="qna_title"
+							 	style="word-break:break-all">
+							 	${qna.qna_content}
+							 </div>
+						</div>
 					</div>
+					<hr />
+					<div class="row">
+						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
+							<input 
+								type="button" 
+								class="btn btn-secondary"
+								onclick="location.href='qnaList.do'" 
+								value="글목록" /> 
+							<input
+								type="submit" 
+								class="btn btn-secondary"
+								value="글수정" /> 
+							<input
+								type="button" 
+								class="btn btn-secondary"
+								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'"
+								value="글삭제" />
+						</div>
+					</div>
+				</form>
+				<form
+					action="qnaReplyOk.do?qna_seq=${qna.qna_seq }&user_id=${qna.user_id}"
+					method="post">
 					<hr />
 					<c:forEach var="replyList" items="${qnaReplyList }">
 						<div class="d-flex flex-row mb-2">
@@ -95,20 +144,10 @@
 					</div>
 					<div class="row">
 						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
-							<input 
-								type="button" 
-								class="btn btn-secondary"
-								onclick="location.href='qnaList.do'" 
-								value="목록" /> 
-							<input 
-								type="submit" 
-								class="btn btn-secondary" 
-								value="등록" /> 
 							<input
-								type="button" 
+								type="submit" 
 								class="btn btn-secondary"
-								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'"
-								value="삭제" />
+								value="댓글등록" /> 
 						</div>
 					</div>
 				</form>
