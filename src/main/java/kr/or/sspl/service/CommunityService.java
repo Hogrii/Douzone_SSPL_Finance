@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dto.CommunityDto;
+import kr.or.sspl.dto.CommunitySearchData;
 
 @Service
 public class CommunityService {
@@ -77,12 +78,15 @@ public class CommunityService {
 	}
 	
 
-//	// 비동기 조건 검색(form의 value로 조건 검색할 예정)
-//	public List<CommunityDto> searchList(String search) throws ClassNotFoundException, SQLException{
-//		CommunityDao comunityDao = sqlSession.getMapper(CommunityDao.class);
-//		List<CommunityDto> list = comunityDao.searchList(search);
-//		return list;
-//	}
+	// 비동기 조건 검색 
+	public List<CommunityDto> getSearchList(CommunitySearchData searchData) throws Exception  {
+		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("field", searchData.getField());
+		map.put("query", searchData.getQuery());
+		List<CommunityDto> list = comunityDao.searchList(map);
+		return list;
+	}
 //	// 게시물 입력
 //	public void communityInsert(CommunityDto communityDto) throws ClassNotFoundException, SQLException{
 //		CommunityDao comunityDao = sqlSession.getMapper(CommunityDao.class);
