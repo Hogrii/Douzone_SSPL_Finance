@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,16 +29,17 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<div class="Container py-5">
 		<!-- 글 내용 시작 -->
+		<c:set var="detail" value="${requestScope.detaillist}" />
 		<div class="titles">
-			<div class="category">[매도]</div>
-			<div class="title">힘내라 힘!</div>
+			<div class="category">[${detail.comm_category}]</div>
+			<div class="title">${detail.comm_title}</div>
 		</div>
 		<div class="writeInfo">
-			<div class="userid">난_진호라고해</div>
-			<div class="writen_date">23.06.27</div>
-			<div class="view_count">조회수 : 3</div>
+			<div class="userid">${detail.user_id}</div>
+			<div class="writen_date">${detail.comm_writen_date}</div>
+			<div class="view_count">조회수 : ${detail.comm_view_count}</div>
 		</div>
-		<div class="content">내용~</div>
+		<div class="content">${detail.comm_content}</div>
 		<!-- 글 내용 끝 -->
 
 		<!-- 댓글 시작 -->

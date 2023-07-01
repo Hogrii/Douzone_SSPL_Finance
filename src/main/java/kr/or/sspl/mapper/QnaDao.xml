@@ -2,27 +2,71 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-Member getMember(String uid) throws ClassNotFoundException, SQLException;
-int insert(Member member) throws ClassNotFoundException, SQLException; 
- -->
+<!-- Member getMember(String uid) throws ClassNotFoundException, SQLException; 
+	int insert(Member member) throws ClassNotFoundException, SQLException; -->
 <mapper namespace="kr.or.sspl.dao.QnaDao">
 
-<!-- 글 입력 -->
-<insert id="qnaWrite" parameterType="kr.or.sspl.dto.QnaDto">
-	INSERT INTO QNA(qna_seq, user_id, qna_title, qna_content, qna_date, qna_category, qna_status)
-	VALUES (qna_seq.nextval, #{user_id}, #{qna_title}, #{qna_content}, sysdate, #{qna_category}, '답변중')
-</insert>
+	<!-- 글 입력 -->
+	<insert id="qnaWrite" parameterType="kr.or.sspl.dto.QnaDto">
+		INSERT INTO QNA(qna_seq, user_id, qna_title, qna_content, qna_date,
+		qna_category, qna_status)
+		VALUES (qna_seq.nextval, #{user_id}, #{qna_title}, #{qna_content}, sysdate,
+		#{qna_category}, '답변중')
+	</insert>
 
-<!-- 전체 리스트 -->
-<select id="qnaList" resultType="kr.or.sspl.dto.QnaDto">
-	SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS FROM QNA
-</select>
+	<!-- 전체 리스트 -->
+	<select id="qnaList" parameterType ="HashMap" resultType="kr.or.sspl.dto.QnaDto">
+		<![CDATA[
+			SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+			FROM (
+				SELECT ROWNUM AS RN, QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+				FROM QNA
+				ORDER BY RN ASC)
+			WHERE RN BETWEEN #{start} AND #{end}
+		]]>
+	</select>
 
-<!-- 상세 페이지 -->
-<select id="qna" resultType="kr.or.sspl.dto.QnaDto">
-	SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS 
-	FROM QNA WHERE QNA_TITLE = #{qna_title} 
-</select>
+	<!-- 상세 페이지 -->
+	<select id="qna" resultType="kr.or.sspl.dto.QnaDto">
+		SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+		FROM QNA WHERE QNA_SEQ = #{qna_seq}
+	</select>
+
+	<!-- 글삭제 -->
+	<delete id="qnaDelete" parameterType="int">
+		DELETE FROM QNA WHERE QNA_SEQ = #{qna_seq}
+	</delete>
+
+	<!-- 댓글작성 -->
+	<insert id="qnaReply" parameterType="HashMap">
+		INSERT INTO QNA_REPLY(QNA_REPLY_SEQ, QNA_SEQ, USER_ID, QNA_REPLY_CONTENT,
+		QNA_REPLY_DATE)
+		VALUES (qna_reply_seq.nextval, #{qna_seq}, #{user_id}, #{qna_reply_content},
+		sysdate)
+	</insert>
+
+	<!-- 댓글출력 -->
+	<select id="qnaReplyList"
+		resultType="kr.or.sspl.dto.QnaReplyDto">
+		SELECT QNA_REPLY_SEQ, QNA_SEQ, USER_ID, QNA_REPLY_CONTENT, QNA_REPLY_DATE
+		FROM QNA_REPLY
+		WHERE QNA_SEQ = #{qna_seq}
+	</select>
+
+	<!-- 총 게시글 수 -->
+	<select id="totallistCount" resultType="int">
+		SELECT COUNT(*)
+		FROM QNA
+	</select>
+	
+	<!-- 글 수정 -->
+	<update id="qnaModify" parameterType="kr.or.sspl.dto.QnaDto">
+		UPDATE QNA
+		SET
+			QNA_TITLE = #{qna_title}, 
+			QNA_CONTENT = #{qna_content},
+			QNA_CATEGORY = #{qna_category}
+		WHERE QNA_SEQ = #{qna_seq}
+	</update>
 </mapper>
 

@@ -20,21 +20,22 @@ public class QnAController {
 
 	// 리스트 페이지 이동
 	@GetMapping("qnaList.do")
-	public String qnaList(Model model) {
-		qnaService.qnaList(model);
+	public String qnaList(Model model, HttpServletRequest request) {
+		qnaService.qnaList(model, request);
 		return "qna/qna_list";
 	}
 	
 	// 상세 페이지 이동
 	@GetMapping("qnaDetail.do")
-	public String qnaDetail(Model model, String qna_title) {
-		qnaService.qnaDetail(model, qna_title);
+	public String qnaDetail(Model model, String qna_seq) {
+		qnaService.qnaDetail(model, qna_seq);
 		return "qna/qna_detail";
 	}
 	
 	// 수정 페이지 이동
-	@GetMapping("qnaModify.do")
-	public String qnaModify() {
+	@RequestMapping("qnaModify.do")
+	public String qnaModify(String qna_seq, HttpServletRequest request) {
+		qnaService.qnaModify(qna_seq, request);
 		return "qna/qna_modify";
 	}
 	
@@ -49,5 +50,28 @@ public class QnAController {
 	public String qnaWriteOk(QnaDto qnaDto, HttpServletRequest request, HttpServletResponse response) {
 		qnaService.qnaWriteOk(qnaDto, request, response);
 		return "redirect:/qna/qnaList.do";		
+	}
+	
+	// 글삭제
+	@RequestMapping("/delete.do")
+	public String delete(String qna_seq) {
+		qnaService.qnadelete(qna_seq);
+		return "redirect:/qna/qnaList.do";
+	}
+	
+	// 글수정
+	@RequestMapping("/qnaModifyOk.do")
+	public String qnaModifyOk(QnaDto qnaDto) {
+		qnaService.qnaModifyOk(qnaDto);
+		return "redirect:/qna/qnaDetail.do?qna_seq="+qnaDto.getQna_seq();
+	}
+	
+	// 댓글 작성
+	@RequestMapping("/qnaReplyOk.do")
+	public String qnaReplyOk(String user_id, String qna_seq, String qna_reply_content) {
+		System.out.println(qna_seq + " " + qna_reply_content);
+		System.out.println(user_id);
+		qnaService.qnaReply(user_id, qna_seq, qna_reply_content);
+		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}
 }

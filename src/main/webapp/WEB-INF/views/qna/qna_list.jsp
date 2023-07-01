@@ -16,6 +16,10 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
 <title>문의게시판(글목록)</title>
 <style>
 * {
@@ -69,12 +73,9 @@ box-icon {
 							<tr class="border-bottom border-2">
 								<td>${list.qna_seq }</td>
 								<td>${list.qna_category }</td>
-								<td>
-									<a href="qnaDetail.do?qna_title=${list.qna_title }">
-										<box-icon name="lock" type="solid"></box-icon>
-										${list.qna_title }
-									</a>
-								</td>
+								<td><a href="qnaDetail.do?qna_seq=${list.qna_seq }"> <box-icon
+											name="lock" type="solid"></box-icon> ${list.qna_title }
+								</a></td>
 								<td>${list.user_id }</td>
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>
@@ -93,20 +94,39 @@ box-icon {
 			</div>
 		</div>
 
-		<div>
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+		<div class="d-flex justify-content-between">
+			<div class="" style="visibility: hidden;"></div>
+			<!-- 공간차지용 -->
+
+			<!-- 페이징 시작  ★★★★★★★★★★★★★★★★★★★★★★-->
+			<ul id="page" class="pagination" style="margin: 0 auto">
+				<!-- justify-content-end -->
+				<c:if test="${cpage>1 }">
+					<li class="page-item"><a
+						href="qnaList.do?cp=${cpage-1}&ps=${pagesize}" class="page-link">
+							<i class="fas fa-arrow-left"></i>
 					</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</c:if>
+				<c:forEach var="i" begin="1" end="${pagecount}" step="1">
+					<c:choose>
+						<c:when test="${cpage == i }">
+							<li class="page-item"><a href="" class="page-link"
+								style="color: red">${i}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a
+								href="qnaList.do?cp=${i}&ps=${pagesize}" class="page-link">${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${cpage < pagecount}">
+					<li class="page-item"><a
+						href="qnaList.do?cp=${cpage+1}&ps=${pagesize}" class="page-link">
+							<i class="fas fa-arrow-right"></i>
 					</a></li>
-				</ul>
-			</nav>
+				</c:if>
+			</ul>
+			<!-- 페이징 끝  ★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
 		</div>
 	</div>
 	<!-- footer 영역 -->

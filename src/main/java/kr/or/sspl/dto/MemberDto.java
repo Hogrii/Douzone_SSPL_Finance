@@ -17,5 +17,7 @@ public class MemberDto {
 	private Date join_date;
 	private int enabled;
 	private String phone_number;
+	private String duplicate_email;
+	private String duplicate_phone_number;
 
 }

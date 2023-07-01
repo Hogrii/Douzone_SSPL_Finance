@@ -6,9 +6,11 @@ import kr.or.sspl.dto.MemberDto;
 
 
 public interface MemberDao {
+	
+	String idCheck(String id);
 
 	//회원가입
-	int join(MemberDto memberdto) ;
+	void join(MemberDto memberdto) ;
 	
 	//로그인
 	void login(String user_id, String password);

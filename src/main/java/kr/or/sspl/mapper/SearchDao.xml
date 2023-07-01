@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+public List<StockDto> searchList(String stock_name) throws ClassNotFoundException, SQLException;
+ -->
+<mapper namespace="kr.or.sspl.dao.SearchDao">
+
+<!-- 검색 리스트 -->
+<select id="searchList" parameterType="HashMap" resultType="kr.or.sspl.dto.StockDto">
+	SELECT STOCK_CODE, STOCK_NAME 
+	FROM STOCK 
+	WHERE STOCK_NAME LIKE '%${stock_name}%'
+	ORDER BY STOCK_CODE ASC
+</select>
+
+</mapper>
+

@@ -18,17 +18,17 @@ public class MemberController {
 
 	@GetMapping("join")
 	public String join() {
-		System.out.println("로그인");
 		return "/member/member_join";
 	}
 	
-	@PostMapping("joinOk")
-	public String joinOk(MemberDto memberdto) {
-		System.out.println(memberdto.toString());
-		memberService.join(memberdto);
-		
-		return "/main/main";
-	}
+//	@PostMapping("joinOk")
+//	public String joinOk(MemberDto memberdto) {
+//		System.out.println(memberdto.toString());
+//		String msg = memberService.join(memberdto);
+//		System.out.println(msg);
+//	
+//		return "/main/main";
+//	}
 	
 	@GetMapping("login")
 	public String login() {

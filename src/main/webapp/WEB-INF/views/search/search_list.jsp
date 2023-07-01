@@ -14,7 +14,7 @@
 <!-- boxicons js cdn -->
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!-- jQuery cdn -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>종목검색</title>
 <style>
 * {
@@ -31,6 +31,86 @@ hr {
 	border-width: 0.125em;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		$('#search').on('click', function() {
+			let keyword = $('#keyword').val();
+			if(keyword==null || keyword === "") { //검색어가 공백인 경우
+				$('#tbody').empty();
+				let tr = "<tr>";
+				tr += "<td class='text-center' colspan='4'>검색어를 입력해 주세요.</td>";
+				tr += "</tr>";
+				$('#tbody').append(tr);	
+			}else{ //검색어가 공백이 아닌 경우
+				$.ajax({
+					url : "searchKeyword.do",
+					type : "GET",
+					data : {
+						"stock_name" : keyword
+					},
+					dataType : "JSON",
+					success : function(data) {
+						console.log(data);
+						$("#tbody").empty();
+						if(data.length == 0) { //검색 결과가 없는 경우
+							let tr = "<tr>";
+							tr += "<td class='text-center' colspan='4'>검색 결과가 없습니다.</td>";
+							tr += "</tr>";
+							$('#tbody').append(tr);	
+						}else { //검색 결과가 있는 경우
+							data.forEach(item => {
+								let stock_code = item.stock_code;
+								let stock_name = item.stock_name;
+								let tr = "<tr id="+ stock_code +"></tr>";
+								$('tbody').append(tr); 
+								detail_data(stock_code, stock_name);
+							});
+						}
+					}
+				});
+			}
+		});
+		//검색 결과 데이터 가공 함수
+		function detail_data(stock_code, stock_name) {
+			$.ajax({
+				url : "searchByCode.do",
+				type : "GET",
+				data : { 
+					"stock_code" : stock_code
+				},
+				dataType : "JSON",
+				success : function(data) {
+					let tr = $("#"+stock_code);
+					let td;
+					//현재가
+					let price = data.output.stck_prpr;
+					//전일대비
+					let yesterday = data.output.prdy_vrss;
+					//전일대비 부호
+					let sign = data.output.prdy_vrss_sign;
+					//전일대비율
+					let per = data.output.prdy_ctrt;
+					console.log(data.output.cpfn_cnnm);
+					td += "<td><a href='searchDetail.do?stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
+					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
+					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-danger'>▲" + yesterday + "</td>";
+					td += "<td class='text-danger'>+" + per + "</td>";						
+					}else if(parseInt(sign) > 3) { //전일 대비 하락일 경우
+					td += "<td class='text-primary'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-primary'>▼" + yesterday + "</td>";
+					td += "<td class='text-primary'>" + per + "</td>";												
+					}else if(parseInt(sign) == 3){ //전일과 동일한 경우
+					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
+					td += "<td class='text-danger'>" + yesterday + "</td>";
+					td += "<td class='text-danger'>" + per + "</td>";
+					}
+					tr.append(td);
+				}
+			});
+		}
+	});
+</script>
 </head>
 <body>
 	<!-- header 영역 -->
@@ -38,15 +118,15 @@ hr {
 	<!-- content 영역 -->
 	<div class="container my-5">
 		<div class="row">
-			<div class="col-md-9 align-self-center">
+			<div class="col-md-8 align-self-center">
 				<h5>검색목록</h5>
 			</div>
-			<div class="col-md-3">
-				<form action="#">
+			<div class="col-md-4">
+				<form action="searchKeyword.do">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요"
-							value="삼성" />
-						<button type="submit" class="btn btn-secondary">검색</button>
+						<input type="text" id="keyword" class="form-control"
+							placeholder="검색어를 입력하세요" name="stock_name" value="" />
+						<button type="button" id="search" class="btn btn-secondary">검색</button>
 					</div>
 				</form>
 			</div>
@@ -63,7 +143,8 @@ hr {
 							<th>등락률</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody">
+					<!-- 
 						<tr>
 							<td>삼성화재</td>
 							<td>229,000</td>
@@ -88,6 +169,7 @@ hr {
 							<td class="text-primary">▼21,000</td>
 							<td class="text-primary">-3.10%</td>
 						</tr>
+					 -->
 					</tbody>
 				</table>
 			</div>
