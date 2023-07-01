@@ -12,8 +12,61 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jQuery cdn -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+	$(function() {
+		let stock_code = ('000000'+${stock_code}).slice(-6);
+		console.log(stock_code);
+		$.ajax({
+			url : "searchByCode.do",
+			type : "GET",
+			data : {
+				"stock_code" : stock_code
+			},
+			dataType : "JSON",
+			success : function(data) {
+				let tr = "<tr class='text-center'>";
+				//현재날짜
+				let today = new Date();
+				let year = today.getFullYear();
+				let month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
+				let day = ('0' + today.getDate()).slice(-2);
+				tr += "<td>"+ year + "-" + month + "-" + day +"</td>";
+				//시가
+				let price = parseInt(data.output.stck_prpr).toLocaleString();
+				tr += "<td>"+ price +"</td>";
+				//전일종가
+				let yesterdayLastPrice = parseInt(data.output.stck_prpr) - parseInt(data.output.prdy_vrss.substr(1));
+				tr += "<td>"+ yesterdayLastPrice.toLocaleString() +"</td>";
+				//최고가
+				let high_price = parseInt(data.output.stck_hgpr).toLocaleString();
+				tr += "<td class='text-danger'>"+ high_price +"</td>";
+				//최저가
+				let low_price = parseInt(data.output.stck_lwpr).toLocaleString();
+				tr += "<td class='text-primary'>"+ low_price +"</td>";
+				//전일 대비 & 전일 대비율
+				let gap = parseInt(data.output.prdy_vrss);
+				if(gap<0){
+					tr += "<td class='text-primary'>▼"+ gap.toLocaleString() +"</td>";					
+					tr += "<td class='text-primary'>▼"+ data.output.prdy_ctrt +"%</td>";
+				}else {
+					tr += "<td class='text-danger'>▲"+ gap.toLocaleString() +"</td>";										
+					tr += "<td class='text-danger'>▲"+ data.output.prdy_ctrt +"%</td>";
+				}
+				//거래량
+				let yesterdayVloume = (parseFloat(data.output.prdy_vrss_vol_rate) - 100.0).toFixed(2); //소수 둘째 자리 까지만
+				if(yesterdayVloume<0){
+					tr += "<td class='text-primary'>▼"+ yesterdayVloume +"%</td>";
+				}else {
+					tr += "<td class='text-danger'>▲"+ yesterdayVloume +"%</td>";
+				}
+				$('#day_tbody').append(tr);
+			}
+			
+		});
+	});
+</script>
 <style>
 * {
 	box-sizing: border-box;
@@ -36,26 +89,17 @@
 		<hr class="my-4" />
 		<table class="table my-5" id="detail_table">
 			<thead>
-				<tr class="table-secondary">
+				<tr class="table-secondary text-center">
 					<th>날짜</th>
 					<th>시가</th>
+					<th>전일종가</th>
 					<th>최고가</th>
 					<th>최저가</th>
-					<th>종가</th>
 					<th>전일 대비</th>
 					<th>전일 대비율</th>
-				</tr>
+					<th>전일 대비 거래량</th>
 			</thead>
-			<tbody>
-				<tr>
-					<td>2023-06-29</td>
-					<td>73,100</td>
-					<td>73,400</td>
-					<td>72,800</td>
-					<td>72,700</td>
-					<td class="text-danger">▲300</td>
-					<td class="text-danger">+0.41%</td>
-				</tr>
+			<tbody id="day_tbody">
 			</tbody>
 		</table>
 		<div class="row">
