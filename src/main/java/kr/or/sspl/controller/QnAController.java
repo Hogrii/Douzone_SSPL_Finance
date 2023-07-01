@@ -20,8 +20,8 @@ public class QnAController {
 
 	// 리스트 페이지 이동
 	@GetMapping("qnaList.do")
-	public String qnaList(Model model) {
-		qnaService.qnaList(model);
+	public String qnaList(Model model, HttpServletRequest request) {
+		qnaService.qnaList(model, request);
 		return "qna/qna_list";
 	}
 	

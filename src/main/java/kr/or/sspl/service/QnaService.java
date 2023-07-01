@@ -37,11 +37,50 @@ public class QnaService {
 	}
 	
 	// 글출력
-	public void qnaList(Model model) {
+	public void qnaList(Model model, HttpServletRequest request) {
 		List<QnaDto> qnaList = null;
+		Map<String, Integer> listMap = new HashMap<String, Integer>();
 		try {
-			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
-			qnaList = qnaDao.qnaList();
+			String ps = request.getParameter("ps");
+			String cp = request.getParameter("cp");
+			
+			if (cp == null || cp.trim().equals("")) {
+				cp = "1";
+			}
+			if (ps == null || ps.trim().equals("")) {
+				ps = "5";
+			}
+			try {
+				int pagesize = Integer.parseInt(ps);
+				int cpage = Integer.parseInt(cp);
+				QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+				int totalcount = qnaDao.totallistCount();
+				int pagecount = 0;
+				
+				if (totalcount % pagesize == 0) {
+					pagecount = totalcount / pagesize;
+				} else {
+					pagecount = (totalcount / pagesize) + 1;
+				}
+				System.out.println("cpage : " + cpage);
+				System.out.println("pagesize : " + pagesize);
+				int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
+				int end = cpage * pagesize; // 1 * 5 = 5
+				
+				listMap.put("start", start);
+				listMap.put("end", end);
+				
+				qnaList = qnaDao.qnaList(listMap);
+				
+				request.setAttribute("qnaList", qnaList);
+				request.setAttribute("pagesize", pagesize);
+				request.setAttribute("pagecount", pagecount);
+				request.setAttribute("cpage", cpage);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

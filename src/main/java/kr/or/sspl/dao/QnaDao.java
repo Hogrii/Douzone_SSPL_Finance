@@ -12,7 +12,7 @@ public interface QnaDao {
 	public void qnaWrite(QnaDto qnaDto);
 	
 	// 글 출력
-	public List<QnaDto> qnaList();
+	public List<QnaDto> qnaList(Map<String, Integer> listMap);
 	
 	// 상세 페이지 출력
 	public QnaDto qna(String qna_seq);
@@ -25,4 +25,7 @@ public interface QnaDao {
 	
 	// 댓글 출력
 	public List<QnaReplyDto> qnaReplyList(int qna_seq);
+	
+	// 총 게시글 수
+	public int totallistCount();
 }

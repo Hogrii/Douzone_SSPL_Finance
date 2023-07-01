@@ -95,10 +95,18 @@
 					</div>
 					<div class="row">
 						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
-							<input type="submit" class="btn btn-secondary" value="등록" /> <input
-								type="button" class="btn btn-secondary"
-								onclick="location.href='qnaList.do'" value="취소" /> <input
-								type="button" class="btn btn-secondary"
+							<input 
+								type="button" 
+								class="btn btn-secondary"
+								onclick="location.href='qnaList.do'" 
+								value="목록" /> 
+							<input 
+								type="submit" 
+								class="btn btn-secondary" 
+								value="등록" /> 
+							<input
+								type="button" 
+								class="btn btn-secondary"
 								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'"
 								value="삭제" />
 						</div>
