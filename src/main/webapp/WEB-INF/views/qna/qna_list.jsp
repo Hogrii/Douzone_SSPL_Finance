@@ -41,7 +41,7 @@ box-icon {
 		<div class="row">
 			<div class="col-md-9 align-self-center">
 				<p>
-					총 <strong class="text-danger">00</strong>건의 게시물
+					총 <strong class="text-danger">${totalcount }</strong>건의 게시물
 				</p>
 			</div>
 			<div class="col-md-3">

@@ -76,6 +76,7 @@ public class QnaService {
 				request.setAttribute("pagesize", pagesize);
 				request.setAttribute("pagecount", pagecount);
 				request.setAttribute("cpage", cpage);
+				request.setAttribute("totalcount", totalcount);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
