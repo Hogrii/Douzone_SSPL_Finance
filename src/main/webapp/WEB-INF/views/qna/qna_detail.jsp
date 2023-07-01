@@ -37,7 +37,9 @@
 	<div class="container my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
-				<form action="#">
+				<form
+					action="qnaReplyOk.do?qna_seq=${qna.qna_seq }&user_id=${qna.user_id}"
+					method="post">
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
@@ -69,38 +71,36 @@
 					<div class="d-flex flex-row mb-2">
 						<label for="content" class="form-label col-md-2"><span
 							class="text-danger">*</span>내용</label>
-						<div>
-							${qna.qna_content }
-						</div>
+						<div>${qna.qna_content }</div>
 					</div>
+					<hr />
+					<c:forEach var="replyList" items="${qnaReplyList }">
+						<div class="d-flex flex-row mb-2">
+							<label for="reply" class="form-label col-md-2"><span
+								class="text-danger">*</span>답변내용</label>
+							<div class="col-md-12">
+								<div class="col-md-10">${replyList.qna_reply_content }</div>
+							</div>
+						</div>
+					</c:forEach>
+
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="reply" class="form-label col-md-2"><span
 							class="text-danger">*</span>답변내용</label>
-						<div class="col-md-10">
-							<div id="summernote"></div>
+						<div class="col-md-12">
+							<input type="text" class="col-md-10" id="qna_reply_content"
+								name="qna_reply_content">
 						</div>
 					</div>
 					<div class="row">
 						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
-							<!-- 
-                                <input
-                                    type="submit"
-                                    class="btn btn-secondary"
-                                    value="등록"
-                                />
-                                <input
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    value="취소"
-                                />
-                             -->
-							<button type="button" class="btn btn-secondary"
-								onclick="location.href='qnaList.do'">등록</button>
-							<button type="button" class="btn btn-secondary"
-								onclick="location.href='qnaList.do'">취소</button>
-							<button type="button" class="btn btn-secondary"
-								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'">삭제</button>								
+							<input type="submit" class="btn btn-secondary" value="등록" /> <input
+								type="button" class="btn btn-secondary"
+								onclick="location.href='qnaList.do'" value="취소" /> <input
+								type="button" class="btn btn-secondary"
+								onclick="location.href='delete.do?qna_seq=${qna.qna_seq}'"
+								value="삭제" />
 						</div>
 					</div>
 				</form>
@@ -109,6 +109,4 @@
 	</div>
 	<!-- footer 영역 -->
 </body>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
 </html>

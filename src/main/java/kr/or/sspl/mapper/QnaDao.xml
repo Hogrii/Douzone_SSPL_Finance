@@ -22,12 +22,25 @@ int insert(Member member) throws ClassNotFoundException, SQLException;
 <!-- 상세 페이지 -->
 <select id="qna" resultType="kr.or.sspl.dto.QnaDto">
 	SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS 
-	FROM QNA WHERE QNA_TITLE = #{qna_title} 
+	FROM QNA WHERE QNA_SEQ = #{qna_seq} 
 </select>
 
 <!-- 글삭제 -->
 <delete id="qnaDelete" parameterType="int">
 	DELETE FROM QNA WHERE QNA_SEQ = #{qna_seq}
 </delete>
+
+<!-- 댓글작성 -->
+<insert id="qnaReply" parameterType="HashMap">
+	INSERT INTO QNA_REPLY(QNA_REPLY_SEQ, QNA_SEQ, USER_ID, QNA_REPLY_CONTENT, QNA_REPLY_DATE)
+	VALUES (qna_reply_seq.nextval, #{qna_seq}, #{user_id}, #{qna_reply_content}, sysdate)
+</insert>
+
+<!-- 댓글출력 -->
+<select id="qnaReplyList" resultType="kr.or.sspl.dto.QnaReplyDto">
+	SELECT QNA_REPLY_SEQ, QNA_SEQ, USER_ID, QNA_REPLY_CONTENT, QNA_REPLY_DATE 
+	FROM QNA_REPLY
+	WHERE QNA_SEQ = #{qna_seq}
+</select>
 </mapper>
 

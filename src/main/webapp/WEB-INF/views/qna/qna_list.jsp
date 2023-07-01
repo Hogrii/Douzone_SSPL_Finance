@@ -70,7 +70,7 @@ box-icon {
 								<td>${list.qna_seq }</td>
 								<td>${list.qna_category }</td>
 								<td>
-									<a href="qnaDetail.do?qna_title=${list.qna_title }">
+									<a href="qnaDetail.do?qna_seq=${list.qna_seq }">
 										<box-icon name="lock" type="solid"></box-icon>
 										${list.qna_title }
 									</a>

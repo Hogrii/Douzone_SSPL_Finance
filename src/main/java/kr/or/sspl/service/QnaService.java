@@ -1,6 +1,8 @@
 package kr.or.sspl.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 
 import kr.or.sspl.dao.QnaDao;
 import kr.or.sspl.dto.QnaDto;
+import kr.or.sspl.dto.QnaReplyDto;
 
 @Service
 public class QnaService {
@@ -47,15 +50,18 @@ public class QnaService {
 	}
 	
 	// 상세 페이지 출력
-	public void qnaDetail(Model model, String qna_title) {
+	public void qnaDetail(Model model, String qna_seq) {
 		QnaDto qna = null;
+		List<QnaReplyDto> qnaReplyList = null;
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
-			qna = qnaDao.qna(qna_title);
+			qna = qnaDao.qna(qna_seq);
+			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		model.addAttribute("qna", qna);
+		model.addAttribute("qnaReplyList", qnaReplyList);
 	}
 	
 	// 글 삭제
@@ -67,5 +73,18 @@ public class QnaService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// 댓글 작성
+	public void qnaReply(String user_id, String qna_seq, String qna_reply_content) {
+		Map<String, String> replyHash = new HashMap<String, String>();
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			replyHash.put("user_id", user_id);
+			replyHash.put("qna_seq", qna_seq);
+			replyHash.put("qna_reply_content", qna_reply_content);
+			qnaDao.qnaReply(replyHash);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

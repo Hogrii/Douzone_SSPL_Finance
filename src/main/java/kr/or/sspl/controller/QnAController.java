@@ -27,8 +27,8 @@ public class QnAController {
 	
 	// 상세 페이지 이동
 	@GetMapping("qnaDetail.do")
-	public String qnaDetail(Model model, String qna_title) {
-		qnaService.qnaDetail(model, qna_title);
+	public String qnaDetail(Model model, String qna_seq) {
+		qnaService.qnaDetail(model, qna_seq);
 		return "qna/qna_detail";
 	}
 	
@@ -56,5 +56,14 @@ public class QnAController {
 	public String delete(String qna_seq) {
 		qnaService.qnadelete(qna_seq);
 		return "redirect:/qna/qnaList.do";
+	}
+	
+	// 댓글 작성
+	@RequestMapping("/qnaReplyOk.do")
+	public String qnaReplyOk(String user_id, String qna_seq, String qna_reply_content) {
+		System.out.println(qna_seq + " " + qna_reply_content);
+		System.out.println(user_id);
+		qnaService.qnaReply(user_id, qna_seq, qna_reply_content);
+		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}
 }
