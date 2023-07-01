@@ -45,12 +45,39 @@ public class SearchService {
 		//주식현재가 시세 요청 주소
 		String apiUrl = "inquire-price?";
 		//GET방식 Query param 설정
-		apiUrl += "fid_cond_mrkt_div_code=J&fid_input_iscd="+stock_code;
+		//시장 분류 코드
+		apiUrl += "fid_cond_mrkt_div_code=J"
+				//종목코드
+				+ "&fid_input_iscd="+stock_code;
 		//Header 데이터
 		//주식현재가 시세 조회 코드
 		String tr_id = "FHKST01010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		 return jsonResponse;
+	}
+	
+	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
+		System.out.println(stock_code+"/"+"/"+category+"/"+start_date+"/"+end_date);
+		String jsonResponse = null;
+		//국내주식기간별 시세 요청 주소
+		String apiUrl = "inquire-daily-itemchartprice?";
+		//GET방식 Query param 설정
+		//시장 분류 코드
+		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
+				//종목코드
+				+ "&FID_INPUT_ISCD=" + stock_code
+				//입력 날짜 (시작)
+				+ "&FID_INPUT_DATE_1=" + start_date
+				//입력 날짜 (종료)
+				+ "&FID_INPUT_DATE_2=" + end_date
+				//기간분류코드
+				+ "&FID_PERIOD_DIV_CODE=" + category
+				//수정주가 원주가 가격 여부
+				+ "&FID_ORG_ADJ_PRC=0";
+		//국내주식기간별 시세 조회 코드
+		String tr_id = "FHKST03010100";
+		jsonResponse = connectAPI(apiUrl, tr_id);
+		return jsonResponse;
 	}
 	
 	//한국투자 api

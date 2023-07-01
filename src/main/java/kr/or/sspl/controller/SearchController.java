@@ -51,4 +51,11 @@ public class SearchController {
 		model.addAttribute("stock_code",stock_code);
 		return "search/search_detail";
 	}
+	
+	@GetMapping("searchForChart.do")
+	@ResponseBody
+	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
+		String jsonResponse = searchService.searchForChart(stock_code, category, start_date, end_date);
+		return jsonResponse;
+	}
 }

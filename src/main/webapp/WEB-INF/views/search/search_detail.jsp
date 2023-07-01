@@ -18,6 +18,7 @@
 	$(function() {
 		let stock_code = ('000000'+${stock_code}).slice(-6);
 		console.log(stock_code);
+		//주식 상세 데이터 
 		$.ajax({
 			url : "searchByCode.do",
 			type : "GET",
@@ -65,6 +66,69 @@
 			}
 			
 		});
+		//차트 데이터 비동기 요청
+		$('.chart_btn').on('click',function() {
+			//기간 분류
+			let category = $(this).val();
+			console.log('기간 분류 : ' + category);
+			let today = new Date();
+			//종료일 설정
+			let end_date;
+			let end_year = today.getFullYear();
+			let end_month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
+			let end_day = ('0' + today.getDate()).slice(-2);
+			end_date = end_year + end_month + end_day;
+			console.log('종료일 : ' + end_date);
+			//시작일 설정
+			let start_date;
+			if(category === 'D') {
+				today.setDate(today.getDate() - 7);
+				let start_year = today.getFullYear();
+				let start_month = String(today.getMonth() + 1).padStart(2, '0');
+				let start_day = String(today.getDate()).padStart(2, '0');
+
+				start_date = start_year + start_month + start_day;
+				console.log('시작일 : ' + start_date);
+			}else if(category === 'W') {
+				today.setMonth(today.getMonth() - 3);
+				let start_year = today.getFullYear();
+				let start_month = String(today.getMonth() + 1).padStart(2, '0');
+				let start_day = String(today.getDate()).padStart(2, '0');
+
+				start_date = start_year + start_month + start_day;
+				console.log('시작일 : ' + start_date);
+			}else if(category === 'M') {
+				today.setMonth(today.getMonth() - 6);
+				let start_year = today.getFullYear();
+				let start_month = String(today.getMonth() + 1).padStart(2, '0');
+				let start_day = String(today.getDate()).padStart(2, '0');
+
+				start_date = start_year + start_month + start_day;
+				console.log('시작일 : ' + start_date);
+			}else if(category === 'Y') {
+				today.setFullYear(today.getFullYear() - 5);
+				let start_year = today.getFullYear();
+				let start_month = String(today.getMonth() + 1).padStart(2, '0');
+				let start_day = String(today.getDate()).padStart(2, '0');
+
+				start_date = start_year + start_month + start_day;
+				console.log('시작일 : ' + start_date);
+			}
+			$.ajax({
+				url : "searchForChart.do",
+				type : "GET",
+				data : {
+					"stock_code" : stock_code,
+					"category" : category,
+					"start_date" : start_date,
+					"end_date" : end_date					
+				},
+				dataType : "JSON",
+				success : function(data) {
+					console.log(data);
+				}
+			});
+		});
 	});
 </script>
 <style>
@@ -105,18 +169,18 @@
 		<div class="row">
 			<div class="chart col-md-8">
 				<div class="d-grid gap-2 d-md-block">
-					<button type="button" class="btn btn-secondary btn-sm"
+					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="D"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
-						1일</button>
-					<button type="button" class="btn btn-secondary btn-sm"
+						일</button>
+					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="W"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
-						1개월</button>
-					<button type="button" class="btn btn-secondary btn-sm"
+						주</button>
+					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="M"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
-						3개월</button>
-					<button type="button" class="btn btn-secondary btn-sm"
+						월</button>
+					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="Y"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
-						1년</button>
+						년</button>
 				</div>
 				<div class="chart">
 					<canvas id="myChart"></canvas>
