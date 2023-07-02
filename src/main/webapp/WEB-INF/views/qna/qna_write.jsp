@@ -104,8 +104,8 @@ hr {
 			</div>
 		</div>
 	</div>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/summernote.js">
+	</script>
 </body>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
-
 </html>

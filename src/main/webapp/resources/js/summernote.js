@@ -24,3 +24,25 @@ $("#summernote").summernote({
         ],
     ],
 });
+
+/**
+* 이미지 파일 업로드
+*/
+function sendFile(file, editor) {
+    var form_data = new FormData();
+    form_data.append('file', file);
+    $.ajax({
+        data : form_data,
+        type : "POST",
+        url : "/qna/qnaImage.do",
+        cache : false,
+        contentType : false,
+        enctype : "multipart/form-data",
+        processData : false,
+        success : function(sysName) {
+            console.log(sysName + "b")
+			console.log("write에 왔습니다.")
+            $(editor).summernote('insertImage', sysName);
+        }
+    });
+}
