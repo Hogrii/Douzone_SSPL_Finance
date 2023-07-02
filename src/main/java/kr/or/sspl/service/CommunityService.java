@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.sspl.dao.CommunityDao;
+import kr.or.sspl.dao.CommunityReplyDao;
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunitySearchData;
 import kr.or.sspl.dto.SaveReqDto;
@@ -114,20 +115,19 @@ public class CommunityService {
 	public int communityUpdate(SaveReqDto saveReqDto)throws ClassNotFoundException, SQLException {
 		System.out.println("업데이트 서비스 진입");
 		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
-		System.out.println("내용"+saveReqDto.getComm_content());
-		System.out.println("내용"+saveReqDto.getComm_seq());
 		int result = communityDao.communityUpdate(saveReqDto);
 		return result;
 	}
-	//게시물 수정
-	public int communityDelete(SaveReqDto saveReqDto)throws ClassNotFoundException, SQLException {
-		System.out.println("업데이트 서비스 진입");
+	//게시물 삭제
+	public int communityDelete(int comm_seq)throws ClassNotFoundException, SQLException {
+		System.out.println("삭제 서비스 진입");
+		
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		communityReplyDao.communityReplyDelete(comm_seq); //댓글 우선 삭제
 		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
-		System.out.println("내용"+saveReqDto.getComm_content());
-		System.out.println("내용"+saveReqDto.getComm_seq());
-		int result = communityDao.communityReplyDelete(saveReqDto);
-		int result = communityDao.communityDelete(saveReqDto);
+ 		int result = communityDao.communityDelete(comm_seq); // 본 글 삭제
+ 		System.out.println("무사귀가");
 		return result;
 	}
-
+	 
 }

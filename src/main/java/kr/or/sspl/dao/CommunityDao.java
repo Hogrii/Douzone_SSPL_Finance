@@ -29,10 +29,10 @@ public interface CommunityDao {
 	int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
 
 	// 게시물 수정
-	void communityUpdate(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
+	int communityUpdate(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
 
 	// 게시물 삭제(순번 선택하여 삭제)
-	void communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;
+	int communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;
  
 
 }

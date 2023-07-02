@@ -12,11 +12,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 전체리스트 조회 -->
 	<select id="list" parameterType="Map"
 		resultType="kr.or.sspl.dto.CommunityDto">
+		
 		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
 			from 
 			(
 				select rownum as rn,
-						comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
+						comm_seq,
+						user_id,
+						comm_title,
+						<![CDATA[case when INSTR(comm_content,'<img') > 0 then '(*그림포함*) '||SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1)  else comm_content end as comm_content,]]>
+						comm_writen_date,
+						comm_category,
+						comm_view_count
 					from community
 						order by comm_seq desc
 			)
@@ -27,14 +34,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 상세페이지 -->
 	<select id="getDetailList" parameterType="int"
 		resultType="kr.or.sspl.dto.CommunityDto">
-		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
+		select comm_seq,
+		       user_id,
+		       comm_title,
+		       <![CDATA[case when INSTR(comm_content,'<img') > 0 then SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1) || '<br>' || SUBSTR(comm_content,INSTR(comm_content,'<img'), length(comm_content))else comm_content end as comm_content,]]>
+		       to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date
+		       ,comm_category
+		       ,comm_view_count
 			from community
 		where comm_seq =#{comm_seq}
 	</select>
 
 	<!-- 조건검색 갯수 --> 
 	<select id="searchListTotal" parameterType="int" resultType="kr.or.sspl.dto.CommunityDto">
-		select count *
+		select count(1)
 		  from (
 		          select rownum as rn, comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
 			        from community
@@ -44,14 +57,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 조건검색 -->
 	<select id="searchList" parameterType="kr.or.sspl.dto.CommunitySearchData" resultType="kr.or.sspl.dto.CommunityDto">
-		select comm_seq,user_id,comm_title,comm_content,comm_writen_date ,comm_category,comm_view_count
+		select comm_seq,
+		       user_id,
+		       comm_title,
+		       comm_content,
+		       comm_writen_date,
+		       comm_category,
+		       comm_view_count
 		  from (
-		          select rownum as rn, comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
+		          select comm_seq,
+		                 user_id,
+		                 comm_title,
+		                 <![CDATA[case when INSTR(comm_content,'<img') > 0 then '(*그림포함*) '||SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1)  else comm_content end as comm_content,]]>
+		                 to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,
+		                 comm_category,
+		                 comm_view_count 
 			        from community
 		           where ${field} like '%${query}%'
 		           order by comm_writen_date desc
-		       )
-		  <!-- where rn between #{start} and #{end} -->
+		      )
+		  <!--  where rn between #{start} and #{end} -->
 		       
 	</select>
 
@@ -64,6 +89,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{comm_seq},#{user_id},#{comm_title},#{comm_content},sysdate,#{comm_category},0)
 	</insert>
 	
+	<!-- 글 수정 -->
+	<update id="communityUpdate" parameterType="kr.or.sspl.dto.SaveReqDto">
+		update community 
+		set comm_content = #{comm_content} 
+		where comm_seq= #{comm_seq}
+	</update>
+	 
 	
+	<!-- 글 삭제 -->
+	<delete id="communityDelete">
+		delete
+		from community
+		where comm_seq =#{comm_seq}
+	</delete>	
+ 
+	 
 
 </mapper>

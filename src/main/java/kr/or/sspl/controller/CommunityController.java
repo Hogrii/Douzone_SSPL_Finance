@@ -138,10 +138,11 @@ public class CommunityController {
 	}
 	
 	@GetMapping("delete.do")
-	public String CommunityDelete(int comm_seq,Model model) {
+	public String CommunityDelete(int comm_seq) throws ClassNotFoundException, SQLException {
 		System.out.println("진입5");
  		System.out.println("comm_seq:" +comm_seq);
- 		//communityservice.getDetailList(comm_seq,model);
+ 		int result = communityservice.communityDelete(comm_seq);
+ 		System.out.println("한개 삭제 완료");
 		return "redirect:/community/list.do";
 	}
 	 
