@@ -1,6 +1,8 @@
 package kr.or.sspl.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +119,17 @@ public class QnAController {
 			}
 		}
 		return "\\img\\" + sysName;
+	}
+	
+	// 검색하기
+	@RequestMapping("searchKeyword.do")
+	@ResponseBody
+	public List<QnaDto> qnaSearch(String qna_title) {
+		System.out.println("Conkeyword : " + qna_title);
+		List<QnaDto> qnaList = new ArrayList<QnaDto>();
+		qnaList = qnaService.searchList(qna_title);
+		System.out.println(qnaList.toString());
+		return qnaList;
 	}
 	
 }

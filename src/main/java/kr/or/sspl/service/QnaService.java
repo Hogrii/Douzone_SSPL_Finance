@@ -1,5 +1,6 @@
 package kr.or.sspl.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,5 +152,19 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 검색
+	public List<QnaDto> searchList(String qna_title) {
+		List<QnaDto> qnaList = new ArrayList<QnaDto>();
+		Map<String, String> searchMap = new HashMap<String, String>();
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			searchMap.put("qna_title", qna_title);
+			qnaList = qnaDao.searchList(searchMap);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return qnaList;
 	}
 }

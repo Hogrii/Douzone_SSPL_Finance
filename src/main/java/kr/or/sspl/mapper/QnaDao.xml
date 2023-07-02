@@ -75,5 +75,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET QNA_STATUS = '답변완료'
 		WHERE QNA_SEQ = #{qna_seq}
 	</update>
+	
+	<!-- 게시글검색 -->
+	<select id="searchList" parameterType="HashMap" resultType="kr.or.sspl.dto.QnaDto">
+		SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+		FROM QNA
+		WHERE QNA_TITLE LIKE '%${qna_title}%'
+	</select>
 </mapper>
 
