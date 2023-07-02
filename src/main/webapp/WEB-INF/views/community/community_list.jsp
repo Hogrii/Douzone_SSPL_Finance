@@ -2,6 +2,7 @@
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="fn"
 uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -16,9 +17,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- boxicons js cdn -->
         <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-        <!-- jQuery cdn -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>커뮤니티게시판</title>
         <style>
             * {
@@ -52,7 +51,6 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                         class="col-sm-2"
                                         style="padding-left: 0"
                                     >
-                                        <!-- action="EmpTable.do?ps=selected" -->
                                         <form name="list">
                                             <select
                                                 name="ps"
@@ -100,26 +98,26 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                             id="selectBox"
                                             class="form-control"
                                         >
-                                            <option value="제목">제목</option>
-                                            <option value="내용">내용</option>
-                                            <option value="작성자">
+                                            <option value="comm_title" selected>
+                                                제목
+                                            </option>
+                                            <option value="comm_content">
+                                                내용
+                                            </option>
+                                            <option value="user_id">
                                                 작성자
+                                            </option>
+                                            <option value="comm_category">
+                                                카테고리
                                             </option>
                                         </select>
                                     </div>
                                     <div class="searchText">
                                         <input
                                             type="text"
+                                            id="search"
                                             placeholder="검색어를 입력하세요"
                                         />
-                                    </div>
-                                    <div class="searchBtn">
-                                        <button
-                                            type="button"
-                                            class="btn btn-secondary"
-                                        >
-                                            검색
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +125,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                     </div>
                 </div>
 
-                <!-- 검색 버튼 끝 -->
+                <!-- 검색 끝 -->
 
                 <!-- 총 게시물 출력 시작 -->
                 <div class="totalPostContainer">
@@ -148,14 +146,18 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                             <td>조회수</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="communityBody">
+                        <!-- 상세보기 이동 -->
                         <c:set var="list" value="${requestScope.list}" />
                         <c:forEach var="list2" items="${list}">
                             <tr>
                                 <td>${list2.comm_seq}</td>
                                 <td>${list2.comm_category}</td>
                                 <td>
-                                    <a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a>
+                                    <a
+                                        href="detail.do?comm_seq=${list2.comm_seq}"
+                                        >${list2.comm_title}</a
+                                    >
                                 </td>
                                 <td>${list2.comm_content}</td>
                                 <td>${list2.user_id}</td>
@@ -178,55 +180,48 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 </div>
                 <!-- 글쓰기 버튼 끝 -->
                 <!-- 페이징 시작 -->
-                <div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <c:if test="${cpage>1 }">
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="list.do?cp=${cpage-1}&ps=${pagesize}"
-                                        aria-label="Previous"
-                                    >
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                            </c:if>
+                <div
+                    id="communityPaging"
+                    class="d-flex justify-content-center mt-4"
+                >
+                    <nav>
+                        <ul class="pagination">
+                            <li
+                                class="page-item ${cpage == 1 ? 'disabled' : ''}"
+                            >
+                                <a
+                                    class="page-link"
+                                    href="list.do?cp=${cpage-1}&ps=${pagesize}"
+                                    tabindex="-1"
+                                    aria-disabled="true"
+                                    >이전</a
+                                >
+                            </li>
                             <c:forEach
                                 var="i"
                                 begin="1"
                                 end="${pagecount}"
                                 step="1"
                             >
-                                <c:choose>
-                                    <c:when test="${cpage == i}">
-                                        <li class="page-item">
-                                            <a
-                                                href=""
-                                                class="page-link"
-                                                style="color: blue"
-                                                >${i}</a
-                                            >
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item">
-                                            <a
-                                                href="list.do?cp=${i}&ps=${pagesize}"
-                                                class="page-link"
-                                                >${i}</a
-                                            >
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
+                                <li
+                                    class="page-item ${currentPage == i ? 'active' : ''}"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="list.do?cp=${i}&ps=${pagesize}"
+                                        >${i}</a
+                                    >
+                                </li>
                             </c:forEach>
-                            <!--  <c:if test="${cpage < pagecount}">
-               <li class="page-item"><a
-                  href="list.do?cp=${cpage+1}&ps=${pagesize}" class="page-link">
-                     <i class="fas fa-arrow-right"></i>
-               </a></li>
-            </c:if>
-             -->
+                            <li
+                                class="page-item ${currentPage == totalPage ? 'disabled' : ''}"
+                            >
+                                <a
+                                    class="page-link"
+                                    href="list.do?cp=${cpage+1}&ps=${pagesize}"
+                                    >다음</a
+                                >
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -234,4 +229,58 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
             </div>
         </div>
     </body>
+    <script>
+        $(document).ready(function () {
+            console.log("여기옴?");
+            getList();
+            function getList() {
+                let keyword = $("#selectBox option:selected").val();
+                $("#selectBox").change(function () {
+                    keyword = $("#selectBox option:selected").val();
+                });
+                $("#search").keyup(function () {
+                    const CommunitySearchData = {
+                        field: keyword,
+                        query: $(this).val(),
+                    };
+
+                    $.ajax({
+                        url: "/sspl_finance/restcommunity/listSearch",
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(CommunitySearchData),
+                        contentType: "application/json",
+                        success: function (result) {
+                            $("#tbody").empty();
+                            console.log(result);
+                            let ajaxTable = "";
+
+                            $.each(result, function (key, value) {
+                                ajaxTable += "<tr>";
+                                ajaxTable += "<td>" + value.comm_seq + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_category + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_title + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_content + "</td>";
+                                ajaxTable += "<td>" + value.user_id + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_writen_date + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_view_count + "</td>";
+                                ajaxTable += "</tr>";
+                            });
+
+                            $("#tbody").append(ajaxTable);
+                        },
+                        error: function (xhr) {
+                            console.log("안불러와짐");
+                            console.log(xhr.status);
+                        },
+                    });
+                });
+            }
+        });
+    </script>
 </html>
