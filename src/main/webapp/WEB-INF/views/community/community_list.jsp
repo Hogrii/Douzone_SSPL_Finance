@@ -6,7 +6,6 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
     <head>
-    
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- bootstrap css-->
@@ -18,7 +17,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- boxicons js cdn -->
         <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>커뮤니티게시판</title>
         <style>
             * {
@@ -51,7 +50,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                     <div
                                         class="col-sm-2"
                                         style="padding-left: 0"
-                                    > 
+                                    >
                                         <form name="list">
                                             <select
                                                 name="ps"
@@ -93,7 +92,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <div class="d-flex justify-content-end" >
+                                <div class="d-flex justify-content-end">
                                     <div class="col-sm-4">
                                         <select
                                             id="selectBox"
@@ -115,7 +114,8 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                     </div>
                                     <div class="searchText">
                                         <input
-                                            type="text" id ="search"
+                                            type="text"
+                                            id="search"
                                             placeholder="검색어를 입력하세요"
                                         />
                                     </div>
@@ -148,6 +148,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                     </thead>
                     <tbody id="communityBody">
                         <!-- 상세보기 이동 -->
+                        <c:set var="list" value="${requestScope.list}" />
                         <c:forEach var="list2" items="${list}">
                             <tr>
                                 <td>${list2.comm_seq}</td>
@@ -179,78 +180,107 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 </div>
                 <!-- 글쓰기 버튼 끝 -->
                 <!-- 페이징 시작 -->
-           		<div id="communityPaging" class="d-flex justify-content-center mt-4">
-					<nav>
-						<ul class="pagination">
-							<li class="page-item ${cpage == 1 ? 'disabled' : ''}">
-								<a class="page-link"
-								href="list.do?cp=${cpage-1}&ps=${pagesize}"
-								tabindex="-1" aria-disabled="true">이전</a>
-							</li>
-							<c:forEach var="i" begin="1" end="${pagecount}" step="1">
-								<li class="page-item ${currentPage == i ? 'active' : ''}">
-									<a class="page-link" href="list.do?cp=${i}&ps=${pagesize}">${i}</a>
-								</li>
-							</c:forEach>
-							<li
-								class="page-item ${currentPage == totalPage ? 'disabled' : ''}">
-								<a class="page-link"
-								href="list.do?cp=${cpage+1}&ps=${pagesize}">다음</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
+                <div
+                    id="communityPaging"
+                    class="d-flex justify-content-center mt-4"
+                >
+                    <nav>
+                        <ul class="pagination">
+                            <li
+                                class="page-item ${cpage == 1 ? 'disabled' : ''}"
+                            >
+                                <a
+                                    class="page-link"
+                                    href="list.do?cp=${cpage-1}&ps=${pagesize}"
+                                    tabindex="-1"
+                                    aria-disabled="true"
+                                    >이전</a
+                                >
+                            </li>
+                            <c:forEach
+                                var="i"
+                                begin="1"
+                                end="${pagecount}"
+                                step="1"
+                            >
+                                <li
+                                    class="page-item ${currentPage == i ? 'active' : ''}"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="list.do?cp=${i}&ps=${pagesize}"
+                                        >${i}</a
+                                    >
+                                </li>
+                            </c:forEach>
+                            <li
+                                class="page-item ${currentPage == totalPage ? 'disabled' : ''}"
+                            >
+                                <a
+                                    class="page-link"
+                                    href="list.do?cp=${cpage+1}&ps=${pagesize}"
+                                    >다음</a
+                                >
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
                 <!-- 페이징 끝 -->
             </div>
         </div>
     </body>
     <script>
-    $(function() {
-        console.log("여기옴?");
-        let keyword = $("#selectBox option:selected").val();
-        $("#selectBox").change(function() {
-            keyword = $("#selectBox option:selected").val();
-        })
-       $("#search").keyup(function(){
-    	   const CommunitySearchData = {
-    	            field: keyword,
-    	            query: $(this).val()
-    	        }
-    	
-        $.ajax({
-            url: "/sspl_finance/restcommunity/listSearch",
-            type: "POST",
-            dataType: "json",
-            data: JSON.stringify(CommunitySearchData),  
-            contentType: "application/json",
-            success: function(result) {
-                $("#tbody").empty();
-                console.log(result);
-                let ajaxTable = "";
-
-                $.each(result, function(key, value) { // 변수 이름을 올바르게 수정
-                    ajaxTable += "<tr>";
-                    ajaxTable += "<td>" + value.comm_seq + "</td>";
-                    ajaxTable += "<td>" + value.comm_category + "</td>";
-                    ajaxTable += "<td>" + value.comm_title + "</td>";
-                    ajaxTable += "<td>" + value.comm_content + "</td>";
-                    ajaxTable += "<td>" + value.user_id + "</td>";
-                    ajaxTable += "<td>" + value.comm_writen_date + "</td>";
-                    ajaxTable += "<td>" + value.comm_view_count + "</td>";
-                    ajaxTable += "</tr>";
+        $(document).ready(function () {
+            console.log("여기옴?");
+            getList();
+            function getList() {
+                let keyword = $("#selectBox option:selected").val();
+                $("#selectBox").change(function () {
+                    keyword = $("#selectBox option:selected").val();
                 });
+                $("#search").keyup(function () {
+                    const CommunitySearchData = {
+                        field: keyword,
+                        query: $(this).val(),
+                    };
 
-                $("#tbody").append(ajaxTable);
-            },
-            error: function(xhr) {
-                console.log("안불러와짐");
-                console.log(xhr.status);
+                    $.ajax({
+                        url: "/sspl_finance/restcommunity/listSearch",
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(CommunitySearchData),
+                        contentType: "application/json",
+                        success: function (result) {
+                            $("#tbody").empty();
+                            console.log(result);
+                            let ajaxTable = "";
+
+                            $.each(result, function (key, value) {
+                                ajaxTable += "<tr>";
+                                ajaxTable += "<td>" + value.comm_seq + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_category + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_title + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_content + "</td>";
+                                ajaxTable += "<td>" + value.user_id + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_writen_date + "</td>";
+                                ajaxTable +=
+                                    "<td>" + value.comm_view_count + "</td>";
+                                ajaxTable += "</tr>";
+                            });
+
+                            $("#tbody").append(ajaxTable);
+                        },
+                        error: function (xhr) {
+                            console.log("안불러와짐");
+                            console.log(xhr.status);
+                        },
+                    });
+                });
             }
         });
-       });
-    });
-    
-    
-   
     </script>
 </html>
