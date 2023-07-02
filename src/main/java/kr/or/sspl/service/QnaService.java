@@ -97,7 +97,11 @@ public class QnaService {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			qna = qnaDao.qna(qna_seq);
-			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));			
+			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));
+			System.out.println("댓글 개수 : " + qnaReplyList.size());
+			if(qnaReplyList.size()==0) {
+				qnaDao.qnaInitState(qna_seq);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -166,5 +170,15 @@ public class QnaService {
 			e.printStackTrace();
 		}
 		return qnaList;
+	}
+	
+	// 댓글 삭제
+	public void deleteReply(String qna_reply_seq) {
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaReplyDelete(Integer.parseInt(qna_reply_seq));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

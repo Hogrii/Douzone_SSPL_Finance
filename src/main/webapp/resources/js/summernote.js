@@ -29,6 +29,7 @@ $("#summernote").summernote({
 * 이미지 파일 업로드
 */
 function sendFile(file, editor) {
+	console.log("파일처리하러왔어요~");
     var form_data = new FormData();
     form_data.append('file', file);
     $.ajax({
