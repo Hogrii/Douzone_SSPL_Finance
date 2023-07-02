@@ -59,8 +59,10 @@ hr {
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="category" class="form-label col-md-2"><span
-							class="text-danger">* </span>카테고리</label> <select
-							class="form-select form-control" id="qna_category"
+							class="text-danger">* </span>카테고리</label>
+						<select
+							class="form-select form-control"
+							id="qna_category"
 							name="qna_category">
 							<option value="시세">시세</option>
 							<option value="환율">환율</option>

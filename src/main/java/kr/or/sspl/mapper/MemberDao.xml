@@ -8,10 +8,30 @@ int insert(Member member) throws ClassNotFoundException, SQLException;
  -->
 <mapper namespace="kr.or.sspl.dao.MemberDao">
 
-<select id="join" parameterType="kr.or.sspl.dto.MemberDto"  >
+<!-- <select id="join" parameterType="kr.or.sspl.dto.MemberDto"  >
 	INSERT INTO MEMBER(USER_ID, PASSWORD, NAME, EMAIL, ENABLED, PHONE_NUMBER)
 	VALUES (#{user_id}, #{password}, #{name}, #{email}, #{enabled}, #{phone_number})
+</select> -->
+
+
+<select id="idCheck" resultType="String">
+	SELECT user_id
+	FROM member
+	WHERE user_id =#{id}
 </select>
+
+
+<insert id="join" statementType="CALLABLE" parameterType="kr.or.sspl.dto.MemberDto">
+    {CALL insert_member_with_roll(
+        #{user_id, mode=IN, jdbcType=VARCHAR},
+        #{password, mode=IN, jdbcType=VARCHAR},
+        #{name, mode=IN, jdbcType=VARCHAR},
+        #{email, mode=IN, jdbcType=VARCHAR},
+        #{phone_number, mode=IN, jdbcType=VARCHAR},
+        #{duplicate_email, mode=OUT, jdbcType=VARCHAR},
+        #{duplicate_phone_number, mode=OUT, jdbcType=VARCHAR}
+    )}
+</insert>
 
 </mapper>
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,16 @@ public class SearchController {
 	}
 	
 	@GetMapping("searchDetail.do")
-	public String searchDetail() {
+	public String searchDetail(String stock_code, String stock_name, Model model) {
+		System.out.println(stock_code);
+		model.addAttribute("stock_code",stock_code);
 		return "search/search_detail";
+	}
+	
+	@GetMapping("searchForChart.do")
+	@ResponseBody
+	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
+		String jsonResponse = searchService.searchForChart(stock_code, category, start_date, end_date);
+		return jsonResponse;
 	}
 }

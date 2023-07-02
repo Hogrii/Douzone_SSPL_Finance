@@ -28,6 +28,36 @@
 	width: 690px;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		$('form').submit(function(e) {
+			let user_id = $('#user_id').val();
+			let password = $('#password').val();
+			
+			var formData = $(this).serialize();
+			
+			$.ajax({
+				url: '/sspl_finance/member/login',
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				data: formData,
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					$('#resultMessage').empty();
+					$('#resultModal').modal('show');
+					$('#resultMessage').text(data.message);
+					message = data.message;
+					
+				},
+				error: function(xhr, status, error) {
+					console.error(error); // 에러 처리
+				}
+			});
+			
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -40,8 +70,7 @@
 			<div class="col-md-6">
 				<div class="card-body">
 					<h3 class="text-center mb-4">SSPL Finance</h3>
-					<form action="${pageContext.request.contextPath}/" method="get"
-						class="pt-5">
+					<form class="pt-5">
 						<div class="form-group pt-3">
 							<label for="user_id">아이디</label> <input type="text"
 								class="form-control form-control" name="user_id" id="user_id"
