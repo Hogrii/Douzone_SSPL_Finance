@@ -27,6 +27,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	
 	<div class="Container py-5">
 		<!-- 글 내용 시작 -->
 		<c:set var="detail" value="${requestScope.detaillist}" />
@@ -64,8 +65,8 @@
 				<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">목록</button>
 			</div>
 			<div class="otherBtns">
-				<button type="button" class="btn btn-secondary" onclick="location.href='modify.do'">수정</button>
-				<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">삭제</button>
+				<button type="submit" class="btn btn-secondary" onclick="location.href='modify.do?comm_seq=${detail.comm_seq}'">수정</button>
+				<button type="button" class="btn btn-secondary" onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
 			</div>
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 끝 -->

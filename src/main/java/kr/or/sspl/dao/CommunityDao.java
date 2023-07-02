@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import kr.or.sspl.dto.CommunityDto;
+import kr.or.sspl.dto.CommunitySearchData;
+import kr.or.sspl.dto.SaveReqDto;
 public interface CommunityDao {
 
 	//전체 게시물 갯수 조회 
@@ -17,11 +19,14 @@ public interface CommunityDao {
 	// 게시물 상세 - 예정
 	CommunityDto getDetailList(int comm_seq)throws ClassNotFoundException, SQLException;
 	
+	//조건 검색 갯수
+	int searchListTotal() throws ClassNotFoundException, SQLException;
+	
 	// 비동기 조건 검색(form의 value로 조건 검색할 예정)
-	List<CommunityDto> searchList(String search) throws ClassNotFoundException, SQLException;
+	List<CommunityDto> searchList(CommunitySearchData SearchData) throws ClassNotFoundException, SQLException;
  
 	// 게시물 입력
-	void communityInsert(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
+	int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
 
 	// 게시물 수정
 	void communityUpdate(CommunityDto communityDto) throws ClassNotFoundException, SQLException;

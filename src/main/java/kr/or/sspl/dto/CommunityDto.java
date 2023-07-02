@@ -14,7 +14,7 @@ public class CommunityDto {
 	private String user_id;
 	private String comm_title;
 	private String comm_content;
-	private Date comm_writen_date;
+	private String comm_writen_date;
 	private String comm_category;
 	private int comm_view_count;	
 }

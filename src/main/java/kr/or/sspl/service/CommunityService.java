@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunitySearchData;
+import kr.or.sspl.dto.SaveReqDto;
 
 @Service
 public class CommunityService {
@@ -83,6 +84,14 @@ public class CommunityService {
 		model.addAttribute("detaillist", communityDto);
 	}
 
+	public int searchListTotal(Model model) throws ClassNotFoundException, SQLException {
+		int result = 0;
+		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
+		result = comunityDao.communityCount();
+		model.addAttribute("searchTotal", result);
+		return result;
+	}
+	
 	// 비동기 조건 검색
 	public List<CommunityDto> getSearchList(CommunitySearchData searchData)
 			throws ClassNotFoundException, SQLException {
@@ -94,18 +103,31 @@ public class CommunityService {
 	}
 
 	// 게시물 입력
-	public void communityInsert(CommunityDto communityDto, HttpServletRequest request ) {
- 
-		try {
-			System.out.println(communityDto.getUser_id() + " " + communityDto.getComm_category() + " ");
-			CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
-			comunityDao.communityInsert(communityDto);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException {
+		System.out.println(saveReqDto.toString());
+		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
+		int result =communityDao.communityInsert(saveReqDto);
+		return result;
 
+	}
+	//게시물 수정
+	public int communityUpdate(SaveReqDto saveReqDto)throws ClassNotFoundException, SQLException {
+		System.out.println("업데이트 서비스 진입");
+		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
+		System.out.println("내용"+saveReqDto.getComm_content());
+		System.out.println("내용"+saveReqDto.getComm_seq());
+		int result = communityDao.communityUpdate(saveReqDto);
+		return result;
+	}
+	//게시물 수정
+	public int communityDelete(SaveReqDto saveReqDto)throws ClassNotFoundException, SQLException {
+		System.out.println("업데이트 서비스 진입");
+		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
+		System.out.println("내용"+saveReqDto.getComm_content());
+		System.out.println("내용"+saveReqDto.getComm_seq());
+		int result = communityDao.communityReplyDelete(saveReqDto);
+		int result = communityDao.communityDelete(saveReqDto);
+		return result;
 	}
 
 }
