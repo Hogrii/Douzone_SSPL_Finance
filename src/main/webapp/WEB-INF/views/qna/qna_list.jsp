@@ -131,7 +131,7 @@ box-icon {
 		<div class="row">
 			<div class="d-grid gap-1 d-md-flex justify-content-md-end">
 				<a href="qnaWrite.do">
-					<button type="button" class="btn btn-secondary">글 작성</button>
+					<button type="button" class="btn btn-secondary">글작성</button>
 				</a>
 			</div>
 		</div>
