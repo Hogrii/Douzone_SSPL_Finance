@@ -63,11 +63,34 @@
 					tr += "<td class='text-danger'>▲"+ yesterdayVloume +"%</td>";
 				}
 				$('#day_tbody').append(tr);
+				//연중 최고가
+				let highPrice_year = "<td>" + parseInt(data.output.stck_dryy_hgpr).toLocaleString() + "</td>";
+				$('#highPrice_year').append(highPrice_year);
+				//연중 최저가
+				let lowPrice_year = "<td>" + parseInt(data.output.stck_dryy_lwpr).toLocaleString() + "</td>";
+				$('#lowPrice_year').append(lowPrice_year);
+				//자본금
+				let capital = "<td>" + parseInt(data.output.cpfn).toLocaleString() + "</td>";
+				$('#capital').append(capital);
+				//상장주식수
+				let listed_stocks = "<td>" + parseInt(data.output.lstn_stcn).toLocaleString() + "</td>";
+				$('#listed_stocks').append(listed_stocks);
+				//시가총액
+				let market_capitalization = "<td>" + parseInt(data.output.hts_avls).toLocaleString() + "</td>";
+				$('#market_capitalization').append(market_capitalization);
+				//외국인 소진율 hts_frgn_ehrt
+				let foreigner_exhaustion_rate = "<td>" + data.output.hts_frgn_ehrt + "%</td>";
+				$('#foreigner_exhaustion_rate').append(foreigner_exhaustion_rate);
+				//PER/EPS per, eps
+				let pereps = "<td>" + data.output.per + " / " + data.output.eps  +"</td>";
+				$('#pereps').append(pereps);
 			}
 			
 		});
 		//차트 데이터 비동기 요청
 		$('.chart_btn').on('click',function() {
+			$('.chart').empty();
+			$('.chart').html('<canvas id="myChart" class="w-100 h-100"></canvas>');
 			//기간 분류
 			let category = $(this).val();
 			console.log('기간 분류 : ' + category);
@@ -126,9 +149,62 @@
 				dataType : "JSON",
 				success : function(data) {
 					console.log(data);
+					let ctx = document.getElementById("myChart").getContext("2d");
+			        let chart_data = [];
+			        $.each(data.output2.reverse(), function(index, item) {
+			        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+			        	  let price = item.stck_clpr;
+			        	  let each_data = [date, price];
+			        	  chart_data.push(each_data);
+			        });
+			        /*
+			        let last_date = end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+			        let last_price = data.output1.stck_prpr;
+			        let last_data = [last_date ,last_price];
+			        chart_data.push(last_data);
+			        */
+			        let lineChart = new Chart(ctx, {
+			            type: "line",
+			            data: {
+			                labels: chart_data.map(function (x) {
+			                    return x[0];
+			                }),
+			                datasets: [
+			                    {
+			                        data: chart_data.map(function (x) {
+			                            return x[1];
+			                        }),
+			                        borderColor: "blue",
+			                        borderWidth: 4,
+			                    },
+			                ],
+			            },
+			            options: {
+			                title: {
+			                    text: "주가 차트",
+			                },
+			                legend: {
+			                    display: false,
+			                },
+			                xAxis: {
+			                    title: {
+			                        text: "Date",
+			                    },
+			                },
+			                yAxis: {
+			                    title: {
+			                        text: "Price (won)",
+			                    }
+			                },animation: {
+			                    duration: 1000,  // 애니메이션 지속 시간 (밀리초)
+			                    easing: 'easeInOutQuart'  // 애니메이션 속도 곡선
+			                }
+			            },
+			        });
 				}
 			});
 		});
+		$('#first_btn').click();
 	});
 </script>
 <style>
@@ -167,9 +243,9 @@
 			</tbody>
 		</table>
 		<div class="row">
-			<div class="chart col-md-8">
+			<div class="col-md-8">
 				<div class="d-grid gap-2 d-md-block">
-					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="D"
+					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="D" id="first_btn"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
 						일</button>
 					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="W"
@@ -190,33 +266,26 @@
 				<table class="table text-center h-100 align-middle" id="chart_table"
 					border="1">
 					<tbody>
-						<tr>
+						<tr id="highPrice_year">
 							<th>연중 최고</th>
-							<td>73,400</td>
 						</tr>
-						<tr>
+						<tr id="lowPrice_year">
 							<th>연중 최저</th>
-							<td>54,500</td>
 						</tr>
-						<tr>
+						<tr id="capital">
 							<th>자본금(억)</th>
-							<td>7,780</td>
 						</tr>
-						<tr>
+						<tr id="listed_stocks">
 							<th>상장주식수(전주)</th>
-							<td>5,969,783</td>
 						</tr>
-						<tr>
+						<tr id="market_capitalization">
 							<th>시가총액(백만)</th>
-							<td>433,406,213</td>
 						</tr>
-						<tr>
-							<th>외국인보유비중</th>
-							<td>52.73%</td>
+						<tr id="foreigner_exhaustion_rate">
+							<th>외국인소진율</th>
 						</tr>
-						<tr>
+						<tr id="pereps">
 							<th>PER/EPS</th>
-							<td>8.99/8,057</td>
 						</tr>
 					</tbody>
 				</table>
@@ -225,6 +294,8 @@
 	</div>
 	<!-- footer 영역 -->
 </body>
+<!-- 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/detail_chart.js"></script>
+ -->
 </html>
