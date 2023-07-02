@@ -100,6 +100,7 @@ public class QnAController {
 
 				realPath = session.getServletContext().getRealPath("")+"\\resources\\img";
 				// Servers -> Tomcat 우클릭 -> Browse Deployment Location... : realPath의 위치
+				System.out.println("realPath : " + realPath);
 
 				// realPath 객체를 만들고 만약에 realPathFile 폴더가 없으면 폴더를 만들라는 이야기
 				File realPathFile = new File(realPath);
@@ -113,6 +114,7 @@ public class QnAController {
 				// sysName : 서버에 저장할 파일 이름
 				// UUID.randomUUID() : 절대 겹치지 않는 문자배열을 만들어준다.
 				sysName = UUID.randomUUID() + "_" + oriName;
+				System.out.println("sysName : " + sysName);
 
 				// 서버에 업로드되어 메모리에 적재된 파일의 내용을 어디에 저장할지 결정하는 부분
 				mf.transferTo(new File(realPath + "/" + sysName));
@@ -130,6 +132,13 @@ public class QnAController {
 		qnaList = qnaService.searchList(qna_title);
 		System.out.println(qnaList.toString());
 		return qnaList;
+	}
+	
+	// 댓글 삭제
+	@RequestMapping("deleteReply.do")
+	public String deleteReply(String qna_reply_seq, String qna_seq) {
+		qnaService.deleteReply(qna_reply_seq);
+		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}
 	
 }
