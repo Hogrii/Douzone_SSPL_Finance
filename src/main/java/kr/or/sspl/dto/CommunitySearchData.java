@@ -6,4 +6,6 @@ import lombok.Data;
 public class CommunitySearchData {
 	private String field;
 	private String query;
+	private String cpage;
+	private String pagesize;
 }

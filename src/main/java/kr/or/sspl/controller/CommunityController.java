@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonObject;
 
 import kr.or.sspl.dto.CommunityDto;
+import kr.or.sspl.dto.SaveReqDto;
 import kr.or.sspl.service.CommunityService;
 
 @Controller
@@ -62,27 +62,34 @@ public class CommunityController {
 
 	// 글쓰기
 	@RequestMapping("writeOk.do")
- 	public String communityInsert(CommunityDto communityDto,HttpServletRequest request) {
+ 	public String communityInsert(CommunityDto communityDto,HttpServletRequest request) throws ClassNotFoundException, SQLException {
+	  request.setAttribute("user_id", "shs1993");
+	  String user_id = (String) request.getAttribute("user_id");
 	  System.out.println("communityInsert 진입");
 	  String comm_title = request.getParameter("comm_title"); 
 	  System.out.println("comm_title:"+comm_title);
 	  String comm_category = request.getParameter("comm_category");
 	  System.out.println("comm_category:"+comm_category);
 	  String comm_content = request.getParameter("comm_content");
+	  SaveReqDto saveReqDto = new SaveReqDto();
+	  saveReqDto.setComm_category(comm_category);
+	  saveReqDto.setComm_content(comm_content);
+	  saveReqDto.setComm_title(comm_title);
+	  saveReqDto.setUser_id(user_id);
 	  
 	  System.out.println("comm_content:"+comm_content);
-	  
-	 System.out.println(communityDto.toString());
-	 // communityservice.communityInsert(comm_title,comm_category,comm_contentrequest);
- 
- 	return "community/community_list";
+	   
+	  communityservice.communityInsert(saveReqDto);
+      
+ 	  return "redirect:/community/list.do";
  	}
   
 	//파일업로드
-	@RequestMapping(value = "/uploadSummernoteImageFile", produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/image", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) {
+		System.out.println("servlet call");
 		JsonObject jsonObject = new JsonObject();
 
 		/*
@@ -90,11 +97,13 @@ public class CommunityController {
 		 */
 
 		// 내부경로로 저장
-		String fileRoot = "C:\\summernote_image\\";	//저장될 파일 경로
+		String fileRoot = request.getServletContext().getRealPath("/fileupload");
 		String originalFileName = multipartFile.getOriginalFilename(); // 오리지날 파일명
 		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
 		String savedFileName = UUID.randomUUID() + extension; // 저장될 파일 명
-
+        
+		
+		System.out.println("path : "+fileRoot+savedFileName);
 		File targetFile = new File(fileRoot + savedFileName);
 		try {
 			InputStream fileStream = multipartFile.getInputStream();
@@ -112,7 +121,5 @@ public class CommunityController {
 		return a;
 
 	}
-	
 	 
-	
 }

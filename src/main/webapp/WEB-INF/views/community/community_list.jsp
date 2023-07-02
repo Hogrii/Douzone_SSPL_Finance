@@ -43,7 +43,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 <div class="container">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-12 col-md-6">
+                            <div id ="ps" class="col-sm-12 col-md-6">
                                 <div
                                     class="form-group d-flex align-items-center"
                                 >
@@ -53,7 +53,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                     >
                                         <form name="list">
                                             <select
-                                                name="ps"
+                                                name="ps" 
                                                 class="form-control"
                                                 onchange="submit()"
                                             >
@@ -128,7 +128,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 <!-- 검색 끝 -->
 
                 <!-- 총 게시물 출력 시작 -->
-                <div class="totalPostContainer">
+                <div id ="totalcount"class="totalPostContainer">
                     총 ${requestScope.total}건의 게시물
                 </div>
                 <!-- 총 게시물 출력 끝 -->
@@ -204,7 +204,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                 step="1"
                             >
                                 <li
-                                    class="page-item ${currentPage == i ? 'active' : ''}"
+                                    class="page-item ${cpage == i ? 'active' : ''}"
                                 >
                                     <a
                                         class="page-link"
@@ -214,7 +214,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                 </li>
                             </c:forEach>
                             <li
-                                class="page-item ${currentPage == totalPage ? 'disabled' : ''}"
+                                class="page-item ${cpage == totalPage ? 'disabled' : ''}"
                             >
                                 <a
                                     class="page-link"
@@ -233,17 +233,25 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         $(document).ready(function () {
             console.log("여기옴?");
             getList();
+            
+            
             function getList() {
                 let keyword = $("#selectBox option:selected").val();
                 $("#selectBox").change(function () {
                     keyword = $("#selectBox option:selected").val();
                 });
+                
                 $("#search").keyup(function () {
                     const CommunitySearchData = {
                         field: keyword,
                         query: $(this).val(),
+                        cpage: ${cpage},
+                        pagesize  : ${pagesize} 
                     };
-
+                    if($(this).val().length < 1){
+                    	window.location.href="/sspl_finance/community/list.do";
+                    	return;
+                    }
                     $.ajax({
                         url: "/sspl_finance/restcommunity/listSearch",
                         type: "POST",
@@ -251,7 +259,10 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                         data: JSON.stringify(CommunitySearchData),
                         contentType: "application/json",
                         success: function (result) {
-                            $("#tbody").empty();
+                            $("#communityBody").empty();
+                            $("#ps").css('visibility','hidden');  
+                            $("#totalcount").css('visibility','hidden');
+                            $("#communityPaging").css('visibility','hidden');
                             console.log(result);
                             let ajaxTable = "";
 
@@ -266,20 +277,22 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                                     "<td>" + value.comm_content + "</td>";
                                 ajaxTable += "<td>" + value.user_id + "</td>";
                                 ajaxTable +=
-                                    "<td>" + value.comm_writen_date + "</td>";
+                                    "<td>"+ value.comm_writen_date + "</td>";
+                                    
                                 ajaxTable +=
                                     "<td>" + value.comm_view_count + "</td>";
                                 ajaxTable += "</tr>";
                             });
 
-                            $("#tbody").append(ajaxTable);
+                            $("#communityBody").append(ajaxTable);                     
+                            
                         },
                         error: function (xhr) {
                             console.log("안불러와짐");
                             console.log(xhr.status);
                         },
-                    });
-                });
+                    }); //ajax
+                }); //keyup
             }
         });
     </script>

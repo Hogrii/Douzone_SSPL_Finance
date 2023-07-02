@@ -12,36 +12,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 전체리스트 조회 -->
 	<select id="list" parameterType="Map"
 		resultType="kr.or.sspl.dto.CommunityDto">
-		select comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
+		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
 			from 
 			(
 				select rownum as rn,
 						comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
 					from community
-						order by rn asc
+						order by comm_seq desc
 			)
 		where rn between #{start} and #{end}
+
 	</select>
 
 	<!-- 상세페이지 -->
 	<select id="getDetailList" parameterType="int"
 		resultType="kr.or.sspl.dto.CommunityDto">
-		select comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
+		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
 			from community
 		where comm_seq =#{comm_seq}
 	</select>
 
-	<!-- 조건검색 --><!-- 확인 필요 -->
+	<!-- 조건검색 갯수 --> 
+	<select id="searchListTotal" parameterType="int" resultType="kr.or.sspl.dto.CommunityDto">
+		select count *
+		  from (
+		          select rownum as rn, comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
+			        from community
+		           where ${field} like '%${query}%'
+		           order by comm_writen_date desc
+		       )		       
+	</select>
+	<!-- 조건검색 -->
 	<select id="searchList" parameterType="kr.or.sspl.dto.CommunitySearchData" resultType="kr.or.sspl.dto.CommunityDto">
-		select comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count
-			from community
-		where #{field} like '%${query}%'
+		select comm_seq,user_id,comm_title,comm_content,comm_writen_date ,comm_category,comm_view_count
+		  from (
+		          select rownum as rn, comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
+			        from community
+		           where ${field} like '%${query}%'
+		           order by comm_writen_date desc
+		       )
+		  <!-- where rn between #{start} and #{end} -->
+		       
 	</select>
 
 	<!-- 글 추가 -->
-	<insert id="communityInsert" parameterType="kr.or.sspl.dto.CommunityDto">
+	<insert id="communityInsert" parameterType="kr.or.sspl.dto.SaveReqDto">
 		<selectKey order="BEFORE" keyProperty="comm_seq" resultType="int">
-			SELECT MAX(TO_NUMBER(comm_seq))+1 FROM community
+			SELECT MAX(comm_seq)+1  FROM community
 		</selectKey>
 		insert into community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count)
 		values(#{comm_seq},#{user_id},#{comm_title},#{comm_content},sysdate,#{comm_category},0)
