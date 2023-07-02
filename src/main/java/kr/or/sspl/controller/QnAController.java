@@ -69,8 +69,6 @@ public class QnAController {
 	// 댓글 작성
 	@RequestMapping("/qnaReplyOk.do")
 	public String qnaReplyOk(String user_id, String qna_seq, String qna_reply_content) {
-		System.out.println(qna_seq + " " + qna_reply_content);
-		System.out.println(user_id);
 		qnaService.qnaReply(user_id, qna_seq, qna_reply_content);
 		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}

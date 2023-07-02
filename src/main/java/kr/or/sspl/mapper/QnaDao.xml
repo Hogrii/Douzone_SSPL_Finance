@@ -68,5 +68,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			QNA_CATEGORY = #{qna_category}
 		WHERE QNA_SEQ = #{qna_seq}
 	</update>
+	
+	<!-- 글 상태 변경 -->
+	<update id="qnaState" parameterType="int">
+		UPDATE QNA
+		SET QNA_STATUS = '답변완료'
+		WHERE QNA_SEQ = #{qna_seq}
+	</update>
 </mapper>
 

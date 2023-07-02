@@ -123,6 +123,10 @@ public class QnaService {
 			replyHash.put("qna_seq", qna_seq);
 			replyHash.put("qna_reply_content", qna_reply_content);
 			qnaDao.qnaReply(replyHash);
+			// 부여된 롤에 따라 분기 필요할듯?
+			System.out.println("답변완료 바꾸기 시작");
+			qnaDao.qnaState(qna_seq);
+			System.out.println("답변완료 바꾸기 시작");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
