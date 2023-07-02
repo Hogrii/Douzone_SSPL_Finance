@@ -110,12 +110,19 @@
 		$.ajax({
 			data : data,
 			type : "POST",
+			enctype: 'multipart/form-data',
 			url : "/sspl_finance/community/image",
 			contentType : false,
 			processData : false,
 			success : function(data) {
+				//console.log(data); 
             	//항상 업로드된 파일의 url이 있어야 한다.
-				$(editor).summernote('insertImage', data.url);
+                //var json = JSON.parse(data);
+            	$(editor).summernote('insertImage', data.url);
+                 //$(el).summernote('editor.insertImage',data["url"]);
+                 //jsonArray.push(json["url"]);
+                 //jsonFn(jsonArray);
+				//$(editor).summernote('insertImage', data.url);
 			}
 		});
 	}

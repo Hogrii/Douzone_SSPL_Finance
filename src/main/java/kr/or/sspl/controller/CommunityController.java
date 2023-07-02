@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,11 +49,7 @@ public class CommunityController {
 		return "community/community_detail";
 	}
 
-	@GetMapping("modify.do")
-	public String modify() {
-		System.out.println("진입3");
-		return "community/community_modify";
-	}
+ 	
 
 	@GetMapping("write.do")
 	public String write() {
@@ -77,6 +74,7 @@ public class CommunityController {
 	  saveReqDto.setComm_title(comm_title);
 	  saveReqDto.setUser_id(user_id);
 	  
+	  
 	  System.out.println("comm_content:"+comm_content);
 	   
 	  communityservice.communityInsert(saveReqDto);
@@ -84,31 +82,48 @@ public class CommunityController {
  	  return "redirect:/community/list.do";
  	}
   
+	@GetMapping("modify.do")
+ 	public String modify(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
+ 		System.out.println("진입3");
+ 		System.out.println("comm_seq:" +comm_seq);
+ 		communityservice.getDetailList(comm_seq,model);
+ 		return "community/community_modify";
+ 	}
+	
+	@PostMapping("modifyOk.do")
+ 	public String modifyOk(SaveReqDto saveReqDto,HttpServletRequest request) throws ClassNotFoundException, SQLException {
+ 		System.out.println("진입4");
+ 		System.out.println("saveReqDto.getComm_content :" +saveReqDto.getComm_content());
+ 		communityservice.communityUpdate(saveReqDto);
+ 		return "redirect:/community/list.do";
+ 	}
 	//파일업로드
 	@RequestMapping(value = "/image", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) {
 		System.out.println("servlet call");
-		JsonObject jsonObject = new JsonObject();
+		
 
 		/*
 		 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
 		 */
 
 		// 내부경로로 저장
-		String fileRoot = request.getServletContext().getRealPath("/fileupload");
+		String fileRoot = request.getSession().getServletContext().getRealPath("/fileupload");
 		String originalFileName = multipartFile.getOriginalFilename(); // 오리지날 파일명
-		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
-		String savedFileName = UUID.randomUUID() + extension; // 저장될 파일 명
+		System.out.println("originalFileName : "+ originalFileName);
+		//String extension = originalFileName.substring(0,originalFileName.lastIndexOf(".")); // 파일 확장자
+		String savedFileName = originalFileName; // 저장될 파일 명
         
 		
-		System.out.println("path : "+fileRoot+savedFileName);
-		File targetFile = new File(fileRoot + savedFileName);
+		System.out.println("path : "+fileRoot+"\\"+savedFileName);
+		File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		JsonObject jsonObject = new JsonObject();
 		try {
 			InputStream fileStream = multipartFile.getInputStream();
 			FileUtils.copyInputStreamToFile(fileStream, targetFile);// 파일 저장
-			jsonObject.addProperty("url", "/resources/fileupload/" + savedFileName); // contextroot +
+			jsonObject.addProperty("url", "/sspl_finance/fileupload/" + savedFileName); // contextroot +
 																								// resources + 저장할 내부
 			jsonObject.addProperty("responseCode", "success");
 
@@ -120,6 +135,14 @@ public class CommunityController {
 		String a = jsonObject.toString();
 		return a;
 
+	}
+	
+	@GetMapping("delete.do")
+	public String CommunityDelete(int comm_seq,Model model) {
+		System.out.println("진입5");
+ 		System.out.println("comm_seq:" +comm_seq);
+ 		//communityservice.getDetailList(comm_seq,model);
+		return "redirect:/community/list.do";
 	}
 	 
 }
