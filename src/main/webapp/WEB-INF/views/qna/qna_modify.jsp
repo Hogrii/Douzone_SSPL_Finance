@@ -100,7 +100,8 @@ hr {
 	</div>
 
 	<!-- footer 영역 -->
-</body>
-<script
+
+	<script
 	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+</body>
 </html>

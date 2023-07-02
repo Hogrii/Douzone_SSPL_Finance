@@ -126,9 +126,17 @@
 						<div class="d-flex flex-row mb-2">
 							<label for="reply" class="form-label col-md-2"><span
 								class="text-danger">*</span>답변내용</label>
-							<div class="col-md-12">
-								<div class="col-md-10">${replyList.qna_reply_content }</div>
+							<div class="col-md-10">
+								<div 
+									class="col-md-10" 
+									style="word-break:break-all">
+									${replyList.qna_reply_content }
+								</div>
 							</div>
+							<div class="col-md-2">
+								<a href="deleteReply.do?qna_reply_seq=${replyList.qna_reply_seq }&qna_seq=${qna.qna_seq}">x</a>
+							</div>
+							
 						</div>
 					</c:forEach>
 

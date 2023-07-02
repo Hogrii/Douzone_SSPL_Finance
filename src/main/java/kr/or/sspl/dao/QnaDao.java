@@ -31,4 +31,16 @@ public interface QnaDao {
 	
 	// 글 수정
 	public void qnaModify(QnaDto qnaDto);
+	
+	// 게시글 상태 변경 -> 답변완료
+	public void qnaState(String qna_seq);
+	
+	// 게시글 상태 변경 -> 답변중
+	public void qnaInitState(String qna_seq);
+	
+	// 검색
+	public List<QnaDto> searchList(Map<String, String> searchMap);
+	
+	// 댓글 삭제
+	public void qnaReplyDelete(int qna_reply_seq);
 }

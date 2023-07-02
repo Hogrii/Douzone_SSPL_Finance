@@ -47,8 +47,8 @@ public class SearchController {
 	
 	@GetMapping("searchDetail.do")
 	public String searchDetail(String stock_code, String stock_name, Model model) {
-		System.out.println(stock_code);
-		model.addAttribute("stock_code",stock_code);
+		model.addAttribute("stock_code", stock_code);
+		model.addAttribute("stock_name", stock_name);
 		return "search/search_detail";
 	}
 	

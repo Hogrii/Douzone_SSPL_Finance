@@ -89,7 +89,7 @@ public class SearchService {
 	            connection.setRequestMethod("GET");
 	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU0ZjE1ZmI2LTAyYjctNDE2MS04Y2UzLTJiZDBmNTQ5YTg1ZCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4Mjg1MTExLCJpYXQiOjE2ODgxOTg3MTEsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.gSXf4rgyJUN-9sxggq03RyYT53Ht-uVe-t1vUHj1xf6v2KMBRQSlbdPqjh6qOlLszCb2zBUD5R4kyNmjMgY5Qg");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjRjMWQzYWI0LWI1ZTctNDBmNS05ZDM3LWNkNDJlODJmZWI3NSIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4MzczMjY0LCJpYXQiOjE2ODgyODY4NjQsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.J1vWcstJ1USFH4zlZvamo69J1GXxZm2NdS7vpsvpX9B1qXBrxeAQEC_SysHKlREiq6R8aGNFWMp0Hp96Wb7AiQ");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
 	            connection.setRequestProperty("tr_id", tr_id);
