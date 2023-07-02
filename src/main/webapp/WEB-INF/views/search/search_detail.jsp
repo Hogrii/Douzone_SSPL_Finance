@@ -16,8 +16,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
 	$(function() {
-		let stock_code = ('000000'+${stock_code}).slice(-6);
-		console.log(stock_code);
+		//let stock_code = ('000000000'+${stock_code}).slice(-6);
+		console.log(typeof(${stock_code}));
+		let stock_code = $('#stock_code').text();
 		//주식 상세 데이터 
 		$.ajax({
 			url : "searchByCode.do",
@@ -28,6 +29,7 @@
 			dataType : "JSON",
 			success : function(data) {
 				let tr = "<tr class='text-center'>";
+				console.log(stock_code);
 				//현재날짜
 				let today = new Date();
 				let year = today.getFullYear();
@@ -152,7 +154,7 @@
 					let ctx = document.getElementById("myChart").getContext("2d");
 			        let chart_data = [];
 			        $.each(data.output2.reverse(), function(index, item) {
-			        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+			        	  let date = item.stck_bsop_date.replace("/(\d{4})(\d{2})(\d{2})/", '$1-$2-$3');
 			        	  let price = item.stck_clpr;
 			        	  let each_data = [date, price];
 			        	  chart_data.push(each_data);
@@ -225,7 +227,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
 	<div class="container my-5">
-		<h5>삼성전자</h5>
+		<h5>${stock_name} (<span id="stock_code">${stock_code}</span>)</h5>
 		<hr class="my-4" />
 		<table class="table my-5" id="detail_table">
 			<thead>
