@@ -1,6 +1,8 @@
 package kr.or.sspl.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,13 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.JsonObject;
 
 import kr.or.sspl.dto.QnaDto;
 import kr.or.sspl.service.QnaService;
@@ -85,6 +91,45 @@ public class QnAController {
 		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}
 	
+	//파일업로드
+	@RequestMapping(value = "/image", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
+			HttpServletRequest request) {
+		System.out.println("servlet call");
+
+		/*
+		 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
+		 */
+
+		// 내부경로로 저장
+		String fileRoot = request.getSession().getServletContext().getRealPath("/fileupload");
+		String originalFileName = multipartFile.getOriginalFilename(); // 오리지날 파일명
+		System.out.println("originalFileName : "+ originalFileName);
+		//String extension = originalFileName.substring(0,originalFileName.lastIndexOf(".")); // 파일 확장자
+		String savedFileName = originalFileName; // 저장될 파일 명        
+		
+		System.out.println("path : "+fileRoot+"\\"+savedFileName);
+		File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		JsonObject jsonObject = new JsonObject();
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);// 파일 저장
+			jsonObject.addProperty("url", "/sspl_finance/fileupload/" + savedFileName); // contextroot +
+																								// resources + 저장할 내부
+			jsonObject.addProperty("responseCode", "success");
+
+		} catch (IOException e) {
+			FileUtils.deleteQuietly(targetFile); // 저장된 파일 삭제
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+		String a = jsonObject.toString();
+		return a;
+
+	}
+		
+	/*
 	// 이미지
 	@RequestMapping(value="qnaImage.do" , produces = "application/text;charset=utf-8")
 	@ResponseBody
@@ -122,6 +167,7 @@ public class QnAController {
 		}
 		return "\\img\\" + sysName;
 	}
+	 */
 	
 	// 검색하기
 	@RequestMapping("searchKeyword.do")
