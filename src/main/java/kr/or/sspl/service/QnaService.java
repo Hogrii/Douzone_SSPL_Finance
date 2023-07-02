@@ -1,5 +1,6 @@
 package kr.or.sspl.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,6 +124,10 @@ public class QnaService {
 			replyHash.put("qna_seq", qna_seq);
 			replyHash.put("qna_reply_content", qna_reply_content);
 			qnaDao.qnaReply(replyHash);
+			// 부여된 롤에 따라 분기 필요할듯?
+			System.out.println("답변완료 바꾸기 시작");
+			qnaDao.qnaState(qna_seq);
+			System.out.println("답변완료 바꾸기 시작");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -147,5 +152,19 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 검색
+	public List<QnaDto> searchList(String qna_title) {
+		List<QnaDto> qnaList = new ArrayList<QnaDto>();
+		Map<String, String> searchMap = new HashMap<String, String>();
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			searchMap.put("qna_title", qna_title);
+			qnaList = qnaDao.searchList(searchMap);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return qnaList;
 	}
 }

@@ -15,7 +15,7 @@
 <!-- boxicons js cdn -->
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!-- jQuery cdn -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
@@ -32,6 +32,48 @@ box-icon {
 	vertical-align: -5px;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		$('#search').on('click', function(){
+			let qna_title = $('#qna_title').val();
+			console.log("qna_title : " + qna_title);
+			$.ajax({
+				url : "searchKeyword.do",
+				type : "GET",
+				data : {
+					"qna_title" : qna_title
+				},
+				dataType : "JSON",
+				success : function(data) {
+					console.log("data : " + data);
+					$('#tbody').empty();
+					$('#page').empty();
+					if(data.length == 0) { //검색 결과가 없는 경우
+						let tr = "<tr>";
+						tr += "<td class='text-center' colspan='4'>검색 결과가 없습니다.</td>";
+						tr += "</tr>";
+						$('#tbody').append(tr);
+					}else { //검색 결과가 있는 경우
+						data.forEach(item => {
+							let tr = "<tr>";
+							tr += "<td>" + item.qna_seq + "</td>";
+							tr += "<td>" + item.qna_category + "</td>";
+							tr += "<td><a href='qnaDetail.do?qna_seq="
+									+ item.qna_seq
+									+ "> <box-icon name='lock'' type='solid'></box-icon>"
+									+ item.qna_title + "</a></td>";
+							tr += "<td>" + item.user_id + "</td>";
+							tr += "<td>" + item.qna_date + "</td>";
+							tr += "<td>" + item.qna_status + "</td>";
+							tr += "<td><box-icon name='file'></box-icon></td>";
+							$('tbody').append(tr);
+						});
+					}
+				}
+			})
+		})
+	})
+</script>
 </head>
 <body>
 	<!-- header 영역 -->
@@ -45,10 +87,10 @@ box-icon {
 				</p>
 			</div>
 			<div class="col-md-3">
-				<form action="#">
+				<form action="searchKeyword.do">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요" />
-						<button type="submit" class="btn btn-secondary">검색</button>
+						<input type="text" class="form-control" id="qna_title" placeholder="글 제목을 입력하세요" />
+						<button type="button" id="search" class="btn btn-secondary">검색</button>
 					</div>
 				</form>
 			</div>
@@ -68,7 +110,7 @@ box-icon {
 							<th>파일</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody">
 						<c:forEach var="list" items="${qnaList}">
 							<tr class="border-bottom border-2">
 								<td>${list.qna_seq }</td>
