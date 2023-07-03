@@ -80,9 +80,7 @@ public class QnaService {
 				request.setAttribute("totalcount", totalcount);
 			}catch(Exception e) {
 				e.printStackTrace();
-			}
-			
-			
+			}			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -99,9 +97,6 @@ public class QnaService {
 			qna = qnaDao.qna(qna_seq);
 			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));
 			System.out.println("댓글 개수 : " + qnaReplyList.size());
-			if(qnaReplyList.size()==0) {
-				qnaDao.qnaInitState(qna_seq);
-			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -113,6 +108,7 @@ public class QnaService {
 	public void qnadelete(String qna_seq) {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaReplyAllDelete(Integer.parseInt(qna_seq));
 			qnaDao.qnaDelete(Integer.parseInt(qna_seq));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -180,5 +176,21 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 댓글 수정
+	public QnaReplyDto qnaModifyReply(String qna_reply_seq, String qna_reply_content) {
+		Map<String, String> replyModifyMap = new HashMap<String, String>();
+		QnaReplyDto replyDto = null;
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			replyModifyMap.put("qna_reply_seq", qna_reply_seq);
+			replyModifyMap.put("qna_reply_content", qna_reply_content);
+			qnaDao.qnaModifyReply(replyModifyMap);
+			replyDto = qnaDao.getQnaReply(qna_reply_seq);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return replyDto;
 	}
 }
