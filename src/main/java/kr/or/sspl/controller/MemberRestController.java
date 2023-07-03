@@ -1,5 +1,7 @@
 package kr.or.sspl.controller;
 
+import java.lang.reflect.Member;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,8 @@ public class MemberRestController {
 		System.out.println(memberDto.toString());
 		
 		map = memberService.join(memberDto);
+		
+		System.out.println(map);
 		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
 	
@@ -41,13 +45,54 @@ public class MemberRestController {
 		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
 	
-	@PostMapping("login")
-	public ResponseEntity<Map<String, String>> login(@PathVariable(value = "id") String id){
-		//System.out.println(id);
-		Map<String, String> map = null;
+	@PostMapping("passwordCheck")
+	public ResponseEntity<Boolean> passwordCheck(String id, String password){
+		
+		boolean result = false;
+				
+		result = memberService.userSelect(id, password);
+		
+		
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
+	@GetMapping("userData")
+	public ResponseEntity<MemberDto> userData(String id){
+		
+		MemberDto dto = null;
+		
+		dto = memberService.userData(id);
+		
+		return new ResponseEntity<MemberDto>(dto, HttpStatus.OK);
+	}
+	
+	@PostMapping("dupDataCheck")
+	public ResponseEntity<Map<String, String>> dupDataCheck(MemberDto dto){
+		
+		System.out.println(dto);
+		
+		Map<String, String> map = memberService.dupDataCheck(dto);
+		
+		System.out.println("DB중복체크");
+		System.out.println(map);
 		
 		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
+	
+	@PostMapping("userModify")
+	public ResponseEntity<Map<String, String>> userModify(MemberDto dto){
+		
+		System.out.println("갱신 전 :"+dto.toString());
+		
+		Map<String, String> map =  memberService.userModify(dto);
+		
+		System.out.println(map);
+		
+		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+	}
+	
+	
+
 	
 	
 

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
 <meta charset="UTF-8" />
@@ -35,31 +37,47 @@
 				</div>
 			</div>
 			<div class="userContainer">
+			<se:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
 				<div class="userImage">
 					<a href="${pageContext.request.contextPath}/member/mypage"> <img
 						src="${pageContext.request.contextPath }/resources/img/person-circle.svg"
 						alt="user.." />
 					</a>
 				</div>
-				<div class="userMessage">유저님 반갑습니다!</div>
+				
+				
+				<se:authentication property="name" var="LoginUser" />
+				<div class="userMessage">[${LoginUser}]</div>
 				<div class="myPage">
 					<a href="${pageContext.request.contextPath}/member/mypage">
 						<button type="button" class="btn btn-secondary">마이페이지</button>
 					</a>
 				</div>
+			</se:authorize>
 				<div class="join">
 					<a href="${pageContext.request.contextPath}/member/join">
 						<button type="button" class="btn btn-secondary">회원가입</button>
 					</a>
 				</div>
-				<div class="login">
-					<a href="${pageContext.request.contextPath}/member/login">
-						<button type="button" class="btn btn-secondary">로그인</button>
-					</a>
-				</div>
+				<se:authorize access="!hasRole('ROLE_USER')">
+					<div class="login">
+						<a href="${pageContext.request.contextPath}/member/login">
+							<button type="button" class="btn btn-secondary">로그인</button>
+						</a>
+					</div>
+				</se:authorize>
+				<se:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+					<div class="logout">
+						
+							<a href="${pageContext.request.contextPath}/member/logout">
+								<button type="button" class="btn btn-secondary">로그아웃</button>
+							</a> 
+					</div>
+				</se:authorize>
 			</div>
 		</div>
 		<hr />
+	
 		<div class="nav">
 			<div class="navContainer">
 				<div class="home">
@@ -78,7 +96,9 @@
 					</a>
 				</div>
 				<div class="interest">
+				<a href="${pageContext.request.contextPath}/kanban/kanban_board.do">
 					<button type="button" class="btn btn-secondary">관심종목</button>
+					</a>
 				</div>
 			</div>
 		</div>

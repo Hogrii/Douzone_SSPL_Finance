@@ -32,6 +32,43 @@ int insert(Member member) throws ClassNotFoundException, SQLException;
         #{duplicate_phone_number, mode=OUT, jdbcType=VARCHAR}
     )}
 </insert>
+<select id="userSelect" parameterType="HashMap" resultType="String">
+	select password
+	from member
+	where user_id = #{id}
+</select>
+
+<select id="userData" resultType="kr.or.sspl.dto.MemberDto">
+	select name, email, phone_number
+	from member
+	where user_id = #{id}
+</select>
+
+<select id="dupDataCheck" statementType="CALLABLE" parameterType="kr.or.sspl.dto.MemberDto">
+	 {CALL select_member_dup_data(
+        #{email, mode=IN, jdbcType=VARCHAR},
+        #{phone_number, mode=IN, jdbcType=VARCHAR},
+        #{duplicate_email, mode=OUT, jdbcType=VARCHAR},
+        #{duplicate_phone_number, mode=OUT, jdbcType=VARCHAR}
+    )}
+</select>
+
+<update id="userModify" parameterType="kr.or.sspl.dto.MemberDto">
+  UPDATE member
+  <set>
+    <if test="name != null and name != 'null'">
+      name = #{name},
+    </if>
+    <if test="email != null and email != 'null'">
+      email = #{email},
+    </if>
+    <if test="phone_number != null and phone_number != 'null'">
+      phone_number = #{phone_number},
+    </if>
+  </set>
+  WHERE user_id = #{user_id}
+</update>
+
 
 </mapper>
 
