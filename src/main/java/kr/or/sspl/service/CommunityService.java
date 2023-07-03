@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dao.CommunityReplyDao;
 import kr.or.sspl.dto.CommunityDto;
+import kr.or.sspl.dto.CommunityReplyDto;
 import kr.or.sspl.dto.CommunitySearchData;
 import kr.or.sspl.dto.SaveReqDto;
 
@@ -30,7 +31,7 @@ public class CommunityService {
 	public void setSession(SqlSession sqlsession) {
 		this.sqlsession = sqlsession;
 	}
-
+	//전체 데이터 갯수
 	public int CommunityCount(Model model) throws ClassNotFoundException, SQLException {
 		int result = 0;
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
@@ -78,13 +79,14 @@ public class CommunityService {
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
 	}
-
+	
+	//상세페이지
 	public void getDetailList(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
 		model.addAttribute("detaillist", communityDto);
 	}
-
+ 
 	public int searchListTotal(Model model) throws ClassNotFoundException, SQLException {
 		int result = 0;
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
@@ -128,6 +130,26 @@ public class CommunityService {
  		int result = communityDao.communityDelete(comm_seq); // 본 글 삭제
  		System.out.println("무사귀가");
 		return result;
+	}
+	
+	//댓글 조회
+	public List<CommunityReplyDto> communityReplyList(int comm_seq){
+		System.out.println("댓글 서비스 옴");
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		System.out.println("왜 안오냐");//여기 안탐....
+		List<CommunityReplyDto> list = communityReplyDao.communityReplyList(comm_seq);
+		System.out.println(list.toString());
+		return list;
+	}
+	
+	//댓글 입력
+	public int communityReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {
+
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		int result =communityReplyDao.communityReplyInsert(communityReplyDto);
+		System.out.println(result+"입력완료");
+		return result;
+
 	}
 	 
 }
