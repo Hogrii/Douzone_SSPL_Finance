@@ -70,6 +70,15 @@ hr {
 				});
 			}
 		});
+		
+		$("#search").click();
+		
+		$("#keyword").on('keypress', function(e) {
+		    if (e.which === 13) { // 엔터 키를 눌렀을 때
+		      $("#search").click(); // id가 "search"인 버튼 클릭
+		    }
+		  });
+		
 		//검색 결과 데이터 가공 함수
 		function detail_data(stock_code, stock_name) {
 			$.ajax({
@@ -122,13 +131,11 @@ hr {
 				<h5>검색목록</h5>
 			</div>
 			<div class="col-md-4">
-				<form action="searchKeyword.do">
-					<div class="input-group mb-3">
-						<input type="text" id="keyword" class="form-control"
-							placeholder="검색어를 입력하세요" name="stock_name" value="" />
-						<button type="button" id="search" class="btn btn-secondary">검색</button>
-					</div>
-				</form>
+				<div class="input-group mb-3">
+					<input type="text" id="keyword" class="form-control"
+						placeholder="검색어를 입력하세요" name="stock_name" value="${stock_name}" />
+					<button type="button" id="search" class="btn btn-secondary">검색</button>
+				</div>
 			</div>
 		</div>
 		<hr />
@@ -144,32 +151,6 @@ hr {
 						</tr>
 					</thead>
 					<tbody id="tbody">
-					<!-- 
-						<tr>
-							<td>삼성화재</td>
-							<td>229,000</td>
-							<td class="text-danger">▲2000</td>
-							<td class="text-danger">+0.88%</td>
-						</tr>
-						<tr>
-							<td>삼성제약</td>
-							<td>3,160</td>
-							<td class="text-primary">▼5</td>
-							<td class="text-primary">-0.16%</td>
-						</tr>
-						<tr>
-							<td><a href="searchDetail.do">삼성전자</a></td>
-							<td>72,700</td>
-							<td class="text-danger">▲100</td>
-							<td class="text-danger">+0.14%</td>
-						</tr>
-						<tr>
-							<td>삼성SDI</td>
-							<td>657,000</td>
-							<td class="text-primary">▼21,000</td>
-							<td class="text-primary">-3.10%</td>
-						</tr>
-					 -->
 					</tbody>
 				</table>
 			</div>
