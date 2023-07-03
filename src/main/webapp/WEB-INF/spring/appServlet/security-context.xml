@@ -25,6 +25,7 @@
 		<security:intercept-url pattern="/community/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/kanban/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/qna/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/search/**" access="hasRole('ROLE_USER')" />
   		<security:intercept-url pattern="/resources/**" access="permitAll()" />
   		
   		<!-- 자동로그인 기능  -->
