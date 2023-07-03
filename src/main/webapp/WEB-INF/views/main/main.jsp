@@ -43,7 +43,7 @@
 					//거래 순위
 					tr += "<td>" + items[i].data_rank + "</td>";
 					//종목명
-					tr += "<td><a href='search/searchDetail.do?stock_code=" + items[i].mksc_shrn_iscd + "'>" + items[i].hts_kor_isnm + "</a></td>";
+					tr += "<td><a href='search/searchDetail.do?stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
 					//현재가
 					tr += "<td>" + parseInt(items[i].stck_prpr).toLocaleString() + "</td>";
 					//등락률
