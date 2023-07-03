@@ -41,15 +41,13 @@ public class CommunityController {
 	}
 
 	@GetMapping("detail.do")
-	public String detail(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
+	public String detail(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		System.out.println("comm_seq : " + comm_seq);
 		System.out.println("진입2");
-		communityservice.getDetailList(comm_seq,model);
+		communityservice.getDetailList(comm_seq, model);
 
 		return "community/community_detail";
 	}
-
- 	
 
 	@GetMapping("write.do")
 	public String write() {
@@ -59,51 +57,52 @@ public class CommunityController {
 
 	// 글쓰기
 	@RequestMapping("writeOk.do")
- 	public String communityInsert(CommunityDto communityDto,HttpServletRequest request) throws ClassNotFoundException, SQLException {
-	  request.setAttribute("user_id", "shs1993");
-	  String user_id = (String) request.getAttribute("user_id");
-	  System.out.println("communityInsert 진입");
-	  String comm_title = request.getParameter("comm_title"); 
-	  System.out.println("comm_title:"+comm_title);
-	  String comm_category = request.getParameter("comm_category");
-	  System.out.println("comm_category:"+comm_category);
-	  String comm_content = request.getParameter("comm_content");
-	  SaveReqDto saveReqDto = new SaveReqDto();
-	  saveReqDto.setComm_category(comm_category);
-	  saveReqDto.setComm_content(comm_content);
-	  saveReqDto.setComm_title(comm_title);
-	  saveReqDto.setUser_id(user_id);
-	  
-	  
-	  System.out.println("comm_content:"+comm_content);
-	   
-	  communityservice.communityInsert(saveReqDto);
-      
- 	  return "redirect:/community/list.do";
- 	}
-  
+	public String communityInsert(CommunityDto communityDto, HttpServletRequest request)
+			throws ClassNotFoundException, SQLException {
+		request.setAttribute("user_id", "shs1993");
+		String user_id = (String) request.getAttribute("user_id");
+		System.out.println("communityInsert 진입");
+		String comm_title = request.getParameter("comm_title");
+		System.out.println("comm_title:" + comm_title);
+		String comm_category = request.getParameter("comm_category");
+		System.out.println("comm_category:" + comm_category);
+		String comm_content = request.getParameter("comm_content");
+		SaveReqDto saveReqDto = new SaveReqDto();
+		saveReqDto.setComm_category(comm_category);
+		saveReqDto.setComm_content(comm_content);
+		saveReqDto.setComm_title(comm_title);
+		saveReqDto.setUser_id(user_id);
+
+		System.out.println("comm_content:" + comm_content);
+
+		communityservice.communityInsert(saveReqDto);
+
+		return "redirect:/community/list.do";
+	}
+
 	@GetMapping("modify.do")
- 	public String modify(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
- 		System.out.println("진입3");
- 		System.out.println("comm_seq:" +comm_seq);
- 		communityservice.getDetailList(comm_seq,model);
- 		return "community/community_modify";
- 	}
-	
+	public String modify(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
+		System.out.println("진입3");
+		System.out.println("comm_seq:" + comm_seq);
+		communityservice.getDetailList(comm_seq, model);
+		return "community/community_modify";
+	}
+
 	@PostMapping("modifyOk.do")
- 	public String modifyOk(SaveReqDto saveReqDto,HttpServletRequest request) throws ClassNotFoundException, SQLException {
- 		System.out.println("진입4");
- 		System.out.println("saveReqDto.getComm_content :" +saveReqDto.getComm_content());
- 		communityservice.communityUpdate(saveReqDto);
- 		return "redirect:/community/list.do";
- 	}
-	//파일업로드
+	public String modifyOk(SaveReqDto saveReqDto, HttpServletRequest request)
+			throws ClassNotFoundException, SQLException {
+		System.out.println("진입4");
+		System.out.println("saveReqDto.getComm_content :" + saveReqDto.getComm_content());
+		communityservice.communityUpdate(saveReqDto);
+		return "redirect:/community/list.do";
+	}
+
+	// 파일업로드
 	@RequestMapping(value = "/image", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) {
 		System.out.println("servlet call");
-		
 
 		/*
 		 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
@@ -112,19 +111,19 @@ public class CommunityController {
 		// 내부경로로 저장
 		String fileRoot = request.getSession().getServletContext().getRealPath("/fileupload");
 		String originalFileName = multipartFile.getOriginalFilename(); // 오리지날 파일명
-		System.out.println("originalFileName : "+ originalFileName);
-		//String extension = originalFileName.substring(0,originalFileName.lastIndexOf(".")); // 파일 확장자
+		System.out.println("originalFileName : " + originalFileName);
+		// String extension =
+		// originalFileName.substring(0,originalFileName.lastIndexOf(".")); // 파일 확장자
 		String savedFileName = originalFileName; // 저장될 파일 명
-        
-		
-		System.out.println("path : "+fileRoot+"\\"+savedFileName);
-		File targetFile = new File(fileRoot +"\\"+ savedFileName);
+
+		System.out.println("path : " + fileRoot + "\\" + savedFileName);
+		File targetFile = new File(fileRoot + "\\" + savedFileName);
 		JsonObject jsonObject = new JsonObject();
 		try {
 			InputStream fileStream = multipartFile.getInputStream();
 			FileUtils.copyInputStreamToFile(fileStream, targetFile);// 파일 저장
 			jsonObject.addProperty("url", "/sspl_finance/fileupload/" + savedFileName); // contextroot +
-																								// resources + 저장할 내부
+																						// resources + 저장할 내부
 			jsonObject.addProperty("responseCode", "success");
 
 		} catch (IOException e) {
@@ -136,14 +135,14 @@ public class CommunityController {
 		return a;
 
 	}
-	
+
 	@GetMapping("delete.do")
 	public String CommunityDelete(int comm_seq) throws ClassNotFoundException, SQLException {
 		System.out.println("진입5");
- 		System.out.println("comm_seq:" +comm_seq);
- 		int result = communityservice.communityDelete(comm_seq);
- 		System.out.println("한개 삭제 완료");
+		System.out.println("comm_seq:" + comm_seq);
+		int result = communityservice.communityDelete(comm_seq);
+		System.out.println("한개 삭제 완료");
 		return "redirect:/community/list.do";
 	}
-	 
+
 }

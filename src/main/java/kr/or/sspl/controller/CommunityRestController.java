@@ -1,5 +1,5 @@
 package kr.or.sspl.controller;
- 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,12 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.gson.JsonObject;
+ 
 
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dto.CommunityDto;
@@ -105,30 +101,44 @@ public class CommunityRestController {
 		}
 	}
 
-	//댓글조회
+	// 댓글조회
 	@GetMapping("replySelect/{comm_seq}")
-		public ResponseEntity<List<CommunityReplyDto>> ReplyList(@PathVariable int comm_seq) {  
-			List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
-			try {
-				System.out.println("정상실행");
-				System.out.println("comm_seq 값: "+comm_seq);
-				list =communityservice.communityReplyList(comm_seq);
-				return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.OK);
-			} catch (Exception e) {
-				return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.BAD_REQUEST);	
-			}
+	public ResponseEntity<List<CommunityReplyDto>> ReplyList(@PathVariable int comm_seq) {
+		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
+		try {
+			System.out.println("정상실행");
+			System.out.println("comm_seq 값: " + comm_seq);
+			list = communityservice.communityReplyList(comm_seq);
+			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.BAD_REQUEST);
 		}
-	
-	
-	@PostMapping("replyInsert")
-	public ResponseEntity<?> communityInsert(@RequestBody CommunityReplyDto communityReplyDto,
-		HttpServletRequest request) throws ClassNotFoundException, SQLException {
-		System.out.println("댓글입력컨트롤러 진입");
-		System.out.println(communityReplyDto.toString());
-		int result =communityservice.communityReplyInsert(communityReplyDto);
-		
-		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
+
+	//댓글 작성
+	@PostMapping("replyInsert")
+	public ResponseEntity<?> communityReplyInsert(@RequestBody CommunityReplyDto communityReplyDto,
+			HttpServletRequest request) throws ClassNotFoundException, SQLException {
+		//System.out.println("댓글입력컨트롤러 진입");
+		//System.out.println(communityReplyDto.toString());
+		int result = communityservice.communityReplyInsert(communityReplyDto);
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	//대댓글 작성
+	@PostMapping("reReplyInsert")
+	public ResponseEntity<?> communityReReplyInsert(@RequestBody CommunityReplyDto communityReplyDto,
+			HttpServletRequest request) throws ClassNotFoundException, SQLException {
+		System.out.println("댓댓입력컨트롤러 진입");
+		System.out.println(communityReplyDto.toString());
+		int comm_seq = communityservice.getCommSeq(communityReplyDto.getComm_reply_seq()); //comm_seq 받아오기
+		communityReplyDto.setComm_seq(comm_seq);
+		int result = communityservice.communityReReplyInsert(communityReplyDto);
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	
 	
 

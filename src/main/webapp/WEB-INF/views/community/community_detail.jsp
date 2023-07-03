@@ -135,12 +135,20 @@ $(function(){
       let html = "";
 
       $.each(data, function() {
-        html += "<div class='reply_item'>";
-        html += "<div class='user_id'>" + this.user_id + "</div>";
-        html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
-        html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";
-        html + "<hr />";
+    	  console.log("comm_reply_seq 는 "+this.comm_reply_seq);
+    	html += "<div class='d-flex justify-content-between'>"
+	        html += "<div class='reply_item'>";
+		        html += "<div class='user_id'>" + this.user_id + "</div>";
+		        html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
+		        html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
+        	html += "</div>";
+        	html += "<div class='btns'>";
+		        //html += "<div><input type='button' class ='reReply' value='대댓글작성' comm_reply_seq='"+this.comm_reply_seq+"'></div>";
+		        html += "<div><button type='button' class ='reReply' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
+		        html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='mx-3'>삭제</button></div>";
+		    html += "</div>";		    	
         html += "</div>";
+   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
       });
 	
       $("#replyList").append(html);
@@ -177,10 +185,50 @@ $(function(){
 		    }
 	  })
   });
+    //대댓글 작성
+    $(document).on("click","button[class='reReply']",function(){
+	  let comm_reply_seq = $(this).val();
+	  console.log(comm_reply_seq);
+	  console.log("여긴오냐");
+	  let html = "";
+// 	  html += "<div class='d-flex flex-row'>";
+	  html += "<input type='text' placeholder='내용을 입력해주세요' id ='comm_reply_content' class ='w-75'/>";
+	  html += "<div class ='w-25 row'><button type='button' class ='reReplyComplete col-5' value='"+this.comm_reply_seq+"'>작성완료</button>";
+	  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5'>취소</button></div>";
+	  html += "</div>";
+	  $('#hr'+comm_reply_seq).before(html);
+	   
+	  });
+	  
+    $(document).on("click","button[class='reReplyComplete']",function(){
+    	
+    	let data ={
+    		"comm_reply_content" : 	$("#comm_reply_content").val(), //내용
+    		"comm_reply_seq": $(this).val(), //기존댓글의 seq
+    		"user_id" : "shs1991", // 댓글작성자
+    	}
+ 		console.log(data.toString());
+    	$.ajax({
+  		  type: "post",
+  		  url: "/sspl_finance/restcommunity/reReplyInsert",
+  		  data: data,
+  		  dataType: "json",
+  		  contentType: "application/json; charset=utf-8",
+  		  success: function(data) {
+  		      console.log("대댓글 작성 됏유");
+  		      console.log(data);
+  		      getList();
+  		    }
+  	  })
+    	
+    })
+    
  
-});
+  });
 
-
+  
+  
+  
 
 </script>
 </html>

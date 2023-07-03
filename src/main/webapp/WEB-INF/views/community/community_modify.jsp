@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,129 +37,134 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- 글쓰기 내용 시작 -->
-<form action="modifyOk.do" method="post">
- 	<c:set var="detail" value="${requestScope.detaillist}" />
-	<div class="editBar py-5">
-		<div class="editCategory">
-			<select name="comm_category" class="readonly" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;">
-				<option value="${detail.comm_category}">${detail.comm_category}</option>
-			</select>
+	<form action="modifyOk.do" method="post">
+		<c:set var="detail" value="${requestScope.detaillist}" />
+		<div class="editBar py-5">
+			<div class="editCategory">
+				<select name="comm_category" class="readonly"
+					onFocus="this.initialSelect = this.selectedIndex;"
+					onChange="this.selectedIndex = this.initialSelect;">
+					<option value="${detail.comm_category}">${detail.comm_category}</option>
+				</select>
+			</div>
+			<div class="title">
+				제목 : <input type="text" placeholder="${detail.comm_title}" readonly
+					value="${detail.comm_title}" name="comm_title" />
+			</div>
+			<input type="hidden" name="comm_seq" value="${detail.comm_seq}">
 		</div>
-		<div class="title">
-			제목 : <input type="text" placeholder="${detail.comm_title}" readonly value="${detail.comm_title}" name="comm_title"/>
-		</div>
-		<input type="hidden" name="comm_seq" value="${detail.comm_seq}" >
-	</div>
-	<!-- 글쓰기 내용 끝 -->
+		<!-- 글쓰기 내용 끝 -->
 
-	<!-- summernote 시작 -->
-	<!-- https://programmer93.tistory.com/27 참고 -->
-	<div class="summernote">
-		<textarea id="summernote" name="comm_content">${detail.comm_content}</textarea>
-	</div>
-	<!-- summernote 끝 -->
-
-	<!-- 목록, 수정, 삭제 버튼 시작 -->
-	<div class="btns">
-		<div class="listBtn">
-			<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">목록</button>
-		</div> 
-		<div class="otherBtns">
-			<button type="button" class="btn btn-secondary" onclick="goWrite(this.form)">완료</button>
-			<button type="button" class="btn btn-secondary" onclick="location.href='list.do'">취소</button>
+		<!-- summernote 시작 -->
+		<!-- https://programmer93.tistory.com/27 참고 -->
+		<div class="summernote">
+			<textarea id="summernote" name="comm_content">${detail.comm_content}</textarea>
 		</div>
-	</div>
-</form>
+		<!-- summernote 끝 -->
+
+		<!-- 목록, 수정, 삭제 버튼 시작 -->
+		<div class="btns">
+			<div class="listBtn">
+				<button type="button" class="btn btn-secondary"
+					onclick="location.href='list.do'">목록</button>
+			</div>
+			<div class="otherBtns">
+				<button type="button" class="btn btn-secondary"
+					onclick="goWrite(this.form)">완료</button>
+				<button type="button" class="btn btn-secondary"
+					onclick="location.href='list.do'">취소</button>
+			</div>
+		</div>
+	</form>
 	<!-- 목록, 수정, 삭제 버튼 끝 -->
-<script>
-
-    	$('#summernote').summernote({
-				height: 300,                 // 에디터 높이
-				minHeight: null,             // 최소 높이
-				maxHeight: null,             // 최대 높이
-				focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-				lang: "ko-KR",					// 한글 설정
-				placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
-				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
-					onImageUpload : function(files) {
-						uploadSummernoteImageFile(files[0],this);
-					},
-					onPaste: function (e) {
-						var clipboardData = e.originalEvent.clipboardData;
-						if (clipboardData && clipboardData.items && clipboardData.items.length) {
-							var item = clipboardData.items[0];
-							if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-								e.preventDefault();
+	<script>
+		$('#summernote').summernote(
+				{
+					height : 300, // 에디터 높이
+					minHeight : null, // 최소 높이
+					maxHeight : null, // 최대 높이
+					focus : true, // 에디터 로딩후 포커스를 맞출지 여부
+					lang : "ko-KR", // 한글 설정
+					placeholder : '최대 2048자까지 쓸 수 있습니다', //placeholder 설정
+					callbacks : { //여기 부분이 이미지를 첨부하는 부분
+						onImageUpload : function(files) {
+							uploadSummernoteImageFile(files[0], this);
+						},
+						onPaste : function(e) {
+							var clipboardData = e.originalEvent.clipboardData;
+							if (clipboardData && clipboardData.items
+									&& clipboardData.items.length) {
+								var item = clipboardData.items[0];
+								if (item.kind === 'file'
+										&& item.type.indexOf('image/') !== -1) {
+									e.preventDefault();
+								}
 							}
 						}
 					}
+				});
+
+		/**
+		 * 이미지 파일 업로드
+		 */
+		function uploadSummernoteImageFile(file, editor) {
+			console.log("update call!!");
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				data : data,
+				type : "POST",
+				url : "/sspl_finance/community/image",
+				contentType : false,
+				processData : false,
+				success : function(data) {
+					//항상 업로드된 파일의 url이 있어야 한다.
+					//console.log(data);
+					//let json = JSON.parse(data);
+					//$(el).summernote('editor.insertImage',json["url"]);
+					//jsonArray.push(json["url"]);
+					//jsonFn(jsonArray);
+					$(editor).summernote('insertImage', data.url);
 				}
-	      });
-        
-        
+			});
+		}
 
-	/**
-	* 이미지 파일 업로드
-	*/
-	function uploadSummernoteImageFile(file, editor) {
-		console.log("update call!!");
-		data = new FormData();
-		data.append("file", file);
-		$.ajax({
-			data : data,
-			type : "POST",
-			url : "/sspl_finance/community/image",
-			contentType : false,
-			processData : false,
-			success : function(data) {
-            	//항상 업로드된 파일의 url이 있어야 한다.
-            	//console.log(data);
-                //let json = JSON.parse(data);
-                //$(el).summernote('editor.insertImage',json["url"]);
-                //jsonArray.push(json["url"]);
-                //jsonFn(jsonArray);
-				$(editor).summernote('insertImage', data.url);
+		$("div.note-editable")
+				.on(
+						'drop',
+						function(e) {
+							for (i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {
+								uploadSummernoteImageFile(
+										e.originalEvent.dataTransfer.files[i],
+										$("#summernote")[0]);
+							}
+							e.preventDefault();
+						})
+
+		function goWrite(frm) {
+			let comm_category = frm.comm_category.value;
+			let comm_title = frm.comm_title.value;
+			let comm_content = $($("#summernote").summernote("code")).text();//frm.comm_content.value;
+			console.log("comm_category : " + comm_category);
+			console.log("comm_title : " + comm_title);
+			console.log("comm_content : " + comm_content);
+			if (comm_category.trim() == '') {
+				alert("카테고리를 입력해주세요");
+				return false;
 			}
-		});
-	}
+			if (comm_title.trim() == '') {
+				alert("제목를 입력해주세요");
+				return false;
+			}
+			if (comm_content.trim() == '') {
+				alert("내용을 입력해주세요");
+				return false;
+			}
+			frm.submit();
 
-	$("div.note-editable").on(
-					'drop',
-					function(e) {
-						for (i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {
-							uploadSummernoteImageFile(
-									e.originalEvent.dataTransfer.files[i],
-									$("#summernote")[0]);
-						}
-						e.preventDefault();
-					})
- 
-
-	function goWrite(frm) {
-		let comm_category = frm.comm_category.value;
-		let comm_title = frm.comm_title.value;
-		let comm_content = $($("#summernote").summernote("code")).text();//frm.comm_content.value;
-		console.log("comm_category : "+ comm_category);
-		console.log("comm_title : "+ comm_title);
-		console.log("comm_content : "+ comm_content);  
-		if (comm_category.trim() == '') {
-			alert("카테고리를 입력해주세요");
-			return false;
 		}
-		if (comm_title.trim() == '') {
-			alert("제목를 입력해주세요");
-			return false;
-		}
-		if (comm_content.trim() == '') {
-			alert("내용을 입력해주세요");
-			return false;
-		}
-		frm.submit();
-		
-	}
-
-</script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+	</script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
 </body>
 </html>

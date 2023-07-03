@@ -8,25 +8,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 댓글 조회 -->
 	<select id="communityReplyList" parameterType="int"
 		resultType="kr.or.sspl.dto.CommunityReplyDto">
-		 select user_id,
-			   comm_reply_content,
-			   to_char(comm_reply_writen_date,'yyyy-mm-dd') 
+		select user_id,
+		comm_reply_seq,
+		comm_reply_content,
+		to_char(comm_reply_writen_date,'yyyy-mm-dd')
 		from community_reply
-		where comm_seq= #{comm_seq}
-		order by comm_reply_writen_date asc
+		where
+		comm_seq= #{comm_seq}
+		order by
+		comm_reply_writen_date asc
 	</select>
-	
-	
-	
-	<!-- <insert id="communityReplyInsert" parameterType="kr.or.sspl.dto.SaveReqDto"> 
-		<selectKey order="BEFORE" keyProperty="comm_seq" resultType="int"> SELECT 
-		MAX(comm_seq)+1 FROM community </selectKey> insert into community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count) 
-		values(#{comm_seq},#{user_id},#{comm_title},#{comm_content},sysdate,#{comm_category},0) 
-		</insert> -->
+
+	<!-- comm_seq 조회 -->
+	<select id="getCommSeq" parameterType="int">
+		select comm_seq from
+		community_reply
+		where comm_reply_seq =#{comm_reply_seq}
+	</select>
+ 
 	<!-- 첫 댓글 추가 -->
-	<insert id="communityReplyInsert" parameterType="kr.or.sspl.dto.CommunityReplyDto">
-		insert into community_reply(comm_reply_seq, comm_seq, user_id, comm_reply_content, comm_reply_writen_date, step, refer, depth)
-		values (comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_seq},0)
+	<insert id="communityReplyInsert"
+		parameterType="kr.or.sspl.dto.CommunityReplyDto">
+		insert into community_reply(comm_reply_seq, comm_seq,
+		user_id, comm_reply_content, comm_reply_writen_date, step, refer,
+		depth)
+		values
+		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_seq},0)
+	</insert>
+
+	<!-- 대댓글 추가 -->
+	<insert id="communityReReplyInsert"
+		parameterType="kr.or.sspl.dto.CommunityReplyDto" >
+		insert into community_reply(comm_reply_seq, comm_seq,
+		user_id, comm_reply_content, comm_reply_writen_date, step, refer,
+		depth)
+		values
+		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_reply_seq},1)
 	</insert>
 
 	<!-- 댓글 삭제 -->
