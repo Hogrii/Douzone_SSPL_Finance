@@ -103,15 +103,15 @@ hr {
 					td += "<td><a href='searchDetail.do?stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
 					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-danger'>▲" + yesterday + "</td>";
+					td += "<td class='text-danger'>▲" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>+" + per + "</td>";						
 					}else if(parseInt(sign) > 3) { //전일 대비 하락일 경우
 					td += "<td class='text-primary'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-primary'>▼" + yesterday + "</td>";
+					td += "<td class='text-primary'>▼" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-primary'>" + per + "</td>";												
 					}else if(parseInt(sign) == 3){ //전일과 동일한 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-danger'>" + yesterday + "</td>";
+					td += "<td class='text-danger'>" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>" + per + "</td>";
 					}
 					tr.append(td);
