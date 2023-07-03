@@ -25,16 +25,16 @@ public class SearchController {
 	}
 	
 	@GetMapping("searchList.do")
-	public String searchList() {
+	public String searchList(String stock_name, Model model) {
+		model.addAttribute("stock_name",stock_name);
 		return "search/search_list";
 	}
 	
 	@GetMapping("searchKeyword.do")
 	@ResponseBody
-	public List<StockDto> searchList(String stock_name) {
+	public List<StockDto> searchStockList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		stockList = searchService.searchList(stock_name);
-		System.out.println(stockList);
 		return stockList;
 	}
 	
@@ -58,4 +58,23 @@ public class SearchController {
 		String jsonResponse = searchService.searchForChart(stock_code, category, start_date, end_date);
 		return jsonResponse;
 	}
+	
+	@GetMapping("searchForMainRankTable.do")
+	@ResponseBody
+	public String searchForMainRankTable() {
+		String jsonResponse = searchService.searchForMainRankTable();
+		return jsonResponse;
+	}
+	
+	@GetMapping("searchForMainChart.do")
+	@ResponseBody
+	public String searchForMainChart(String industry_code, String start_date, String end_date) {
+		System.out.println(industry_code);
+		System.out.println(start_date);
+		System.out.println(end_date);
+		String jsonResponse = searchService.searchForMainChart(industry_code, start_date, end_date);
+		return jsonResponse;
+	}
+	
+	
 }
