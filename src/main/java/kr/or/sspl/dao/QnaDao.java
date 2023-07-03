@@ -43,4 +43,7 @@ public interface QnaDao {
 	
 	// 댓글 삭제
 	public void qnaReplyDelete(int qna_reply_seq);
+	
+	// 게시글 삭제 시 댓글 삭제
+	public void qnaReplyAllDelete(int qna_seq);
 }

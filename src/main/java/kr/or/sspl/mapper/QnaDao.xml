@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM (
 				SELECT ROWNUM AS RN, QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
 				FROM QNA
-				ORDER BY QNA_SEQ ASC)
+				ORDER BY QNA_SEQ DESC)
 			WHERE RN BETWEEN #{start} AND #{end}
 		]]>
 	</select>
@@ -93,6 +93,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 댓글 삭제 -->
 	<delete id="qnaReplyDelete" parameterType="int">
 		DELETE FROM QNA_REPLY WHERE QNA_REPLY_SEQ = #{qna_reply_seq}
+	</delete>
+	
+	<!-- 게시글 삭제 시 댓글 삭제 -->
+	<delete id="qnaReplyAllDelete" parameterType="int">
+		DELETE FROM QNA_REPLY WHERE QNA_SEQ = #{qna_seq}
 	</delete>
 </mapper>
 

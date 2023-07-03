@@ -113,6 +113,7 @@ public class QnaService {
 	public void qnadelete(String qna_seq) {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaReplyAllDelete(Integer.parseInt(qna_seq));
 			qnaDao.qnaDelete(Integer.parseInt(qna_seq));
 		}catch(Exception e) {
 			e.printStackTrace();
