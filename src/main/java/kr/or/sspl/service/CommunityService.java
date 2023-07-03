@@ -26,12 +26,13 @@ import kr.or.sspl.dto.SaveReqDto;
 public class CommunityService {
 
 	private SqlSession sqlsession;
- 
+
 	@Autowired
 	public void setSession(SqlSession sqlsession) {
 		this.sqlsession = sqlsession;
 	}
-	//전체 데이터 갯수
+
+	// 전체 데이터 갯수
 	public int CommunityCount(Model model) throws ClassNotFoundException, SQLException {
 		int result = 0;
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
@@ -79,14 +80,14 @@ public class CommunityService {
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
 	}
-	
-	//상세페이지
-	public void getDetailList(int comm_seq,Model model) throws ClassNotFoundException, SQLException {
+
+	// 상세페이지
+	public void getDetailList(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
 		model.addAttribute("detaillist", communityDto);
 	}
- 
+
 	public int searchListTotal(Model model) throws ClassNotFoundException, SQLException {
 		int result = 0;
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
@@ -94,7 +95,7 @@ public class CommunityService {
 		model.addAttribute("searchTotal", result);
 		return result;
 	}
-	
+
 	// 비동기 조건 검색
 	public List<CommunityDto> getSearchList(CommunitySearchData searchData)
 			throws ClassNotFoundException, SQLException {
@@ -109,47 +110,66 @@ public class CommunityService {
 	public int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException {
 		System.out.println(saveReqDto.toString());
 		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
-		int result =communityDao.communityInsert(saveReqDto);
+		int result = communityDao.communityInsert(saveReqDto);
 		return result;
 
 	}
-	//게시물 수정
-	public int communityUpdate(SaveReqDto saveReqDto)throws ClassNotFoundException, SQLException {
+
+	// 게시물 수정
+	public int communityUpdate(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException {
 		System.out.println("업데이트 서비스 진입");
 		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
 		int result = communityDao.communityUpdate(saveReqDto);
 		return result;
 	}
-	//게시물 삭제
-	public int communityDelete(int comm_seq)throws ClassNotFoundException, SQLException {
+
+	// 게시물 삭제
+	public int communityDelete(int comm_seq) throws ClassNotFoundException, SQLException {
 		System.out.println("삭제 서비스 진입");
-		
+
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
-		communityReplyDao.communityReplyDelete(comm_seq); //댓글 우선 삭제
+		communityReplyDao.communityReplyDelete(comm_seq); // 댓글 우선 삭제
 		CommunityDao communityDao = sqlsession.getMapper(CommunityDao.class);
- 		int result = communityDao.communityDelete(comm_seq); // 본 글 삭제
- 		System.out.println("무사귀가");
+		int result = communityDao.communityDelete(comm_seq); // 본 글 삭제
+		System.out.println("무사귀가");
 		return result;
 	}
-	
-	//댓글 조회
-	public List<CommunityReplyDto> communityReplyList(int comm_seq){
+
+	// 댓글 조회
+	public List<CommunityReplyDto> communityReplyList(int comm_seq) {
 		System.out.println("댓글 서비스 옴");
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
-		System.out.println("왜 안오냐");//여기 안탐....
+		System.out.println("왜 안오냐");// 여기 안탐....
 		List<CommunityReplyDto> list = communityReplyDao.communityReplyList(comm_seq);
 		System.out.println(list.toString());
 		return list;
 	}
-	
-	//댓글 입력
+
+	// 댓글 입력
 	public int communityReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {
 
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
-		int result =communityReplyDao.communityReplyInsert(communityReplyDto);
-		System.out.println(result+"입력완료");
+		int result = communityReplyDao.communityReplyInsert(communityReplyDto);
+		System.out.println(result + "입력완료");
 		return result;
 
 	}
-	 
+
+	// 대댓글 입력
+	public int communityReReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {
+
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		int result = communityReplyDao.communityReReplyInsert(communityReplyDto);
+		System.out.println(result + "입력완료");
+		return result;
+
+	}
+	
+	//comm_seq 조회
+	public int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException {
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		int result = communityReplyDao.getCommSeq(comm_reply_seq);
+		return result;
+	}
+
 }
