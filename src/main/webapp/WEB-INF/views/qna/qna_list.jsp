@@ -60,7 +60,7 @@ box-icon {
 							tr += "<td>" + item.qna_category + "</td>";
 							tr += "<td><a href='qnaDetail.do?qna_seq="
 									+ item.qna_seq
-									+ "> <box-icon name='lock'' type='solid'></box-icon>"
+									+ "'> <box-icon name='lock'' type='solid'></box-icon>"
 									+ item.qna_title + "</a></td>";
 							tr += "<td>" + item.user_id + "</td>";
 							tr += "<td>" + item.qna_date + "</td>";
