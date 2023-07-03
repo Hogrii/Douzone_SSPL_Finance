@@ -80,9 +80,7 @@ public class QnaService {
 				request.setAttribute("totalcount", totalcount);
 			}catch(Exception e) {
 				e.printStackTrace();
-			}
-			
-			
+			}			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -99,9 +97,6 @@ public class QnaService {
 			qna = qnaDao.qna(qna_seq);
 			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));
 			System.out.println("댓글 개수 : " + qnaReplyList.size());
-			if(qnaReplyList.size()==0) {
-				qnaDao.qnaInitState(qna_seq);
-			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
