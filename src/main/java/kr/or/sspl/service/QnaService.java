@@ -177,4 +177,20 @@ public class QnaService {
 			e.printStackTrace();
 		}
 	}
+	
+	// 댓글 수정
+	public QnaReplyDto qnaModifyReply(String qna_reply_seq, String qna_reply_content) {
+		Map<String, String> replyModifyMap = new HashMap<String, String>();
+		QnaReplyDto replyDto = null;
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			replyModifyMap.put("qna_reply_seq", qna_reply_seq);
+			replyModifyMap.put("qna_reply_content", qna_reply_content);
+			qnaDao.qnaModifyReply(replyModifyMap);
+			replyDto = qnaDao.getQnaReply(qna_reply_seq);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return replyDto;
+	}
 }

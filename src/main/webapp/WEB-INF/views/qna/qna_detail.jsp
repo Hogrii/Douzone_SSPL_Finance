@@ -118,28 +118,53 @@
 						</div>
 					</div>
 				</form>
+				
+				<hr />
+				<c:forEach var="replyList" items="${qnaReplyList }">
+					<div class="d-flex flex-row mb-2 reply">
+						<label for="reply" class="form-label col-md-2"><span
+							class="text-danger">*</span>답변내용</label>
+						<div class="col-md-8">
+							<input 
+								class="col-md-11"
+								type="text" 
+								id="qna_reply_editContent${replyList.qna_reply_seq}" 
+								name="qna_reply_content"
+								value="${replyList.qna_reply_content }"
+								style="word-break:keep-all; display:none"
+								 />
+							<div 
+								class="col-md-11" 
+								id="qna_reply_content${replyList.qna_reply_seq}"
+								style="word-break:break-all">
+								${replyList.qna_reply_content }
+							</div>
+						</div>
+						<div class="d-flex flex-row">
+							<div>
+								<input type="button" class="updateReply" id="updateReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="수정">								
+							</div>
+							<div style="margin-left: 5px">
+								<input type="button" class="deleteReply" id="deleteReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="삭제">
+							</div>
+						</div>
+						<div class="d-flex flex-row">
+							<div>
+								<input type="button" class="updateOkReply" id="updateOkReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="완료" style="display:none">								
+							</div>
+							<div style="margin-left: 5px">
+								<input type="button" class="cancleReply" id="cancleReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="취소" style="display:none">
+							</div>
+						</div>
+						<!-- 
+						"deleteReply.do?qna_reply_seq=${replyList.qna_reply_seq }&qna_seq=${qna.qna_seq}"
+						<a href="modifyReply.do?qna_reply_seq=${replyList.qna_reply_seq }&qna_seq=${qna.qna_seq}">o</a>
+						 -->
+					</div>
+				</c:forEach>
 				<form
 					action="qnaReplyOk.do?qna_seq=${qna.qna_seq }&user_id=${qna.user_id}"
 					method="post">
-					<hr />
-					<c:forEach var="replyList" items="${qnaReplyList }">
-						<div class="d-flex flex-row mb-2">
-							<label for="reply" class="form-label col-md-2"><span
-								class="text-danger">*</span>답변내용</label>
-							<div class="col-md-10">
-								<div 
-									class="col-md-10" 
-									style="word-break:break-all">
-									${replyList.qna_reply_content }
-								</div>
-							</div>
-							<div class="col-md-2">
-								<a href="deleteReply.do?qna_reply_seq=${replyList.qna_reply_seq }&qna_seq=${qna.qna_seq}">x</a>
-							</div>
-							
-						</div>
-					</c:forEach>
-
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="reply" class="form-label col-md-2"><span
@@ -162,5 +187,84 @@
 		</div>
 	</div>
 	<!-- footer 영역 -->
+	
+	<script>
+		$('.deleteReply').on('click', function(){
+			console.log("삭제하러갈거야");
+			console.log("qna_seq : " + $(this).attr("qna_seq"));
+			console.log("qna_reply_seq : " + $(this).attr("qna_reply_seq"));
+			let qna_seq = $(this).attr("qna_seq");
+			let qna_reply_seq = $(this).attr("qna_reply_seq"); 
+			$.ajax({
+				url : "deleteReply.do",
+				data : "qna_seq="+qna_seq+"&qna_reply_seq="+qna_reply_seq,
+				success : function(response) {
+					console.log("다녀왔어요~");
+				}
+			})
+			$('#qna_reply_content'+qna_reply_seq).parent().parent().remove();
+		})
+		
+		$('.updateReply').on('click', function(){
+			console.log("수정버튼 눌렀어~");
+			let qna_reply_seq = $(this).attr("qna_reply_seq");
+			$('#deleteReply'+qna_reply_seq).attr("style", "display:none");
+			$('#updateReply'+qna_reply_seq).attr("style", "display:none");
+			$('#updateOkReply'+qna_reply_seq).removeAttr('style');
+			$('#cancleReply'+qna_reply_seq).removeAttr('style');
+			
+			$('#qna_reply_editContent'+qna_reply_seq).removeAttr('style');
+			$('#qna_reply_editContent'+qna_reply_seq).attr("style", "word-break:keep-all");
+			$('#qna_reply_content'+qna_reply_seq).removeAttr('style');
+			$('#qna_reply_content'+qna_reply_seq).attr("style", "display:none");
+		})
+		
+		$('.cancleReply').on('click', function(){
+			console.log("취소버튼 눌렀어~");
+			let qna_reply_seq = $(this).attr("qna_reply_seq");
+			$('#updateOkReply'+qna_reply_seq).attr("style", "display:none");
+			$('#cancleReply'+qna_reply_seq).attr("style", "display:none");
+			$('#deleteReply'+qna_reply_seq).removeAttr('style');
+			$('#updateReply'+qna_reply_seq).removeAttr('style');
+			
+			$('#qna_reply_content'+qna_reply_seq).removeAttr('style');
+			$('#qna_reply_content'+qna_reply_seq).attr("style", "word-break:break-all");
+			$('#qna_reply_editContent'+qna_reply_seq).removeAttr('style');
+			$('#qna_reply_editContent'+qna_reply_seq).attr("style", "display:none");
+		})
+		
+		$('.updateOkReply').on('click', function(){
+			console.log("수정합시다~");
+			let qna_reply_seq = $(this).attr("qna_reply_seq");
+			console.log("seq : " + qna_reply_seq);
+			
+			let data = {
+				"qna_reply_seq" : qna_reply_seq,
+				"qna_reply_content": $('#qna_reply_editContent'+qna_reply_seq).val()
+			}
+			console.log(data);
+			$.ajax({
+				url : "updateOkReply.do",
+				type : "POST",
+				data: data,
+				success : function(response) {
+					console.log("수정하고 왔어요~~");
+					console.log("response : " + response.qna_reply_content);
+					let div = "";
+					div += "<div class='col-md-11' id='qna_reply_content" + qna_reply_seq + "'>";
+					div += response.qna_reply_content;
+					div += "</div>";
+					$('#qna_reply_content'+qna_reply_seq).remove();
+					$('#qna_reply_editContent' + qna_reply_seq).after(div);
+					$('#qna_reply_editContent' + qna_reply_seq).attr("style", "display:none");
+					
+					$('#updateOkReply'+qna_reply_seq).attr("style", "display:none");
+					$('#cancleReply'+qna_reply_seq).attr("style", "display:none");
+					$('#deleteReply'+qna_reply_seq).removeAttr('style');
+					$('#updateReply'+qna_reply_seq).removeAttr('style');
+				}
+			})
+		})	
+	</script>
 </body>
 </html>

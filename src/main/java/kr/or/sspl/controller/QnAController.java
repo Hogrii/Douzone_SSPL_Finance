@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonObject;
 
 import kr.or.sspl.dto.QnaDto;
+import kr.or.sspl.dto.QnaReplyDto;
 import kr.or.sspl.service.QnaService;
 
 @Controller
@@ -87,8 +87,22 @@ public class QnAController {
 	// 댓글 작성
 	@RequestMapping("qnaReplyOk.do")
 	public String qnaReplyOk(String user_id, String qna_seq, String qna_reply_content) {
+		System.out.println("con user_id : " + user_id);
+		System.out.println("con qna_seq : " + qna_seq);
+		System.out.println("con replycontent : " + qna_reply_content);
 		qnaService.qnaReply(user_id, qna_seq, qna_reply_content);
 		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
+	}
+	
+	// 댓글 수정
+	@RequestMapping("updateOkReply.do")
+	@ResponseBody
+	public QnaReplyDto updateOkReply(String qna_reply_seq, String qna_reply_content) {
+		System.out.println("수정하러 왔어요~");
+		System.out.println("qna_reply_seq : " + qna_reply_seq);
+		System.out.println("qna_reply_content : " + qna_reply_content);
+		QnaReplyDto replyDto = qnaService.qnaModifyReply(qna_reply_seq, qna_reply_content);
+		return replyDto;
 	}
 	
 	//파일업로드
@@ -182,7 +196,9 @@ public class QnAController {
 	
 	// 댓글 삭제
 	@RequestMapping("deleteReply.do")
-	public String deleteReply(String qna_reply_seq, String qna_seq) {
+	public String deleteReply(String qna_seq, String qna_reply_seq) {
+		System.out.println("con reseq : " + qna_reply_seq);
+		System.out.println("con qnaseq : " + qna_seq);
 		qnaService.deleteReply(qna_reply_seq);
 		return "redirect:/qna/qnaDetail.do?qna_seq="+qna_seq;
 	}

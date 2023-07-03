@@ -46,4 +46,10 @@ public interface QnaDao {
 	
 	// 게시글 삭제 시 댓글 삭제
 	public void qnaReplyAllDelete(int qna_seq);
+	
+	// 댓글 수정
+	public void qnaModifyReply(Map<String, String> replyModifyMap);
+	
+	// 댓글 가져오기
+	public QnaReplyDto getQnaReply(String qna_reply_seq);
 }
