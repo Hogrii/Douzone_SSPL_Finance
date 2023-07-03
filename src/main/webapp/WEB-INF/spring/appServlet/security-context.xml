@@ -3,38 +3,50 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/security 
-	                    http://www.springframework.org/schema/security/spring-security-4.0.xsd
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 페이지 접근 권한 -->
-	<!-- 
-		<security:http auto-config="true">		
-			<security:intercept-url
-				pattern="/member/mainpage.do" access="hasRole('ROLE_ADMIN')" />
-			<security:intercept-url
-				pattern="/customer/*Reg.htm" access="hasRole('ROLE_ADMIN')" />
-				<security:intercept-url
-				pattern="/resources/**" access="permitAll()" />
-		</security:http>
-	 -->
+ 
+ <mvc:annotation-driven/>
+ 
+	<security:http >
+	 <security:csrf disabled="true" />
+		<security:form-login login-page="/member/login"
+		                     default-target-url="/"
+		                     authentication-failure-url="/member/login?error"/>
+		                     
+		<security:logout     logout-url = "/member/logout"
+							 logout-success-url="/"/>
+	
+		<security:intercept-url pattern="/community/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/kanban/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/qna/**" access="hasRole('ROLE_USER')" />
+  		<security:intercept-url pattern="/resources/**" access="permitAll()" />
+  		
+  		<!-- 자동로그인 기능  -->
+ <!--  		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/> -->
+	</security:http>
+
+
 	<!-- 권한 확인 -->
-	<!-- 
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service
-				data-source-ref="driverManagerDataSource"
-				users-by-username-query="SELECT USERID, pwd AS PASSWORD, 1 enabled FROM member where userid=?"
-				authorities-by-username-query="select m.USERID , r.ROLE_NAME  
-							           from member m join roll r 
-							           on m.userid = r.userid 
-							           where m.userid=?" />
-			<security:password-encoder
-				ref="bCryptPasswordEncoder" />
-		</security:authentication-provider>
-	</security:authentication-manager>
-	 -->
+	 
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:jdbc-user-service
+                data-source-ref="driverManagerDataSource"
+                users-by-username-query="select user_id, password, 1 as enabled from member where user_id=?"
+                authorities-by-username-query="select m.user_id, r.role_name 
+                                                from member m join member_roll r
+                                                on m.user_id = r.user_id
+                                                where m.user_id=?"
+            />
+            <security:password-encoder ref="bCryptPasswordEncoder" />
+        </security:authentication-provider>
+    </security:authentication-manager>
 </beans>
 
 

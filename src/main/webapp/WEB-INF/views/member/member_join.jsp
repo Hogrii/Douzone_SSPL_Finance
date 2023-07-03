@@ -25,7 +25,7 @@ form {
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/resources/js/member/member.join.js"></script>
+	src="${pageContext.request.contextPath }/resources/js/member/member_join.js"></script>
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
 	rel="stylesheet" type="text/css" />
@@ -82,7 +82,7 @@ form {
 					가입하기</button>
 				<button type="button" class="btn btn-secondary ml-3 px-4 btn-sm"
 					onClick="location.href='${pageContext.request.contextPath}/'">
-					취소하기</button>
+					취소하기</button>	
 			</div>
 		</form>
 	</div>

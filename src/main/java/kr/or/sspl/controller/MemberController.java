@@ -41,7 +41,7 @@ public class MemberController {
 		return "/member/member_mypage";
 	}
 	
-	@PostMapping("modify")
+	@GetMapping("member_modify")
 	public String modify() {
 		
 		return "/member/member_modify";
