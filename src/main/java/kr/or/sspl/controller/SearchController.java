@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.sspl.dto.LookupListDto;
 import kr.or.sspl.dto.StockDto;
 import kr.or.sspl.service.SearchService;
 
@@ -49,7 +52,24 @@ public class SearchController {
 	public String searchDetail(String stock_code, String stock_name, Model model) {
 		model.addAttribute("stock_code", stock_code);
 		model.addAttribute("stock_name", stock_name);
+		LookupListDto lookupListDto = searchService.searchLookupOne("shs1991", stock_code);
+		System.out.println("³ª¿À´Ï" + lookupListDto);
+		if(lookupListDto == null) {
+			lookupListDto = new LookupListDto();
+			lookupListDto.setUser_id("shs1991");
+			lookupListDto.setStock_code(stock_code);
+			searchService.insertSearch(lookupListDto);
+		}
+		model.addAttribute("lookup_category_num",lookupListDto.getLookup_category_num());
 		return "search/search_detail";
+	}
+	
+	@GetMapping("updateFavorite.do")
+	@ResponseBody
+	public LookupListDto updateFavorite(LookupListDto lookupList) {
+		System.out.println("³Ê ¹¹¶ó°í ÂïÈ÷´Ï? : " + lookupList.getLookup_category_num());
+		lookupList = searchService.updateFavorite(lookupList);
+		return lookupList;
 	}
 	
 	@GetMapping("searchForChart.do")

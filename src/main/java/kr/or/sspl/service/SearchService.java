@@ -13,7 +13,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.sspl.dao.LookupListDao;
 import kr.or.sspl.dao.SearchDao;
+import kr.or.sspl.dto.LookupListDto;
 import kr.or.sspl.dto.StockDto;
 
 @Service
@@ -25,7 +27,8 @@ public class SearchService {
 	public void setSession(SqlSession sqlsession) {
 		this.sqlsession = sqlsession;
 	}
-	
+
+	//종목 이름으로 코드 검색
 	public List<StockDto> searchList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		try {
@@ -40,6 +43,7 @@ public class SearchService {
 		return stockList;
 	}
 	
+	//종목 코드로 상세 정보 검색
 	public String searchByCode(String stock_code) {
 		String jsonResponse = null;
 		//주식현재가 시세 요청 주소
@@ -56,6 +60,7 @@ public class SearchService {
 		 return jsonResponse;
 	}
 	
+	//종목검색 상세 페이지 차트 데이터
 	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
 		String jsonResponse = null;
 		//국내주식기간별 시세 요청 주소
@@ -79,6 +84,50 @@ public class SearchService {
 		return jsonResponse;
 	}
 	
+	//기존 검색 목록에 있는지 여부 확인
+	public LookupListDto searchLookupOne(String user_id, String stock_code) {
+		LookupListDto lookupListDto = null;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("user_id", user_id);
+		map.put("stock_code", stock_code);
+		try {
+			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
+			lookupListDto = lookupListDao.selectSearchOne(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return lookupListDto;
+	}
+	
+	//검색 목록에 추가
+	public void insertSearch(LookupListDto lookupList) {
+		try {
+			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
+			lookupListDao.insertSearch(lookupList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	//즐겨찾기 등록/해제
+	public LookupListDto updateFavorite(LookupListDto lookupList) {
+		try {
+			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
+			lookupListDao.updateFavorite(lookupList);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("user_id", lookupList.getUser_id());
+			map.put("stock_code", lookupList.getStock_code());
+			lookupList = lookupListDao.selectSearchOne(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return lookupList;
+	}
+	
+	//메인페이지 테이블 데이터
 	public String searchForMainRankTable() {
 		String jsonResponse = null;
 		//국내주식기간별 시세 요청 주소
@@ -111,6 +160,7 @@ public class SearchService {
 		return jsonResponse;
 	}
 	
+	//메인페이지 차트 데이터
 	public String searchForMainChart(String industry_code, String start_date, String end_date) {
 		String jsonResponse = null;
 		//국내주식기간별 시세 요청 주소
@@ -141,7 +191,7 @@ public class SearchService {
 	            connection.setRequestMethod("GET");
 	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjRjMWQzYWI0LWI1ZTctNDBmNS05ZDM3LWNkNDJlODJmZWI3NSIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4MzczMjY0LCJpYXQiOjE2ODgyODY4NjQsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.J1vWcstJ1USFH4zlZvamo69J1GXxZm2NdS7vpsvpX9B1qXBrxeAQEC_SysHKlREiq6R8aGNFWMp0Hp96Wb7AiQ");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjE5YTliZjU0LTAxMmEtNGI5MC04MmY2LTI4NDA2YTI1MzIyMiIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NDYwNjY1LCJpYXQiOjE2ODgzNzQyNjUsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.b3qDLsbXifOtOqj5SiksqNZWSDY1BhmPos_m1zHaE5v1i55ItMmNMz_sptETyX58FREIfnmpsJ77msZ-j0Rh9w");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
 	            connection.setRequestProperty("tr_id", tr_id);

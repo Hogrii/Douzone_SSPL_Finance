@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -207,6 +208,31 @@
 			});
 		});
 		$('#first_btn').click();
+		
+		//즐겨찾기 버튼
+		$('#favorite').on('click',function() {
+			let lookup_category_num = $('#favorite').val();
+			console.log('lookup_category_num : ' + lookup_category_num);
+			//즐겨찾기 등록
+			if(lookup_category_num == 1) {
+				$('#favorite').removeClass('btn-light').addClass('btn-secondary').val(0).text('해제');
+			}else {//즐겨찾기 해제
+				$('#favorite').removeClass('btn-secondary').addClass('btn-light').val(1).text('등록');				
+			}
+			$.ajax({
+				url : "updateFavorite.do",
+				type : "GET",
+				data : {
+					"user_id" : "shs1991",
+					"stock_code" : stock_code,
+					"lookup_category_num" : lookup_category_num
+				},
+				dataType : "JSON",
+				success : function(data) {
+					console.log(data);
+				}
+			});
+		});
 	});
 </script>
 <style>
@@ -227,7 +253,17 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
 	<div class="container my-5">
-		<h5>${stock_name} (<span id="stock_code">${stock_code}</span>)</h5>
+		<div class="d-flex flex-row">
+			<h4><b>${stock_name}</b> (<span class="mx-1" id="stock_code">${stock_code}</span>)</h4>
+			<c:choose>
+				<c:when test="${lookup_category_num == 0}">
+					<button id="favorite" type="button" class="btn btn-light mx-3" value="1">등록</button>		
+				</c:when>
+				<c:otherwise>
+					<button id="favorite" type="button" class="btn btn-secondary mx-3" value="0">해제</button>		
+				</c:otherwise>
+			</c:choose>
+		</div>
 		<hr class="my-4" />
 		<table class="table my-5" id="detail_table">
 			<thead>
