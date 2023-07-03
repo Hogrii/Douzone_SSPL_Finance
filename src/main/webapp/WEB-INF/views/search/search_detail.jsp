@@ -154,7 +154,7 @@
 					let ctx = document.getElementById("myChart").getContext("2d");
 			        let chart_data = [];
 			        $.each(data.output2.reverse(), function(index, item) {
-			        	  let date = item.stck_bsop_date.replace("/(\d{4})(\d{2})(\d{2})/", '$1-$2-$3');
+			        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
 			        	  let price = item.stck_clpr;
 			        	  let each_data = [date, price];
 			        	  chart_data.push(each_data);
@@ -245,7 +245,7 @@
 			</tbody>
 		</table>
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-xxl-8 col-xl-12">
 				<div class="d-grid gap-2 d-md-block">
 					<button type="button" class="btn btn-secondary btn-sm chart_btn" value="D" id="first_btn"
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
@@ -260,11 +260,11 @@
 						style="-bs-btn-padding-y: 0.25rem; - -bs-btn-padding-x: 1rem; - -bs-btn-font-size: 0.75rem;">
 						년</button>
 				</div>
-				<div class="chart">
+				<div class="chart" id="chartContainer">
 					<canvas id="myChart"></canvas>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-xxl-4 col-xl-12">
 				<table class="table text-center h-100 align-middle" id="chart_table"
 					border="1">
 					<tbody>
