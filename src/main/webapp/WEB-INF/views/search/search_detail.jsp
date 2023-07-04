@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -207,7 +208,7 @@
 			});
 		});
 		$('#first_btn').click();
-		
+		let user_id = $('#login_id').val();
 		//즐겨찾기 버튼
 		$('#favorite').on('click',function() {
 			let lookup_category_num = $('#favorite').val();
@@ -222,7 +223,7 @@
 				url : "updateFavorite.do",
 				type : "GET",
 				data : {
-					"user_id" : "shs1991",
+					"user_id" : user_id,
 					"stock_code" : stock_code,
 					"lookup_category_num" : lookup_category_num
 				},
@@ -248,6 +249,8 @@
 </style>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->

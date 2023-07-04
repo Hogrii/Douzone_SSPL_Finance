@@ -66,6 +66,7 @@ public class SearchController {
 	@GetMapping("updateFavorite.do")
 	@ResponseBody
 	public LookupListDto updateFavorite(LookupListDto lookupList) {
+		System.out.println(lookupList);
 		lookupList = searchService.updateFavorite(lookupList);
 		return lookupList;
 	}
