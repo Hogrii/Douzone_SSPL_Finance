@@ -28,7 +28,7 @@ public class SearchService {
 		this.sqlsession = sqlsession;
 	}
 
-	//���� �̸����� �ڵ� �˻�
+	//종목 이름으로 코드 검색
 	public List<StockDto> searchList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		try {
@@ -43,48 +43,48 @@ public class SearchService {
 		return stockList;
 	}
 	
-	//���� �ڵ�� �� ���� �˻�
+	//종목 코드로 상세 정보 검색
 	public String searchByCode(String stock_code) {
 		String jsonResponse = null;
-		//�ֽ����簡 �ü� ��û �ּ�
+		//주식현재가 시세 요청 주소
 		String apiUrl = "inquire-price?";
-		//GET��� Query param ����
-		//���� �з� �ڵ�
+		//GET방식 Query param 설정
+		//시장 분류 코드
 		apiUrl += "fid_cond_mrkt_div_code=J"
-				//�����ڵ�
+				//종목코드
 				+ "&fid_input_iscd="+stock_code;
-		//Header ������
-		//�ֽ����簡 �ü� ��ȸ �ڵ�
+		//Header  데이터
+		//주식현재가 시세 조회 코드
 		String tr_id = "FHKST01010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		 return jsonResponse;
 	}
 	
-	//����˻� �� ������ ��Ʈ ������
+	//종목검색 상세 페이지 차트 데이터
 	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
 		String jsonResponse = null;
-		//�����ֽıⰣ�� �ü� ��û �ּ�
+		//국내주식기간별 시세 요청 주소
 		String apiUrl = "inquire-daily-itemchartprice?";
-		//GET��� Query param ����
-		//���� �з� �ڵ�
+		//GET방식 Query param 설정
+		//시장 분류 코드
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//�����ڵ�
+				//종목코드
 				+ "&FID_INPUT_ISCD=" + stock_code
-				//�Է� ��¥ (����)
+				//입력 날짜 (시작)
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//�Է� ��¥ (����)
+				//입력 날짜 (종료)
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//�Ⱓ�з��ڵ�
+				//기간분류코드
 				+ "&FID_PERIOD_DIV_CODE=" + category
-				//�����ְ� ���ְ� ���� ����
+				//수정주가 원주가 가격 여부
 				+ "&FID_ORG_ADJ_PRC=0";
-		//�����ֽıⰣ�� �ü� ��ȸ �ڵ�
+		//국내주식기간별 시세 조회 코드
 		String tr_id = "FHKST03010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//���� �˻� ��Ͽ� �ִ��� ���� Ȯ��
+	//기존 검색 목록에 있는지 여부 확인
 	public LookupListDto searchLookupOne(String user_id, String stock_code) {
 		LookupListDto lookupListDto = null;
 		Map<String, String> map = new HashMap<String, String>();
@@ -100,7 +100,7 @@ public class SearchService {
 		return lookupListDto;
 	}
 	
-	//�˻� ��Ͽ� �߰�
+	//검색 목록에 추가
 	public void insertSearch(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -111,7 +111,7 @@ public class SearchService {
 		}
 	}
 	
-	//���ã�� ���/����
+	//즐겨찾기 등록/해제
 	public LookupListDto updateFavorite(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -127,62 +127,62 @@ public class SearchService {
 		return lookupList;
 	}
 	
-	//���������� ���̺� ������
+	//메인페이지 테이블 데이터
 	public String searchForMainRankTable() {
 		String jsonResponse = null;
-		//�����ֽıⰣ�� �ü� ��û �ּ�
+		//국내주식기간별 시세 요청 주소
 		String apiUrl = "volume-rank?";
-		//GET��� Query param ����
+		//GET방식 Query param 설정
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//���� ȭ�� �з� �ڵ�
+				//조건 화면 분류 코드
 				+ "&FID_COND_SCR_DIV_CODE=20171"
-				//�����ڵ� 0000(��ü) ��Ÿ(�����ڵ�)
+				//업종코드 0000(전체) 기타(업종코드)
 				+ "&FID_INPUT_ISCD=0000"
-				//�з� ���� �ڵ� 0(��ü) 1(������) 2(�켱��)
+				//분류 구분 코드 0(전체) 1(보통주) 2(우선주)
 				+ "&FID_DIV_CLS_CODE=0"
-				//�Ҽ� ���� �ڵ�(��հŷ���_
+				///소속 구분 코드(평균거래량)
 				+ "&FID_BLNG_CLS_CODE=0"
-				//��� ���� �ڵ�	
+				//대상 구분 코드	
 				+ "&FID_TRGT_CLS_CODE=111111111"
-				//��� ���� ���� �ڵ�
+				//대상 제외 구분 코드
 				+ "&FID_TRGT_EXLS_CLS_CODE=000000"
-				//�Է� ����1
+				//입력 가격1
 				+ "&FID_INPUT_PRICE_1="
-				//�Է� ����2
+				//입력 가격2
 				+ "&FID_INPUT_PRICE_2="
-				//�ŷ��� ��
+				//거래량 수
 				+ "&FID_VOL_CNT="
-				//�Է� ��¥1
+				//입력 날짜1
 				+ "&FID_INPUT_DATE_1=";
-		//�����ֽıⰣ�� �ü� ��ȸ �ڵ�
+		//국내주식기간별 시세 조회 코드
 		String tr_id = "FHPST01710000";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//���������� ��Ʈ ������
+	//메인페이지 차트 데이터
 	public String searchForMainChart(String industry_code, String start_date, String end_date) {
 		String jsonResponse = null;
-		//�����ֽıⰣ�� �ü� ��û �ּ�
+		//국내주식기간별 시세 요청 주소
 		String apiUrl = "inquire-daily-indexchartprice?";
-		//GET��� Query param ����
-		//���� ���� �з� �ڵ�
+		//GET방식 Query param 설정
+		//조건 시장 분류 코드
 		apiUrl += "FID_COND_MRKT_DIV_CODE=U"
-				//���� ���ڵ� kospi : 0001 / kosdaq : 1001
+				//업종 상세코드 kospi : 0001 / kosdaq : 1001
 				+ "&FID_INPUT_ISCD=" + industry_code
-				//��ȸ ���� ����
+				//조회 시작 일자
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//��ȸ ���� ����
+				//조회 종료 일자
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//�Ⱓ�з��ڵ� D:�Ϻ� W:�ֺ�, M:����, Y:���
+				//기간분류코드 D:일봉 W:주봉, M:월봉, Y:년봉
 				+ "&FID_PERIOD_DIV_CODE=D";
-		//�����ֽıⰣ�� �ü� ��ȸ �ڵ�
+		//국내주식기간별 시세 조회 코드
 		String tr_id = "FHKUP03500100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//�ѱ����� api
+	//한국투자 api
 	public String connectAPI(String apiUrl, String tr_id) {
 		String jsonResponse = null;
 		 try {
