@@ -44,28 +44,28 @@
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
 							class="text-danger">*</span> 아이디</label>
-						<div>
-							<input 
-								type="text" 
-								id="user_id" 
-								name="user_id" 
-								value="${qna.user_id }"
-								style="border:0"
-								readonly />
+						<div class="col-md-9">
+							<div
+							 	type="text" 
+							 	id="user_id" 
+							 	name="user_id"
+							 	style="word-break:break-all">
+							 	${qna.user_id }
+							 </div>
 						</div>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="title" class="form-label col-md-2"><span
 							class="text-danger">*</span> 제목</label>
-						<div>
-							<input 
-								type="text" 
-								id="qna_title" 
-								name="qna_title" 
-								value="${qna.qna_title}"
-								style="border:0"
-								readonly />
+						<div class="col-md-9">
+							<div
+							 	type="text" 
+							 	id="qna_title" 
+							 	name="qna_title"
+							 	style="word-break:break-all">
+							 	${qna.qna_title}
+							 </div>
 						</div>
 					</div>
 					<hr />
@@ -74,21 +74,21 @@
 							<span class="text-danger">*</span>
 							카테고리
 						</label>
-						<div>
-							<input 
-								type="text" 
-								id="qna_category" 
-								name="qna_category" 
-								value="${qna.qna_category}"
-								style="border:0"
-								readonly />
+						<div class="col-md-9">
+							<div
+							 	type="text" 
+							 	id="qna_category" 
+							 	name="qna_category"
+							 	style="word-break:break-all">
+							 	${qna.qna_category}
+							 </div>
 						</div>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
 						<label for="content" class="form-label col-md-2"><span
 							class="text-danger">*</span> 내용</label>
-						<div class="col-md-10">
+						<div class="col-md-9">
 							<div
 							 	type="text" 
 							 	id="qna_title" 
