@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.sspl.dao.KanbanDao">
+
+	<select id="selectAll" resultType="kr.or.sspl.dto.LookupListDto">
+		SELECT l.lookup_list_num, l.lookup_category_num, l.stock_code, l.lookup_list_date, l.lookup_list_order, s.stock_name
+		FROM lookup_list l
+		JOIN stock s ON l.stock_code = s.stock_code
+		WHERE l.user_id = #{user_id}
+	</select>
+
+</mapper>

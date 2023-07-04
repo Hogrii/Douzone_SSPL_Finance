@@ -16,4 +16,8 @@ public class LookupListDto {
 	private String stock_code;
 	private Date lookup_list_date;
 	private int lookup_list_order;
+	private String stock_name;
+	
 }
+
+
