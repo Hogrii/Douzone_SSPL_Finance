@@ -123,7 +123,10 @@
 <script type="text/javascript">
  
 $(function(){
-  console.log(${detail.comm_seq});
+ //console.log(${detail.comm_seq});
+  
+  getList();
+  
   function getList(){
   $.ajax({
     type: "get",
@@ -145,7 +148,7 @@ $(function(){
         	html += "<div class='btns'>";
 		        //html += "<div><input type='button' class ='reReply' value='대댓글작성' comm_reply_seq='"+this.comm_reply_seq+"'></div>";
 		        html += "<div><button type='button' class ='reReply' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
-		        html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='mx-3'>삭제</button></div>";
+		        html += "<div><button type='button' class='replydelete mx-3' value='"+this.comm_reply_seq+"' >삭제</button></div>";
 		    html += "</div>";		    	
         html += "</div>";
    		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
@@ -155,7 +158,47 @@ $(function(){
     }
   });
 }
-  getList();
+  //댓글 삭제
+  $(document).on("click","button[class='replydelete mx-3']",function(){<!--delete ajax!-->
+  	console.log("여기와??????????????????");   
+  	let comm_reply_seq = $(this).val();
+  	//let data ={"comm_reply_seq": $(this).val()}
+	 // console.log(comm_reply_seq);
+ 	//console.log("미치겠네");
+	$.ajax({
+		url: "/sspl_finance/restcommunity/replyDelete/"+comm_reply_seq,
+		type : 'get',
+		data: comm_reply_seq,
+		dataType: "json",
+		success: function(result){
+			console.log("댓글 삭제완료");
+			 getList();
+		}
+		, error: function(error){
+			console.log("에러 : " + error);
+		}
+		});
+	});
+  
+  /*
+      //대댓글 작성
+    $(document).on("click","button[class='reReply']",function(){
+	  let comm_reply_seq = $(this).val();
+	  console.log(comm_reply_seq);
+	  console.log("여긴오냐");
+	  let html = "";
+// 	  html += "<div class='d-flex flex-row'>";
+	  html += "<input type='text' placeholder='내용을 입력해주세요' id ='comm_reply_content' class ='w-75'/>";
+	  html += "<div class ='w-25 row'><button type='button' class ='reReplyComplete col-5' value='"+this.comm_reply_seq+"'>작성완료</button>";
+	  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5'>취소</button></div>";
+	  html += "</div>";
+	  $('#hr'+comm_reply_seq).before(html);
+	   
+	  });
+  
+  */
+  
+  
   
   
   //버튼 누르면 댓글 추가 // 댓글 입력하는 사람 임의로 넣어놓음 
@@ -167,8 +210,6 @@ $(function(){
 		  "comm_seq" : ${detail.comm_seq},
 		  
 	  }
-	 console.log("이거타? "+requestdata);
-	  let data = JSON.stringify(requestdata);
 	  console.log(data);
 	  $.ajax({
 		  type: "post",
@@ -199,7 +240,7 @@ $(function(){
 	  $('#hr'+comm_reply_seq).before(html);
 	   
 	  });
-	  
+	//대댓글 작성 완료  
     $(document).on("click","button[class='reReplyComplete']",function(){
     	
     	let data ={

@@ -154,6 +154,16 @@ public class CommunityService {
 		return result;
 
 	}
+	 
+	// 댓글 삭제
+	public int ReplyDelete(int comm_reply_seq) throws ClassNotFoundException, SQLException {
+			System.out.println("댓글 삭제 커트롤러");
+			CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+			int result = communityReplyDao.ReplyDelete(comm_reply_seq);
+			System.out.println(result + "삭제완료");
+			return result;
+
+		}
 
 	// 대댓글 입력
 	public int communityReReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {

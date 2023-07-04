@@ -46,13 +46,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_reply_seq},1)
 	</insert>
 
-	<!-- 댓글 삭제 -->
+	<!-- 원본에 대한 댓글 삭제 -->
 	<delete id="communityReplyDelete" parameterType="int">
 		delete
 		from
 		community_reply
 		where comm_seq =#{comm_seq}
 	</delete>
-
+	
+	<!-- 댓글 삭제 -->
+	<delete id="ReplyDelete" parameterType="int">
+		delete
+		from
+		community_reply
+		where comm_reply_seq =#{comm_reply_seq}
+	</delete>
 
 </mapper>

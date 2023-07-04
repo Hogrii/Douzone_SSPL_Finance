@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
- 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dto.CommunityDto;
@@ -109,6 +110,7 @@ public class CommunityRestController {
 			System.out.println("정상실행");
 			System.out.println("comm_seq 값: " + comm_seq);
 			list = communityservice.communityReplyList(comm_seq);
+			
 			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.BAD_REQUEST);
@@ -125,6 +127,17 @@ public class CommunityRestController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	//댓글 삭제
+	@GetMapping("replyDelete/{comm_reply_seq}")
+	public ResponseEntity<?> communityReplyDelete(@PathVariable int comm_reply_seq) throws ClassNotFoundException, SQLException {
+		System.out.println("댓글 삭제 컨트롤러 진입");
+		//System.out.println(communityReplyDto.toString());
+		int result = communityservice.ReplyDelete(comm_reply_seq);
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	
 	//대댓글 작성
 	@PostMapping("reReplyInsert")
