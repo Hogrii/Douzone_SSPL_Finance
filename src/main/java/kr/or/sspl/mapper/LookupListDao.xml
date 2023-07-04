@@ -29,7 +29,7 @@ public int updateFavorites(LookupListDto lookupList) throws ClassNotFoundExcepti
 <!-- 검색종목 추가 -->
 <insert id="insertSearch" parameterType="kr.or.sspl.dto.LookupListDto">
 	<selectKey order="BEFORE"  resultType="int" keyProperty="lookup_list_order">
-		SELECT (MAX(LOOKUP_LIST_ORDER)+1) AS lookup_list_order
+		SELECT NVL((MAX(LOOKUP_LIST_ORDER)+1),0) AS lookup_list_order
 		FROM LOOKUP_LIST
 		WHERE USER_ID = #{user_id} 
 		AND LOOKUP_CATEGORY_NUM = 0
