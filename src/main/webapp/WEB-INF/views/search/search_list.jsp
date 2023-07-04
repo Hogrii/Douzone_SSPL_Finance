@@ -80,7 +80,7 @@ hr {
 		      $("#search").click(); // id가 "search"인 버튼 클릭
 		    }
 		  });
-		
+		let user_id = $('#login_id').val();
 		//검색 결과 데이터 가공 함수
 		function detail_data(stock_code, stock_name) {
 			$.ajax({
@@ -102,7 +102,7 @@ hr {
 					//전일대비율
 					let per = data.output.prdy_ctrt;
 					console.log(data.output.cpfn_cnnm);
-					td += "<td><a href='searchDetail.do?user_id=" + ${LoginUser} + "&stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
+					td += "<td><a href='searchDetail.do?user_id=" + user_id + "&stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
 					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>▲" + parseInt(yesterday).toLocaleString() + "</td>";
@@ -125,6 +125,7 @@ hr {
 </head>
 <body>
 	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->

@@ -18,7 +18,6 @@
 <script type="text/javascript">
 	$(function() {
 		//let stock_code = ('000000000'+${stock_code}).slice(-6);
-		console.log(typeof(${stock_code}));
 		let stock_code = $('#stock_code').text();
 		//주식 상세 데이터 
 		$.ajax({
