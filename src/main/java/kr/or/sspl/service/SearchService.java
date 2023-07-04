@@ -28,7 +28,7 @@ public class SearchService {
 		this.sqlsession = sqlsession;
 	}
 
-	//Á¾¸ñ ÀÌ¸§À¸·Î ÄÚµå °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½Ë»ï¿½
 	public List<StockDto> searchList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		try {
@@ -43,48 +43,48 @@ public class SearchService {
 		return stockList;
 	}
 	
-	//Á¾¸ñ ÄÚµå·Î »ó¼¼ Á¤º¸ °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public String searchByCode(String stock_code) {
 		String jsonResponse = null;
-		//ÁÖ½ÄÇöÀç°¡ ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ç°¡ ï¿½Ã¼ï¿½ ï¿½ï¿½Ã» ï¿½Ö¼ï¿½
 		String apiUrl = "inquire-price?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//½ÃÀå ºÐ·ù ÄÚµå
+		//GETï¿½ï¿½ï¿½ Query param ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Úµï¿½
 		apiUrl += "fid_cond_mrkt_div_code=J"
-				//Á¾¸ñÄÚµå
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 				+ "&fid_input_iscd="+stock_code;
-		//Header µ¥ÀÌÅÍ
-		//ÁÖ½ÄÇöÀç°¡ ½Ã¼¼ Á¶È¸ ÄÚµå
+		//Header ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ç°¡ ï¿½Ã¼ï¿½ ï¿½ï¿½È¸ ï¿½Úµï¿½
 		String tr_id = "FHKST01010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		 return jsonResponse;
 	}
 	
-	//Á¾¸ñ°Ë»ö »ó¼¼ ÆäÀÌÁö Â÷Æ® µ¥ÀÌÅÍ
+	//ï¿½ï¿½ï¿½ï¿½Ë»ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½Ã» ï¿½Ö¼ï¿½
 		String apiUrl = "inquire-daily-itemchartprice?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//½ÃÀå ºÐ·ù ÄÚµå
+		//GETï¿½ï¿½ï¿½ Query param ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Úµï¿½
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//Á¾¸ñÄÚµå
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 				+ "&FID_INPUT_ISCD=" + stock_code
-				//ÀÔ·Â ³¯Â¥ (½ÃÀÛ)
+				//ï¿½Ô·ï¿½ ï¿½ï¿½Â¥ (ï¿½ï¿½ï¿½ï¿½)
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//ÀÔ·Â ³¯Â¥ (Á¾·á)
+				//ï¿½Ô·ï¿½ ï¿½ï¿½Â¥ (ï¿½ï¿½ï¿½ï¿½)
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//±â°£ºÐ·ùÄÚµå
+				//ï¿½â°£ï¿½Ð·ï¿½ï¿½Úµï¿½
 				+ "&FID_PERIOD_DIV_CODE=" + category
-				//¼öÁ¤ÁÖ°¡ ¿øÁÖ°¡ °¡°Ý ¿©ºÎ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				+ "&FID_ORG_ADJ_PRC=0";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½È¸ ï¿½Úµï¿½
 		String tr_id = "FHKST03010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//±âÁ¸ °Ë»ö ¸ñ·Ï¿¡ ÀÖ´ÂÁö ¿©ºÎ È®ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	public LookupListDto searchLookupOne(String user_id, String stock_code) {
 		LookupListDto lookupListDto = null;
 		Map<String, String> map = new HashMap<String, String>();
@@ -100,7 +100,7 @@ public class SearchService {
 		return lookupListDto;
 	}
 	
-	//°Ë»ö ¸ñ·Ï¿¡ Ãß°¡
+	//ï¿½Ë»ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ß°ï¿½
 	public void insertSearch(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -111,7 +111,7 @@ public class SearchService {
 		}
 	}
 	
-	//Áñ°ÜÃ£±â µî·Ï/ÇØÁ¦
+	//ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½
 	public LookupListDto updateFavorite(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -127,62 +127,62 @@ public class SearchService {
 		return lookupList;
 	}
 	
-	//¸ÞÀÎÆäÀÌÁö Å×ÀÌºí µ¥ÀÌÅÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String searchForMainRankTable() {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½Ã» ï¿½Ö¼ï¿½
 		String apiUrl = "volume-rank?";
-		//GET¹æ½Ä Query param ¼³Á¤
+		//GETï¿½ï¿½ï¿½ Query param ï¿½ï¿½ï¿½ï¿½
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//Á¶°Ç È­¸é ºÐ·ù ÄÚµå
+				//ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Úµï¿½
 				+ "&FID_COND_SCR_DIV_CODE=20171"
-				//¾÷Á¾ÄÚµå 0000(ÀüÃ¼) ±âÅ¸(¾÷Á¾ÄÚµå)
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ 0000(ï¿½ï¿½Ã¼) ï¿½ï¿½Å¸(ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½)
 				+ "&FID_INPUT_ISCD=0000"
-				//ºÐ·ù ±¸ºÐ ÄÚµå 0(ÀüÃ¼) 1(º¸ÅëÁÖ) 2(¿ì¼±ÁÖ)
+				//ï¿½Ð·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ 0(ï¿½ï¿½Ã¼) 1(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) 2(ï¿½ì¼±ï¿½ï¿½)
 				+ "&FID_DIV_CLS_CODE=0"
-				//¼Ò¼Ó ±¸ºÐ ÄÚµå(Æò±Õ°Å·¡·®_
+				//ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½(ï¿½ï¿½Õ°Å·ï¿½ï¿½ï¿½_
 				+ "&FID_BLNG_CLS_CODE=0"
-				//´ë»ó ±¸ºÐ ÄÚµå	
+				//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½	
 				+ "&FID_TRGT_CLS_CODE=111111111"
-				//´ë»ó Á¦¿Ü ±¸ºÐ ÄÚµå
+				//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 				+ "&FID_TRGT_EXLS_CLS_CODE=000000"
-				//ÀÔ·Â °¡°Ý1
+				//ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½1
 				+ "&FID_INPUT_PRICE_1="
-				//ÀÔ·Â °¡°Ý2
+				//ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½2
 				+ "&FID_INPUT_PRICE_2="
-				//°Å·¡·® ¼ö
+				//ï¿½Å·ï¿½ï¿½ï¿½ ï¿½ï¿½
 				+ "&FID_VOL_CNT="
-				//ÀÔ·Â ³¯Â¥1
+				//ï¿½Ô·ï¿½ ï¿½ï¿½Â¥1
 				+ "&FID_INPUT_DATE_1=";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½È¸ ï¿½Úµï¿½
 		String tr_id = "FHPST01710000";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//¸ÞÀÎÆäÀÌÁö Â÷Æ® µ¥ÀÌÅÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String searchForMainChart(String industry_code, String start_date, String end_date) {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½Ã» ï¿½Ö¼ï¿½
 		String apiUrl = "inquire-daily-indexchartprice?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//Á¶°Ç ½ÃÀå ºÐ·ù ÄÚµå
+		//GETï¿½ï¿½ï¿½ Query param ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Úµï¿½
 		apiUrl += "FID_COND_MRKT_DIV_CODE=U"
-				//¾÷Á¾ »ó¼¼ÄÚµå kospi : 0001 / kosdaq : 1001
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ kospi : 0001 / kosdaq : 1001
 				+ "&FID_INPUT_ISCD=" + industry_code
-				//Á¶È¸ ½ÃÀÛ ÀÏÀÚ
+				//ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//Á¶È¸ Á¾·á ÀÏÀÚ
+				//ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//±â°£ºÐ·ùÄÚµå D:ÀÏºÀ W:ÁÖºÀ, M:¿ùºÀ, Y:³âºÀ
+				//ï¿½â°£ï¿½Ð·ï¿½ï¿½Úµï¿½ D:ï¿½Ïºï¿½ W:ï¿½Öºï¿½, M:ï¿½ï¿½ï¿½ï¿½, Y:ï¿½ï¿½ï¿½
 				+ "&FID_PERIOD_DIV_CODE=D";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ä±â°£ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½È¸ ï¿½Úµï¿½
 		String tr_id = "FHKUP03500100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//ÇÑ±¹ÅõÀÚ api
+	//ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½ api
 	public String connectAPI(String apiUrl, String tr_id) {
 		String jsonResponse = null;
 		 try {
@@ -191,7 +191,7 @@ public class SearchService {
 	            connection.setRequestMethod("GET");
 	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjE5YTliZjU0LTAxMmEtNGI5MC04MmY2LTI4NDA2YTI1MzIyMiIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NDYwNjY1LCJpYXQiOjE2ODgzNzQyNjUsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.b3qDLsbXifOtOqj5SiksqNZWSDY1BhmPos_m1zHaE5v1i55ItMmNMz_sptETyX58FREIfnmpsJ77msZ-j0Rh9w");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjE2ZTc1MDBiLWRhZmMtNGU0Zi1hOWU1LTE2YWExNzViOWVjOCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NTQ2NDgyLCJpYXQiOjE2ODg0NjAwODIsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.BoPoGK_XHP01qKMAbs-fQG857u1RlpXaj_KH9Se9wSRC4xdi4p8yFHEBvpFt2O3E-0I-eYYOMFDIaXrDM6AoaA");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
 	            connection.setRequestProperty("tr_id", tr_id);
