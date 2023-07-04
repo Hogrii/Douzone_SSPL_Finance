@@ -32,6 +32,17 @@ box-icon {
 hr {
 	border-width: 0.125em;
 }
+
+.list_data {
+      max-height: 600px;
+      overflow-y: auto;
+}
+.sticky-top {
+      position: sticky;
+      top: 40px; /* 상단에 고정할 높이를 지정합니다. */
+      padding: 10px; /* 내부 여백을 추가할 수 있습니다. */
+      z-index: 999; /* 필요한 경우 z-index 값을 조정합니다. */
+}
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -60,6 +71,7 @@ hr {
 							tr += "</tr>";
 							$('#tbody').append(tr);	
 						}else { //검색 결과가 있는 경우
+							//pageNation(data);
 							data.forEach(item => {
 								let stock_code = item.stock_code;
 								let stock_name = item.stock_name;
@@ -72,6 +84,35 @@ hr {
 				});
 			}
 		});
+		/*
+		//페이지네이션
+		function pageNation(data) {
+			let total = data.length;
+			let totalPageNum = 15;
+			let pageBtnCount;
+			if(total%totalPageNum == 0) {
+				pageBtnCount = total/totalPageNum;
+			}else {
+				pageBtnCount = (total/totalPageNum) + 1;								
+			}
+			
+			let pageNum=1;
+			let start_page = (15*pageNum)-15;
+			let end_page = (15*pageNum)-1;
+			console.log("1번찾기 : " + $('.pagination').children().eq(1).text());
+			for(let i = 1; i < pageBtnCount; i++) {
+				let li = '<li class="page-item"><button class="page-link" value="' + (1+i) + '">' + (1+i) + '</button></li>';
+				$('.pagination').children().last().before(li);
+			}
+			for(let i = start_page; i < end_page; i++) {
+				let stock_code = data[i].stock_code;
+				let stock_name = data[i].stock_name;
+				let tr = "<tr id="+ stock_code +"></tr>";
+				$('tbody').append(tr); 
+				detail_data(stock_code, stock_name);
+			}
+		}
+		*/
 		
 		$("#search").click();
 		
@@ -144,9 +185,9 @@ hr {
 		</div>
 		<hr />
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 list_data">
 				<table class="table">
-					<thead class="bg-secondary text-dark bg-opacity-25">
+					<thead class="bg-secondary text-white sticky-top">
 						<tr>
 							<th>종목명</th>
 							<th>현재가</th>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +33,7 @@
 </style>
 <script type="text/javascript">
 	$(function() {
+		let user_id = $('#login_id').val();
 		//거래량 순위 테이블
 		$.ajax({
 			url : "main/searchForMainRankTable.do",
@@ -43,7 +46,7 @@
 					//거래 순위
 					tr += "<td>" + items[i].data_rank + "</td>";
 					//종목명
-					tr += "<td><a href='search/searchDetail.do?stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
+					tr += "<td><a href='search/searchDetail.do?user_id=" + user_id + "&stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
 					//현재가
 					tr += "<td>" + parseInt(items[i].stck_prpr).toLocaleString() + "</td>";
 					//등락률
@@ -204,6 +207,8 @@
 </script>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- content 영역 -->
