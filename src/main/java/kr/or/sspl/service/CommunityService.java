@@ -85,6 +85,7 @@ public class CommunityService {
 	public void getDetailList(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
+		//System.out.println("날짜 출력 : "+communityDto.getComm_writen_date());
 		model.addAttribute("detaillist", communityDto);
 	}
 

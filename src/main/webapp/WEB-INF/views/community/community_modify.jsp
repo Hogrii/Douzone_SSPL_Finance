@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +38,9 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<se:authentication property="name" var="LoginUser" />
+	<div class="userMessage">[${LoginUser}]</div>
+	
 	<!-- 글쓰기 내용 시작 -->
 	<form action="modifyOk.do" method="post">
 		<c:set var="detail" value="${requestScope.detaillist}" />

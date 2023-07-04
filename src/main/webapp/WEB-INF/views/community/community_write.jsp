@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +36,8 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- 글쓰기 내용 시작 -->
-
+	<se:authentication property="name" var="LoginUser" />
+	
 	<form action="writeOk.do" method="post" id="frmWrite"
 		enctype="multipart/form-data">
 		<div class="writeBar py-5">
