@@ -37,7 +37,7 @@
 				let month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
 				let day = ('0' + today.getDate()).slice(-2);
 				tr += "<td>"+ year + "-" + month + "-" + day +"</td>";
-				//시가
+				//현재가
 				let price = parseInt(data.output.stck_prpr).toLocaleString();
 				tr += "<td>"+ price +"</td>";
 				//전일종가
@@ -271,7 +271,7 @@
 			<thead>
 				<tr class="table-secondary text-center">
 					<th>날짜</th>
-					<th>시가</th>
+					<th>현재가</th>
 					<th>전일종가</th>
 					<th>최고가</th>
 					<th>최저가</th>
