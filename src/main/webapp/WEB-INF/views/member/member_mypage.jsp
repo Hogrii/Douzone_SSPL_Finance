@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +30,11 @@
 	width: 610px;
 }
 </style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/member/member_mypage.js"></script>
+
 </head>
 
 <body>
@@ -39,18 +46,36 @@
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<h3 class="text-center mb-4">SSPL Finance</h3>
-				<form action="${pageContext.request.contextPath}/member/modify"
-					method="post" class="pt-5">
+				<se:authentication property="name" var="LoginUser" />
+				<form action="" class="pt-5">
 					<div class="mb-3 pt-3">
-						<label for="password" class="form-label">비밀번호</label>
-						<input type="password" class="form-control" id="password"
+						<label for="password" class="form-label">비밀번호</label> <input
+							type="password" class="form-control" id="password"
 							name="password" placeholder="비밀번호를 입력하세요" />
+							<input type="hidden" name="id" value="${LoginUser}">
 					</div>
 					<div class="text-center pt-3">
 						<input type="submit" class="btn btn-secondary btn-block"
 							value="정보수정하기" />
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="resultModal" tabindex="-1" role="dialog"
+		aria-labelledby="resultModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="resultModalLabel">결과</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="resultMessage"></div>
+				</div>
 			</div>
 		</div>
 	</div>

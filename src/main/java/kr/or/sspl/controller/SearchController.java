@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.sspl.dto.LookupListDto;
 import kr.or.sspl.dto.StockDto;
 import kr.or.sspl.service.SearchService;
 
@@ -25,16 +28,16 @@ public class SearchController {
 	}
 	
 	@GetMapping("searchList.do")
-	public String searchList() {
+	public String searchList(String stock_name, Model model) {
+		model.addAttribute("stock_name",stock_name);
 		return "search/search_list";
 	}
 	
 	@GetMapping("searchKeyword.do")
 	@ResponseBody
-	public List<StockDto> searchList(String stock_name) {
+	public List<StockDto> searchStockList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		stockList = searchService.searchList(stock_name);
-		System.out.println(stockList);
 		return stockList;
 	}
 	
@@ -46,10 +49,25 @@ public class SearchController {
 	}
 	
 	@GetMapping("searchDetail.do")
-	public String searchDetail(String stock_code, String stock_name, Model model) {
-		System.out.println(stock_code);
-		model.addAttribute("stock_code",stock_code);
+	public String searchDetail(String user_id, String stock_code, String stock_name, Model model) {
+		model.addAttribute("stock_code", stock_code);
+		model.addAttribute("stock_name", stock_name);
+		LookupListDto lookupListDto = searchService.searchLookupOne(user_id, stock_code);
+		if(lookupListDto == null) {
+			lookupListDto = new LookupListDto();
+			lookupListDto.setUser_id(user_id);
+			lookupListDto.setStock_code(stock_code);
+			searchService.insertSearch(lookupListDto);
+		}
+		model.addAttribute("lookup_category_num",lookupListDto.getLookup_category_num());
 		return "search/search_detail";
+	}
+	
+	@GetMapping("updateFavorite.do")
+	@ResponseBody
+	public LookupListDto updateFavorite(LookupListDto lookupList) {
+		lookupList = searchService.updateFavorite(lookupList);
+		return lookupList;
 	}
 	
 	@GetMapping("searchForChart.do")

@@ -3,4 +3,63 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.or.sspl.dao.CommunityReplyDao"></mapper>
+<mapper namespace="kr.or.sspl.dao.CommunityReplyDao">
+
+	<!-- 댓글 조회 -->
+	<select id="communityReplyList" parameterType="int"
+		resultType="kr.or.sspl.dto.CommunityReplyDto">
+		select user_id,
+		comm_reply_seq,
+		comm_reply_content,
+		to_char(comm_reply_writen_date,'yyyy-mm-dd')
+		from community_reply
+		where
+		comm_seq= #{comm_seq}
+		order by
+		comm_reply_writen_date asc
+	</select>
+
+	<!-- comm_seq 조회 -->
+	<select id="getCommSeq" parameterType="int">
+		select comm_seq from
+		community_reply
+		where comm_reply_seq =#{comm_reply_seq}
+	</select>
+ 
+	<!-- 첫 댓글 추가 -->
+	<insert id="communityReplyInsert"
+		parameterType="kr.or.sspl.dto.CommunityReplyDto">
+		insert into community_reply(comm_reply_seq, comm_seq,
+		user_id, comm_reply_content, comm_reply_writen_date, step, refer,
+		depth)
+		values
+		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_seq},0)
+	</insert>
+
+	<!-- 대댓글 추가 -->
+	<insert id="communityReReplyInsert"
+		parameterType="kr.or.sspl.dto.CommunityReplyDto" >
+		insert into community_reply(comm_reply_seq, comm_seq,
+		user_id, comm_reply_content, comm_reply_writen_date, step, refer,
+		depth)
+		values
+		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_reply_seq},1)
+	</insert>
+
+	<!-- 원본에 대한 댓글 삭제 -->
+	<delete id="communityReplyDelete" parameterType="int">
+		delete
+		from
+		community_reply
+		where comm_seq =#{comm_seq}
+	</delete>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="ReplyDelete" parameterType="int">
+		delete
+		from
+		community_reply
+		where comm_reply_seq =#{comm_reply_seq}
+	</delete>
+
+</mapper>

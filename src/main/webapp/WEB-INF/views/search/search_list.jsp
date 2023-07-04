@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -70,6 +72,15 @@ hr {
 				});
 			}
 		});
+		
+		$("#search").click();
+		
+		$("#keyword").on('keypress', function(e) {
+		    if (e.which === 13) { // 엔터 키를 눌렀을 때
+		      $("#search").click(); // id가 "search"인 버튼 클릭
+		    }
+		  });
+		let user_id = $('#login_id').val();
 		//검색 결과 데이터 가공 함수
 		function detail_data(stock_code, stock_name) {
 			$.ajax({
@@ -91,18 +102,18 @@ hr {
 					//전일대비율
 					let per = data.output.prdy_ctrt;
 					console.log(data.output.cpfn_cnnm);
-					td += "<td><a href='searchDetail.do?stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
+					td += "<td><a href='searchDetail.do?user_id=" + user_id + "&stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
 					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-danger'>▲" + yesterday + "</td>";
+					td += "<td class='text-danger'>▲" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>+" + per + "</td>";						
 					}else if(parseInt(sign) > 3) { //전일 대비 하락일 경우
 					td += "<td class='text-primary'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-primary'>▼" + yesterday + "</td>";
+					td += "<td class='text-primary'>▼" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-primary'>" + per + "</td>";												
 					}else if(parseInt(sign) == 3){ //전일과 동일한 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
-					td += "<td class='text-danger'>" + yesterday + "</td>";
+					td += "<td class='text-danger'>" + parseInt(yesterday).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>" + per + "</td>";
 					}
 					tr.append(td);
@@ -113,6 +124,8 @@ hr {
 </script>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
@@ -122,13 +135,11 @@ hr {
 				<h5>검색목록</h5>
 			</div>
 			<div class="col-md-4">
-				<form action="searchKeyword.do">
-					<div class="input-group mb-3">
-						<input type="text" id="keyword" class="form-control"
-							placeholder="검색어를 입력하세요" name="stock_name" value="" />
-						<button type="button" id="search" class="btn btn-secondary">검색</button>
-					</div>
-				</form>
+				<div class="input-group mb-3">
+					<input type="text" id="keyword" class="form-control"
+						placeholder="검색어를 입력하세요" name="stock_name" value="${stock_name}" />
+					<button type="button" id="search" class="btn btn-secondary">검색</button>
+				</div>
 			</div>
 		</div>
 		<hr />
@@ -144,32 +155,6 @@ hr {
 						</tr>
 					</thead>
 					<tbody id="tbody">
-					<!-- 
-						<tr>
-							<td>삼성화재</td>
-							<td>229,000</td>
-							<td class="text-danger">▲2000</td>
-							<td class="text-danger">+0.88%</td>
-						</tr>
-						<tr>
-							<td>삼성제약</td>
-							<td>3,160</td>
-							<td class="text-primary">▼5</td>
-							<td class="text-primary">-0.16%</td>
-						</tr>
-						<tr>
-							<td><a href="searchDetail.do">삼성전자</a></td>
-							<td>72,700</td>
-							<td class="text-danger">▲100</td>
-							<td class="text-danger">+0.14%</td>
-						</tr>
-						<tr>
-							<td>삼성SDI</td>
-							<td>657,000</td>
-							<td class="text-primary">▼21,000</td>
-							<td class="text-primary">-3.10%</td>
-						</tr>
-					 -->
 					</tbody>
 				</table>
 			</div>

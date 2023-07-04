@@ -1,5 +1,6 @@
 package kr.or.sspl.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,11 +77,10 @@ public class QnaService {
 				request.setAttribute("pagesize", pagesize);
 				request.setAttribute("pagecount", pagecount);
 				request.setAttribute("cpage", cpage);
+				request.setAttribute("totalcount", totalcount);
 			}catch(Exception e) {
 				e.printStackTrace();
-			}
-			
-			
+			}			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -95,7 +95,8 @@ public class QnaService {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			qna = qnaDao.qna(qna_seq);
-			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));			
+			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));
+			System.out.println("댓글 개수 : " + qnaReplyList.size());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -107,6 +108,7 @@ public class QnaService {
 	public void qnadelete(String qna_seq) {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaReplyAllDelete(Integer.parseInt(qna_seq));
 			qnaDao.qnaDelete(Integer.parseInt(qna_seq));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -122,6 +124,10 @@ public class QnaService {
 			replyHash.put("qna_seq", qna_seq);
 			replyHash.put("qna_reply_content", qna_reply_content);
 			qnaDao.qnaReply(replyHash);
+			// 부여된 롤에 따라 분기 필요할듯?
+			System.out.println("답변완료 바꾸기 시작");
+			qnaDao.qnaState(qna_seq);
+			System.out.println("답변완료 바꾸기 시작");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -132,7 +138,7 @@ public class QnaService {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			QnaDto qnaInfo = qnaDao.qna(qna_seq);
-			request.setAttribute("qna", qnaInfo);			
+			request.setAttribute("qna", qnaInfo);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	
@@ -146,5 +152,45 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 검색
+	public List<QnaDto> searchList(String qna_title) {
+		List<QnaDto> qnaList = new ArrayList<QnaDto>();
+		Map<String, String> searchMap = new HashMap<String, String>();
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			searchMap.put("qna_title", qna_title);
+			qnaList = qnaDao.searchList(searchMap);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return qnaList;
+	}
+	
+	// 댓글 삭제
+	public void deleteReply(String qna_reply_seq) {
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			qnaDao.qnaReplyDelete(Integer.parseInt(qna_reply_seq));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 댓글 수정
+	public QnaReplyDto qnaModifyReply(String qna_reply_seq, String qna_reply_content) {
+		Map<String, String> replyModifyMap = new HashMap<String, String>();
+		QnaReplyDto replyDto = null;
+		try {
+			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
+			replyModifyMap.put("qna_reply_seq", qna_reply_seq);
+			replyModifyMap.put("qna_reply_content", qna_reply_content);
+			qnaDao.qnaModifyReply(replyModifyMap);
+			replyDto = qnaDao.getQnaReply(qna_reply_seq);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return replyDto;
 	}
 }

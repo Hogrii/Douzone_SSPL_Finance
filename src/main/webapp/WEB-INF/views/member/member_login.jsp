@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+
+
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -28,36 +31,11 @@
 	width: 690px;
 }
 </style>
-<script type="text/javascript">
-	$(function() {
-		$('form').submit(function(e) {
-			let user_id = $('#user_id').val();
-			let password = $('#password').val();
-			
-			var formData = $(this).serialize();
-			
-			$.ajax({
-				url: '/sspl_finance/member/login',
-				type: 'POST',
-				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-				data: formData,
-				dataType: 'json',
-				success: function(data) {
-					console.log(data);
-					$('#resultMessage').empty();
-					$('#resultModal').modal('show');
-					$('#resultMessage').text(data.message);
-					message = data.message;
-					
-				},
-				error: function(xhr, status, error) {
-					console.error(error); // 에러 처리
-				}
-			});
-			
-		});
-	});
-</script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/member/member_login.js"></script>
 </head>
 
 <body>
@@ -70,12 +48,13 @@
 			<div class="col-md-6">
 				<div class="card-body">
 					<h3 class="text-center mb-4">SSPL Finance</h3>
-					<form class="pt-5">
+					<form action="${pageContext.request.contextPath}/login"
+						method="post" class="pt-5">
 						<div class="form-group pt-3">
 							<label for="user_id">아이디</label> <input type="text"
-								class="form-control form-control" name="user_id" id="user_id"
+								class="form-control form-control" name="username" id="user_id"
 								placeholder="아이디를 입력하세요" />
-						</div>
+						</div>	
 						<div class="form-group pt-3">
 							<label for="password">비밀번호</label> <input type="password"
 								class="form-control form-control" name="password" id="password"
@@ -83,21 +62,40 @@
 						</div>
 						<div class="form-group form-check pt-3">
 							<input type="checkbox" class="form-check-input"
-								id="remember_password" value="비밀번호 기억하기" />
-							<label class="form-check-label" for="remember_password">비밀번호
+								id="remember_password" value="아이디 기억하기" /> <label
+								class="form-check-label pb-4" for="remember_password">아이디
 								기억하기</label>
 						</div>
 						<div class="text-center">
 							<input type="submit" class="btn btn-secondary btn-block"
-								value="로그인" /> <input
-								type="button" class="btn btn-secondary mt-3 btn-block"
-								value="회원가입"
+								value="로그인" /> <input type="button"
+								class="btn btn-secondary mt-3 btn-block" value="회원가입"
 								onClick="location.href='${pageContext.request.contextPath}/member/join'" />
 						</div>
+
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="resultModal" tabindex="-1" role="dialog"
+		aria-labelledby="resultModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="resultModalLabel">결과</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="resultMessage"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>

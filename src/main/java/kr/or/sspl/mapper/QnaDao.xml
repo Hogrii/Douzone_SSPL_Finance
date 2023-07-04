@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM (
 				SELECT ROWNUM AS RN, QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
 				FROM QNA
-				ORDER BY RN ASC)
+				ORDER BY QNA_SEQ DESC)
 			WHERE RN BETWEEN #{start} AND #{end}
 		]]>
 	</select>
@@ -68,5 +68,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			QNA_CATEGORY = #{qna_category}
 		WHERE QNA_SEQ = #{qna_seq}
 	</update>
+	
+	<!-- 글 상태 변경 -->
+	<update id="qnaState" parameterType="int">
+		UPDATE QNA
+		SET QNA_STATUS = '답변완료'
+		WHERE QNA_SEQ = #{qna_seq}
+	</update>
+	
+	<!-- 게시글검색 -->
+	<select id="searchList" parameterType="HashMap" resultType="kr.or.sspl.dto.QnaDto">
+		SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+		FROM QNA
+		WHERE QNA_TITLE LIKE '%${qna_title}%'
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="qnaReplyDelete" parameterType="int">
+		DELETE FROM QNA_REPLY WHERE QNA_REPLY_SEQ = #{qna_reply_seq}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="qnaModifyReply" parameterType="HashMap">
+		UPDATE QNA_REPLY
+		SET QNA_REPLY_CONTENT = #{qna_reply_content}
+		WHERE QNA_REPLY_SEQ = #{qna_reply_seq}
+	</update>
+	
+	<!-- 댓글 가져오기 -->
+	<select id="getQnaReply" resultType="kr.or.sspl.dto.QnaReplyDto">
+		SELECT QNA_REPLY_SEQ, QNA_SEQ, USER_ID, QNA_REPLY_CONTENT, QNA_REPLY_DATE
+		FROM QNA_REPLY
+		WHERE QNA_REPLY_SEQ = #{qna_reply_seq}
+	</select>
+	
+	<!-- 게시글 삭제 시 댓글 삭제 -->
+	<delete id="qnaReplyAllDelete" parameterType="int">
+		DELETE FROM QNA_REPLY WHERE QNA_SEQ = #{qna_seq}
+	</delete>
 </mapper>
 

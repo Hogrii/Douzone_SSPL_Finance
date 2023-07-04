@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+//검색종목 단일 조회
+public LookupListDto selectSearchOne(LookupListDto lookupList) throws ClassNotFoundException, SQLException;
+//검색종목 리스트 조회
+public List<LookupListDto> selectSearchList(LookupListDto lookupList) throws ClassNotFoundException, SQLException;
+//검색종목 추가
+public int insertSearch(LookupListDto lookupList) throws ClassNotFoundException, SQLException;
+//검색종목 삭제
+public int deleteSearch(int lookup_list_num) throws ClassNotFoundException, SQLException;
+//검색종목 카테고리 변경
+public int updateFavorites(LookupListDto lookupList) throws ClassNotFoundException, SQLException;
+ -->
+<mapper namespace="kr.or.sspl.dao.LookupListDao">
+
+<!-- 검색종목 단일 조회(기존에 검색 리스트에 있는지 여부 확인) -->
+<select id="selectSearchOne" parameterType="hashmap" resultType="kr.or.sspl.dto.LookupListDto">
+	SELECT *
+	FROM LOOKUP_LIST 
+	WHERE USER_ID=#{user_id} AND STOCK_CODE = #{stock_code}
+</select>
+
+<!-- 검색종목 리스트 조회 -->
+
+
+<!-- 검색종목 추가 -->
+<insert id="insertSearch" parameterType="kr.or.sspl.dto.LookupListDto">
+	<selectKey order="BEFORE"  resultType="int" keyProperty="lookup_list_order">
+		SELECT NVL((MAX(LOOKUP_LIST_ORDER)+1),0) AS lookup_list_order
+		FROM LOOKUP_LIST
+		WHERE USER_ID = #{user_id} 
+		AND LOOKUP_CATEGORY_NUM = 0
+	</selectKey>
+	INSERT INTO LOOKUP_LIST(LOOKUP_LIST_NUM, USER_ID, LOOKUP_CATEGORY_NUM, STOCK_CODE, LOOKUP_LIST_DATE, LOOKUP_LIST_ORDER) 
+	VALUES(lookup_seq.nextval, #{user_id}, 0, #{stock_code}, sysdate, #{lookup_list_order})
+</insert>
+
+<!-- 검색종목 삭제 -->
+
+
+<!-- 검색종목 즐겨찾기 등록/해제 -->
+<update id="updateFavorite" parameterType="kr.or.sspl.dto.LookupListDto">
+	UPDATE LOOKUP_LIST 
+	SET LOOKUP_CATEGORY_NUM = #{lookup_category_num},
+    LOOKUP_LIST_ORDER = NVL((SELECT MAX(LOOKUP_LIST_ORDER)+1 AS LOOKUP_LIST_ORDER 
+                         FROM LOOKUP_LIST
+                         WHERE USER_ID = #{user_id} AND LOOKUP_CATEGORY_NUM = #{lookup_category_num}),0) 
+	WHERE USER_ID = #{user_id} AND STOCK_CODE = #{stock_code}
+</update>
+
+</mapper>
+

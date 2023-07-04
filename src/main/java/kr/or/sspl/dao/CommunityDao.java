@@ -6,7 +6,12 @@ import java.util.Map;
 
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import kr.or.sspl.dto.CommunityDto;
+import kr.or.sspl.dto.CommunitySearchData;
+import kr.or.sspl.dto.SaveReqDto;
+@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 public interface CommunityDao {
 
 	//전체 게시물 갯수 조회 
@@ -15,19 +20,23 @@ public interface CommunityDao {
 	List<CommunityDto> list(Map<String,Integer> map) throws ClassNotFoundException, SQLException;
  
 	// 게시물 상세 - 예정
+	
 	CommunityDto getDetailList(int comm_seq)throws ClassNotFoundException, SQLException;
 	
+	//조건 검색 갯수
+	int searchListTotal() throws ClassNotFoundException, SQLException;
+	
 	// 비동기 조건 검색(form의 value로 조건 검색할 예정)
-	List<CommunityDto> searchList(String search) throws ClassNotFoundException, SQLException;
+	List<CommunityDto> searchList(CommunitySearchData SearchData) throws ClassNotFoundException, SQLException;
  
 	// 게시물 입력
-	void communityInsert(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
+	int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
 
 	// 게시물 수정
-	void communityUpdate(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
+	int communityUpdate(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
 
 	// 게시물 삭제(순번 선택하여 삭제)
-	void communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;
+	int communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;
  
 
 }

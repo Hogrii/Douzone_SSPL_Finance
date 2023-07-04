@@ -16,59 +16,11 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 	crossorigin="anonymous"></script>
+<!-- jQuery cdn -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>메인페이지(mainpage)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-.chart {
-	width: 400px;
-	height: 150px;
-	margin: 10px auto;
-	display: flex;
-}
-
-#myChart1 {
-	border: 1px solid red;
-	flex: 1;
-	margin: 0px 5%;
-	width: 30%;
-	box-sizing: border-box;
-}
-
-#myChart2 {
-	border: 1px solid green;
-	flex: 1;
-	margin: 0px 5%;
-	width: 30%;
-	box-sizing: border-box;
-}
-
-#myChart3 {
-	border: 1px solid blue;
-	flex: 1;
-	width: 30%;
-	box-sizing: border-box;
-}
-
-.mainboard {
-	width: 100%;
-	margin: 10px auto;
-	display: flex;
-}
-
-#board1 {
-	flex: 1;
-	margin: 0px 5%;
-	width: 50%;
-	box-sizing: border-box;
-}
-
-#board2 {
-	flex: 1;
-	margin: 0px 5%;
-	width: 50%;
-	box-sizing: border-box;
-}
-
 #moveTopBtn {
 	position: fixed;
 	bottom: 1rem;
@@ -77,322 +29,239 @@
 	height: 4rem;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		//거래량 순위 테이블
+		$.ajax({
+			url : "main/searchForMainRankTable.do",
+			type : "GET",
+			dataType : "JSON",
+			success : function(data) {
+				let items = data.output;
+				for(let i = 0; i < 15; i++) {
+					let tr = "<tr class='text-center'>";
+					//거래 순위
+					tr += "<td>" + items[i].data_rank + "</td>";
+					//종목명
+					tr += "<td><a href='search/searchDetail.do?stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
+					//현재가
+					tr += "<td>" + parseInt(items[i].stck_prpr).toLocaleString() + "</td>";
+					//등락률
+					tr += "<td>" + items[i].prdy_ctrt + "</td>";
+					//거래량 증가율
+					tr += "<td>" + items[i].vol_inrt + "</td>";
+					//전일 거래량
+					tr += "<td>" + parseInt(items[i].prdy_vol).toLocaleString() + "</td>";
+					//평균 거래량
+					tr += "<td>" + parseInt(items[i].avrg_vol).toLocaleString() + "</td>";
+					tr += "</td>";
+					$('#trading_volume_ranking').append(tr);
+				}
+				
+			}
+		});
+		
+		//날짜 설정
+		let today = new Date();
+		//종료일 설정
+		let end_date;
+		let end_year = today.getFullYear();
+		let end_month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
+		let end_day = ('0' + today.getDate()).slice(-2);
+		end_date = end_year + end_month + end_day;
+		console.log('종료일 : ' + end_date);
+		//시작일 설정
+		let start_date;
+		today.setDate(today.getDate() - 14);
+		let start_year = today.getFullYear();
+		let start_month = String(today.getMonth() + 1).padStart(2, '0');
+		let start_day = String(today.getDate()).padStart(2, '0');
+		start_date = start_year + start_month + start_day;
+		console.log('시작일 : ' + start_date);
+		//코스피 지수 차트 (업종번호 : 0001)
+		$.ajax({
+			url : "main/searchForMainChart.do",
+			type : "GET",
+			data : {
+				"industry_code" : "0001",
+				"start_date" : start_date,
+				"end_date" : end_date
+			},
+			dataType : "JSON",
+			success : function(data) {
+				console.log(data);
+				let ctx = document.getElementById("myChart1").getContext("2d");
+				let chart_data = [];
+		        $.each(data.output2.reverse(), function(index, item) {
+		        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+		        	  console.log(date);
+		        	  let price = item.bstp_nmix_prpr;
+		        	  let each_data = [date, price];
+		        	  chart_data.push(each_data);
+		        });
+		        let lineChart = new Chart(ctx, {
+		            type: "line",
+		            data: {
+		                labels: chart_data.map(function (x) {
+		                    return x[0];
+		                }),
+		                datasets: [
+		                    {
+		                        data: chart_data.map(function (x) {
+		                            return x[1];
+		                        }),
+		                        borderColor: "blue",
+		                        borderWidth: 4,
+		                    },
+		                ],
+		            },
+		            options: {
+		                title: {
+		                    text: "KOSPI 차트",
+		                },
+		                legend: {
+		                    display: false,
+		                },
+		                xAxis: {
+		                    title: {
+		                        text: "Date",
+		                    },
+		                },
+		                yAxis: {
+		                    title: {
+		                        text: "Price (won)",
+		                    }
+		                },animation: {
+		                    duration: 1000,  // 애니메이션 지속 시간 (밀리초)
+		                    easing: 'easeInOutQuart'  // 애니메이션 속도 곡선
+		                }
+		            },
+		        });
+			}
+		});
+		//코스닥 지수 차트 (업종번호 : 11001)
+		$.ajax({
+			url : "main/searchForMainChart.do",
+			type : "GET",
+			data : {
+				"industry_code" : "1001",
+				"start_date" : start_date,
+				"end_date" : end_date
+			},
+			dataType : "JSON",
+			success : function(data) {
+				console.log(data);
+				let ctx = document.getElementById("myChart2").getContext("2d");
+				let chart_data = [];
+		        $.each(data.output2.reverse(), function(index, item) {
+		        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+		        	  console.log(date);
+		        	  let price = item.bstp_nmix_prpr;
+		        	  let each_data = [date, price];
+		        	  chart_data.push(each_data);
+		        });
+		        let lineChart = new Chart(ctx, {
+		            type: "line",
+		            data: {
+		                labels: chart_data.map(function (x) {
+		                    return x[0];
+		                }),
+		                datasets: [
+		                    {
+		                        data: chart_data.map(function (x) {
+		                            return x[1];
+		                        }),
+		                        borderColor: "blue",
+		                        borderWidth: 4,
+		                    },
+		                ],
+		            },
+		            options: {
+		                title: {
+		                    text: "KOSDAQ 차트",
+		                },
+		                legend: {
+		                    display: false,
+		                },
+		                xAxis: {
+		                    title: {
+		                        text: "Date",
+		                    },
+		                },
+		                yAxis: {
+		                    title: {
+		                        text: "Price (won)",
+		                    }
+		                },animation: {
+		                    duration: 1000,  // 애니메이션 지속 시간 (밀리초)
+		                    easing: 'easeInOutQuart'  // 애니메이션 속도 곡선
+		                }
+		            },
+		        });
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- content 영역 -->
 	<main class="container my-5">
-		<div class="d-flex justify-content-end">
-			<!-- 검색목록 페이지 이동 (8번)-->
-			<form action="#" method="post">
-				<div class="input-group mb-3">
-					<input type="text" class="form-control"
-						placeholder="종목명 또는 종목코드 검색" /> <a
-						href="${pageContext.request.contextPath}/search/searchList.do">
-						<button type="button" class="btn btn-secondary">검색</button>
-					</a>
-				</div>
-			</form>
-		</div>
-		<div class="py-3 py-md-3">즐겨찾기</div>
-		<hr class="my-2 gy-5" />
-		<div class="py-3 py-md-3">
-			<div class="d-flex flex-row mb-3 gy-5">
-				<div class="chart">
-					<canvas id="myChart1"></canvas>
-				</div>
-				<div class="chart">
-					<canvas id="myChart2"></canvas>
-				</div>
-				<div class="chart">
-					<canvas id="myChart3"></canvas>
-				</div>
+		<div class="row">
+			<div class="col-md-8 align-self-center">
+				<h5>오늘의 증시</h5>
+			</div>
+			<div class="col-md-4">
+				<form action="search/searchList.do">
+					<div class="input-group mb-3">
+						<input type="text" id="keyword" class="form-control"
+							placeholder="검색어를 입력하세요" name="stock_name" value="" />
+						<input type="submit" id="search" class="btn btn-secondary" value="검색">
+					</div>
+				</form>
 			</div>
 		</div>
-		<div class="py-3 py-md-3">인기검색</div>
 		<hr class="my-2 gy-5" />
 		<div class="py-3 py-md-3">
+		 <div class="row">
+        <div class="col-xxl-6 col-xl-12">
+            <div class="chart">
+                <canvas id="myChart1" class="w-100 h-100"></canvas>
+            </div>
+        </div>
+        <div class="col-xxl-6 col-xl-12">
+            <div class="chart" id="chartContainer">
+                <canvas id="myChart2" class="w-100 h-100"></canvas>
+            </div>
+        </div>
+    </div>
+		</div>
+		<div class="py-3 py-md-3">거래량순위</div>
+		<hr class="my-2 gy-5" />
+		<div class="row py-3 py-md-3">
 			<div class="col-md-12">
 				<table class="table text-center">
 					<thead class="bg-secondary text-dark bg-opacity-25">
 						<tr>
+							<th>순위</th>
 							<th>종목명</th>
-							<th>공백</th>
 							<th>현재가</th>
 							<th>등락률</th>
-							<th>시가총액</th>
-							<th>거래량</th>
+							<th>거래량 증가율</th>
+							<th>전일 거래량</th>
+							<th>평균 거래량</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>에코프로</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>하나기술</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>삼성전자</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>삼부토건</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>한국전력</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>삼부토건</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>에코프로비엠</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
+					<tbody id="trading_volume_ranking">
+						
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div class="py-3 py-md-3">실시간 등락률</div>
-		<div class="py-3 py-md-3">국내 해외</div>
-
-		<div class="py-3 py-md-3">
-			<hr class="my-2 gy-5" />
-		</div>
-		<div class="py-3 py-md-3">
-			<div class="col-md-12">
-				<table class="table text-center">
-					<thead class="bg-secondary text-dark bg-opacity-25">
-						<tr>
-							<th>종목명</th>
-							<th>공백</th>
-							<th>현재가</th>
-							<th>등락률</th>
-							<th>시가총액</th>
-							<th>거래량</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>에코프로</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>하나기술</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>삼성전자</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>삼부토건</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>한국전력</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>삼부토건</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-						<tr>
-							<td>에코프로비엠</td>
-							<td>공백</td>
-							<td><a href="#"><box-icon
-										name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-							</td>
-							<td>32.5%</td>
-							<td>5,000,000</td>
-							<td>1,000,000</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="py-3 py-md-3">
-			<div class="py-3 py-md-3">실시간 인기랭킹</div>
-			<div class="py-3 py-md-3">국내 해외</div>
-
-			<hr class="my-2 gy-7" />
-			<div class="py-3 py-md-3">
-				<div class="col-md-12">
-					<table class="table text-center">
-						<thead class="bg-secondary text-dark bg-opacity-25">
-							<tr>
-								<th>종목명</th>
-								<th>공백</th>
-								<th>현재가</th>
-								<th>등락률</th>
-								<th>시가총액</th>
-								<th>거래량</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>에코프로</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-							<tr>
-								<td>하나기술</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>삼성전자</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-							<tr>
-								<td>삼부토건</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-							<tr>
-								<td>한국전력</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-							<tr>
-								<td>삼부토건</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-							<tr>
-								<td>에코프로비엠</td>
-								<td>공백</td>
-								<td><a href="#"><box-icon
-											name="lock" type="solid"></box-icon>&nbsp;72,700</a>
-								</td>
-								<td>32.5%</td>
-								<td>5,000,000</td>
-								<td>1,000,000</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="mainboard">
-			<div id="board1">
+		
+		<div class="mainboard row d-flex flex-row justify-content-evenly">
+			<div id="board1" class="col-md-5">
 				<div class="py-3 py-md-3">커뮤니티</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">1. An item</li>
@@ -402,7 +271,7 @@
 					<li class="list-group-item">5. And a fifth one</li>
 				</ul>
 			</div>
-			<div id="board2">
+			<div id="board2" class="col-md-5">
 				<div class="py-3 py-md-3">문의</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">1. An item</li>
@@ -412,7 +281,6 @@
 					<li class="list-group-item">5. And a fifth one</li>
 				</ul>
 			</div>
-			<div class="py-3 py-md-3"></div>
 		</div>
 	</main>
 	<a id="moveTopBtn"><img
@@ -420,158 +288,8 @@
 		style="width: 38px; height: 38px" /></a>
 	<!-- footer 영역 -->
 </body>
+
 <script>
-        var ctx = document.getElementById("myChart1").getContext("2d");
-        var data = [
-            ["2023-06-14", 72700],
-            ["2023-06-15", 71500],
-            ["2023-06-16", 71800],
-            ["2023-06-17", 71200],
-            ["2023-06-18", 71400],
-            ["2023-06-19", 70500],
-            ["2023-06-20", 71300],
-            ["2023-06-21", 71600],
-            ["2023-06-22", 72500],
-            ["2023-06-23", 72600],
-            ["2023-06-24", 72700],
-        ];
-        var lineChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: data.map(function (x) {
-                    return x[0];
-                }),
-                datasets: [
-                    {
-                        data: data.map(function (x) {
-                            return x[1];
-                        }),
-                        borderColor: "blue",
-                        borderWidth: 2,
-                    },
-                ],
-            },
-            options: {
-                title: {
-                    text: "Samsung Electronics Stock Price",
-                },
-                legend: {
-                    display: false,
-                },
-                xAxis: {
-                    title: {
-                        text: "Date",
-                    },
-                },
-                yAxis: {
-                    title: {
-                        text: "Price (won)",
-                    },
-                },
-            },
-        });
-    </script>
-<script>
-        var ctx = document.getElementById("myChart2").getContext("2d");
-        var data = [
-            ["2023-06-14", 72700],
-            ["2023-06-15", 71500],
-            ["2023-06-16", 71800],
-            ["2023-06-17", 71200],
-            ["2023-06-18", 71400],
-            ["2023-06-19", 70500],
-            ["2023-06-20", 71300],
-            ["2023-06-21", 71600],
-            ["2023-06-22", 72500],
-            ["2023-06-23", 72600],
-            ["2023-06-24", 72700],
-        ];
-        var lineChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: data.map(function (x) {
-                    return x[0];
-                }),
-                datasets: [
-                    {
-                        data: data.map(function (x) {
-                            return x[1];
-                        }),
-                        borderColor: "blue",
-                        borderWidth: 2,
-                    },
-                ],
-            },
-            options: {
-                title: {
-                    text: "Samsung Electronics Stock Price",
-                },
-                legend: {
-                    display: false,
-                },
-                xAxis: {
-                    title: {
-                        text: "Date",
-                    },
-                },
-                yAxis: {
-                    title: {
-                        text: "Price (won)",
-                    },
-                },
-            },
-        });
-    </script>
-<script>
-        var ctx = document.getElementById("myChart3").getContext("2d");
-        var data = [
-            ["2023-06-14", 72700],
-            ["2023-06-15", 71500],
-            ["2023-06-16", 71800],
-            ["2023-06-17", 71200],
-            ["2023-06-18", 71400],
-            ["2023-06-19", 70500],
-            ["2023-06-20", 71300],
-            ["2023-06-21", 71600],
-            ["2023-06-22", 72500],
-            ["2023-06-23", 72600],
-            ["2023-06-24", 72700],
-        ];
-        var lineChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: data.map(function (x) {
-                    return x[0];
-                }),
-                datasets: [
-                    {
-                        data: data.map(function (x) {
-                            return x[1];
-                        }),
-                        borderColor: "blue",
-                        borderWidth: 2,
-                    },
-                ],
-            },
-            options: {
-                title: {
-                    text: "Samsung Electronics Stock Price",
-                },
-                legend: {
-                    display: false,
-                },
-                xAxis: {
-                    title: {
-                        text: "Date",
-                    },
-                },
-                yAxis: {
-                    title: {
-                        text: "Price (won)",
-                    },
-                },
-            },
-        });
         const $topBtn = document.querySelector("#moveTopBtn");
 
         // 버튼 클릭 시 맨 위로 이동
