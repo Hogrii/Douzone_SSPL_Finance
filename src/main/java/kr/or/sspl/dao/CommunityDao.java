@@ -3,15 +3,10 @@ package kr.or.sspl.dao;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.ui.Model;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunitySearchData;
 import kr.or.sspl.dto.SaveReqDto;
-@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+
 public interface CommunityDao {
 
 	//전체 게시물 갯수 조회 
