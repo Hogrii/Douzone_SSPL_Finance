@@ -138,7 +138,7 @@ public class QnaService {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			QnaDto qnaInfo = qnaDao.qna(qna_seq);
-			request.setAttribute("qna", qnaInfo);			
+			request.setAttribute("qna", qnaInfo);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	
