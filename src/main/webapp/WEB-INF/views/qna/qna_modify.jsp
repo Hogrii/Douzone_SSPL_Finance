@@ -64,7 +64,7 @@ hr {
 							id="title"
 							name="qna_title"
 							placeholder="제목을 입력하세요"
-							value=${qna.qna_title } />
+							value="${qna.qna_title }" />
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
