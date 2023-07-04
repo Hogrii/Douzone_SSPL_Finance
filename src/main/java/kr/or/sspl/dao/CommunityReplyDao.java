@@ -17,12 +17,15 @@ public interface CommunityReplyDao {
 	// 댓글 입력
 	int communityReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException;
 
-	// 댓글 삭제(순번 선택하여 삭제)
+	// 원본글 삭제시 필요(순번 선택하여 삭제)
 	void communityReplyDelete(int comm_seq) throws ClassNotFoundException, SQLException;
 
-	//대댓글 입력
+	// 댓글 삭제
+	int ReplyDelete(int comm_reply_seq) throws ClassNotFoundException, SQLException;
+
+	// 대댓글 입력
 	int communityReReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException;
-	
-	//comm_seq 조회
+
+	// comm_seq 조회
 	int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException;
 }

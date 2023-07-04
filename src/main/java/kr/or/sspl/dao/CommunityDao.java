@@ -6,9 +6,12 @@ import java.util.Map;
 
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunitySearchData;
 import kr.or.sspl.dto.SaveReqDto;
+@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 public interface CommunityDao {
 
 	//전체 게시물 갯수 조회 
@@ -17,6 +20,7 @@ public interface CommunityDao {
 	List<CommunityDto> list(Map<String,Integer> map) throws ClassNotFoundException, SQLException;
  
 	// 게시물 상세 - 예정
+	
 	CommunityDto getDetailList(int comm_seq)throws ClassNotFoundException, SQLException;
 	
 	//조건 검색 갯수
