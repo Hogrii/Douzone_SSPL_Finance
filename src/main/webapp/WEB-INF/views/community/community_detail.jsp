@@ -211,6 +211,7 @@ $(function(){
 		  
 	  }
 	  console.log(data);
+	  let data = JSON.stringify(requestdata);
 	  $.ajax({
 		  type: "post",
 		  url: "/sspl_finance/restcommunity/replyInsert",
