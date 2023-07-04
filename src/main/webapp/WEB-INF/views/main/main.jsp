@@ -33,7 +33,7 @@
 	$(function() {
 		//거래량 순위 테이블
 		$.ajax({
-			url : "search/searchForMainRankTable.do",
+			url : "main/searchForMainRankTable.do",
 			type : "GET",
 			dataType : "JSON",
 			success : function(data) {
@@ -80,7 +80,7 @@
 		console.log('시작일 : ' + start_date);
 		//코스피 지수 차트 (업종번호 : 0001)
 		$.ajax({
-			url : "search/searchForMainChart.do",
+			url : "main/searchForMainChart.do",
 			type : "GET",
 			data : {
 				"industry_code" : "0001",
@@ -141,7 +141,7 @@
 		});
 		//코스닥 지수 차트 (업종번호 : 11001)
 		$.ajax({
-			url : "search/searchForMainChart.do",
+			url : "main/searchForMainChart.do",
 			type : "GET",
 			data : {
 				"industry_code" : "1001",
