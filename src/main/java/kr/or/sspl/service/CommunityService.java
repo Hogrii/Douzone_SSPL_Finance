@@ -1,19 +1,15 @@
 package kr.or.sspl.service;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.sspl.dao.CommunityDao;
 import kr.or.sspl.dao.CommunityReplyDao;
@@ -53,8 +49,6 @@ public class CommunityService {
 		int pagesize = Integer.parseInt(ps);
 		int cpage = Integer.parseInt(cp);
 
-		// System.out.println("pagesize : " + pagesize);
-		// System.out.println("cpage : " + cpage);
 		int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
 		int end = cpage * pagesize; // 1 * 5 = 5
 
@@ -74,7 +68,6 @@ public class CommunityService {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		List<CommunityDto> list = comunityDao.list(map);
 
-		// System.out.println(list.toString());
 		model.addAttribute("list", list);
 		model.addAttribute("pagesize", pagesize);
 		model.addAttribute("pagecount", pagecount);
@@ -85,7 +78,6 @@ public class CommunityService {
 	public void getDetailList(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
-		//System.out.println("날짜 출력 : "+communityDto.getComm_writen_date());
 		model.addAttribute("detaillist", communityDto);
 	}
 
@@ -155,16 +147,16 @@ public class CommunityService {
 		return result;
 
 	}
-	 
+
 	// 댓글 삭제
 	public int ReplyDelete(int comm_reply_seq) throws ClassNotFoundException, SQLException {
-			System.out.println("댓글 삭제 커트롤러");
-			CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
-			int result = communityReplyDao.ReplyDelete(comm_reply_seq);
-			System.out.println(result + "삭제완료");
-			return result;
+		System.out.println("댓글 삭제 커트롤러");
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		int result = communityReplyDao.ReplyDelete(comm_reply_seq);
+		System.out.println(result + "삭제완료");
+		return result;
 
-		}
+	}
 
 	// 대댓글 입력
 	public int communityReReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {
@@ -175,8 +167,19 @@ public class CommunityService {
 		return result;
 
 	}
-	
-	//comm_seq 조회
+
+	// 대댓글 조회
+	public List<CommunityReplyDto> reReplyList(int comm_seq) {
+		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
+		System.out.println("rereply 서비스 옴");
+		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
+		list = communityReplyDao.reReplyList(comm_seq);
+		System.out.println(list.get(0).getRefer());
+		System.out.println("대댓글의 내용 "+list.toString());
+		return list;
+	}
+
+	// comm_seq 조회
 	public int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException {
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
 		int result = communityReplyDao.getCommSeq(comm_reply_seq);

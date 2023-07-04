@@ -13,6 +13,9 @@ public interface CommunityReplyDao {
 
 	// 댓글 조회
 	List<CommunityReplyDto> communityReplyList(int comm_seq);
+	 
+	//대댓글 조회 
+	List<CommunityReplyDto> reReplyList(int comm_seq);
 
 	// 댓글 입력
 	int communityReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException;
@@ -28,4 +31,5 @@ public interface CommunityReplyDao {
 
 	// comm_seq 조회
 	int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException;
+	
 }

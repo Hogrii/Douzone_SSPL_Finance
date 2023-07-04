@@ -37,8 +37,9 @@ box-icon {
 	<div class="listContainer">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<se:authentication property="name" var="LoginUser" />
-		<div class="userMessage">[${LoginUser}]</div>
-
+		<input id="login_id" type="hidden" value="${LoginUser}">
+		
+		
 		<c:set var="pagesize" value="${requestScope.pagesize}" />
 		<c:set var="cpage" value="${requestScope.cpage}" />
 		<c:set var="pagecount" value="${requestScope.pagecount }" />

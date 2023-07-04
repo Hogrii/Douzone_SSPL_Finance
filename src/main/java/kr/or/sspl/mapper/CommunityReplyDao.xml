@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="kr.or.sspl.dao.CommunityReplyDao">
 
-	<!-- 댓글 조회 -->
+	<!-- 원댓글 조회 -->
 	<select id="communityReplyList" parameterType="int"
 		resultType="kr.or.sspl.dto.CommunityReplyDto">
 		select user_id,
@@ -14,13 +14,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		to_char(comm_reply_writen_date,'yyyy-mm-dd')as comm_reply_writen_date
 		from community_reply
 		where
-		comm_seq= #{comm_seq}
-		order by
-		comm_reply_writen_date asc
+		comm_seq= #{comm_seq} and depth=0
+		order by comm_reply_writen_date asc
 	</select>
-
+	
+	<!-- 대댓글 조회 -->
+	<select id="reReplyList" parameterType="int"
+		resultType="kr.or.sspl.dto.CommunityReplyDto">
+		select user_id,
+		comm_reply_seq,
+		comm_reply_content,
+		refer,
+		to_char(comm_reply_writen_date,'yyyy-mm-dd')as comm_reply_writen_date
+		from community_reply
+		where
+		comm_seq= #{comm_seq} and depth=1
+		order by comm_reply_writen_date asc
+	</select>
+	 
 	<!-- comm_seq 조회 -->
-	<select id="getCommSeq" parameterType="int">
+	<select id="getCommSeq" parameterType="int" resultType ="int">
 		select comm_seq from
 		community_reply
 		where comm_reply_seq =#{comm_reply_seq}
@@ -36,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(comm_reply_seq.nextval,#{comm_seq},#{user_id},#{comm_reply_content},sysdate,0,#{comm_seq},0)
 	</insert>
 
-	<!-- 대댓글 추가 -->
+	<!-- 대댓글 추가 원본글seq, 댓글seq 받아오기 대댓글은 dept 1 고정 -->
 	<insert id="communityReReplyInsert"
 		parameterType="kr.or.sspl.dto.CommunityReplyDto" >
 		insert into community_reply(comm_reply_seq, comm_seq,
