@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -100,7 +102,7 @@ hr {
 					//전일대비율
 					let per = data.output.prdy_ctrt;
 					console.log(data.output.cpfn_cnnm);
-					td += "<td><a href='searchDetail.do?stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
+					td += "<td><a href='searchDetail.do?user_id=" + ${LoginUser} + "&stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
 					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
 					td += "<td class='text-danger'>▲" + parseInt(yesterday).toLocaleString() + "</td>";
@@ -122,6 +124,7 @@ hr {
 </script>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->

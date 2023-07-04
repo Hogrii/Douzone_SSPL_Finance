@@ -49,14 +49,13 @@ public class SearchController {
 	}
 	
 	@GetMapping("searchDetail.do")
-	public String searchDetail(String stock_code, String stock_name, Model model) {
+	public String searchDetail(String user_id, String stock_code, String stock_name, Model model) {
 		model.addAttribute("stock_code", stock_code);
 		model.addAttribute("stock_name", stock_name);
-		LookupListDto lookupListDto = searchService.searchLookupOne("shs1991", stock_code);
-		System.out.println("³ª¿À´Ï" + lookupListDto);
+		LookupListDto lookupListDto = searchService.searchLookupOne(user_id, stock_code);
 		if(lookupListDto == null) {
 			lookupListDto = new LookupListDto();
-			lookupListDto.setUser_id("shs1991");
+			lookupListDto.setUser_id(user_id);
 			lookupListDto.setStock_code(stock_code);
 			searchService.insertSearch(lookupListDto);
 		}
@@ -67,7 +66,6 @@ public class SearchController {
 	@GetMapping("updateFavorite.do")
 	@ResponseBody
 	public LookupListDto updateFavorite(LookupListDto lookupList) {
-		System.out.println("³Ê ¹¹¶ó°í ÂïÈ÷´Ï? : " + lookupList.getLookup_category_num());
 		lookupList = searchService.updateFavorite(lookupList);
 		return lookupList;
 	}
@@ -78,23 +76,4 @@ public class SearchController {
 		String jsonResponse = searchService.searchForChart(stock_code, category, start_date, end_date);
 		return jsonResponse;
 	}
-	
-	@GetMapping("searchForMainRankTable.do")
-	@ResponseBody
-	public String searchForMainRankTable() {
-		String jsonResponse = searchService.searchForMainRankTable();
-		return jsonResponse;
-	}
-	
-	@GetMapping("searchForMainChart.do")
-	@ResponseBody
-	public String searchForMainChart(String industry_code, String start_date, String end_date) {
-		System.out.println(industry_code);
-		System.out.println(start_date);
-		System.out.println(end_date);
-		String jsonResponse = searchService.searchForMainChart(industry_code, start_date, end_date);
-		return jsonResponse;
-	}
-	
-	
 }
