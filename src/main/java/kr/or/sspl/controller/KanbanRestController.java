@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,7 +25,7 @@ public class KanbanRestController {
 	@Autowired
 	private KanbanService kanbanService;
 	
-	@GetMapping("/kanban_board/{id}")
+	@GetMapping("/kanban-board/{id}")
 	public ResponseEntity<List<LookupListDto>> lookupList(@PathVariable(value = "id") String user_id) {
 		
 		System.out.println(user_id);
@@ -35,7 +36,7 @@ public class KanbanRestController {
 		return new ResponseEntity<List<LookupListDto>>(list, HttpStatus.OK);
 	}
 	
-	@PutMapping("kanban_update")
+	@PutMapping("kanban-board")
 	public ResponseEntity<String> kanbanUpdate(@RequestBody List<LookupListDto> list){
 		
 		
@@ -46,6 +47,15 @@ public class KanbanRestController {
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 		
+	}
+	
+	@DeleteMapping("/kanban-board/{lookupListNo}")
+	public ResponseEntity<String> kanbanDelete(@PathVariable(value = "lookupListNo") String lookup_list_num){
+		
+		System.out.println(lookup_list_num);
+		String msg = kanbanService.kanbanDelete(lookup_list_num);
+		
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 }

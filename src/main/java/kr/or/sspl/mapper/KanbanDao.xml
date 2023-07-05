@@ -21,6 +21,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </foreach>
 	</update>
 	
+	<delete id="kanbanDelete">
+		DELETE FROM LOOKUP_LIST 
+		WHERE lookup_list_num = #{lookup_list_num}
+	</delete>
+	
 
 
 </mapper>
