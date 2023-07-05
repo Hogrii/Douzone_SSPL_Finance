@@ -77,31 +77,26 @@
 			<div class="replyContent">
 				<hr />
 				<div id="replyList"></div>
-				<hr />
-
 			</div>
 		</div>
 		<!--  댓글 리스트 조회 끝 -->
 
 		<!-- 댓글 입력 -->
 		<form id="replyForm" name="replyForm">
-			<table class="table">
+			<table class="table" style="width:100%"">
 				<tr>
-					<td><textarea style="width: 1100px" rows="3" cols="30"
-							id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea> <br>
+					<td>
+						<textarea class="w-100" rows="3" id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea><br>
 						<div>
-							<!-- 
-						<a href='#' onClick="fn_comment('${detail.comm_seq}')"
-							class="btn pull-right btn-success">등록</a>
-					 -->
 							<button type="button" class="btn btn-secondary" id="reply_btn">등록</button>
-						</div></td>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
 
 		<!-- 목록, 수정, 삭제 버튼 시작 -->
-		<div class="btns">
+		<div class="btns d-flex justify-content-between">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
 					onclick="location.href='list.do'">목록</button>
@@ -139,9 +134,7 @@ $(function(){
 	    	  let html = "";
 	    	  console.log("comm_reply_seq 는 "+this.comm_reply_seq);
 	    	  
-	    	  if(data[i++].depth===1){
-	    		  
-	    		console.log("나는 대댓글");
+	    	  if(data[i++].depth===1){	    		  
 	    		html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
 		    		  html += "<div class='reply_item'>";
 						html += "<div class='user_id'>" + this.user_id + "</div>";
@@ -150,11 +143,10 @@ $(function(){
 						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
 			        html += "</div>";
 				        html += "<div class='btns'>";
-						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3'>삭제</button></div>";
+						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
 					html += "</div>";		    	
 		        html += "</div>";
 	    	  }else{
-	    		console.log("나는 댓글");
 				html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
 					  html += "<div class='reply_item'>";
 						html += "<div class='user_id'>" + this.user_id + "</div>";
@@ -163,8 +155,8 @@ $(function(){
 						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
 			        html += "</div>";
 				        html += "<div class='btns'>";
-						html += "<div><button type='button' class ='reReply' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
-						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3'>삭제</button></div>";
+						html += "<div><button type='button' class ='reReply btn btn-secondary' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
+						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
 					html += "</div>";		    	
 		        html += "</div>";
 	    	  }
@@ -251,25 +243,27 @@ $(function(){
 			      console.log(data);
 			      console.log(data.comm_reply_seq);
 			      getList();
+			      $('#comment').val("");
+			      $('#comment').focus();
 			      //getReRepyList();
 			    }
 		  })
 	  }); //댓글 추가 끝
  
 	    //대댓글 작성버튼
-	    $(document).on("click","button[class='reReply']",function(){
+	    $(document).on("click","button[class='reReply btn btn-secondary']",function(){
 			  let comm_reply_seq = $(this).val(); //댓글의 seq번호 (이 번호에 대해 대댓글 달아야 함 )
 			  let html = "";
-	//	 	  html += "<div class='d-flex flex-row'>";
+		 	  html += "<div class='d-flex flex-row justify-content-between align-items-center'>";
 			  html += "<input type='text' placeholder='내용을 입력해주세요' id ='comm_reply_content' class ='w-75'/>";
-			  html += "<div class ='w-25 row'><button type='button' class ='reReplyComplete col-5' comm_reply_seq='"+comm_reply_seq+"'>작성완료</button>";
-			  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5'>취소</button></div>";
+			  html += "<div class='w-25 row'><button type='button' class ='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white' comm_reply_seq='"+comm_reply_seq+"'>작성완료</button>";
+			  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5 m-2 btn btn-sm btn-secondary text-white'>취소</button></div>";
 			  html += "</div>";
 		  $('#hr'+comm_reply_seq).before(html);
 		  }); //대댓글 작성 완료 끝 
 		
 		//대댓글완료버튼 
-	    $(document).on("click","button[class='reReplyComplete col-5']",function(){
+	    $(document).on("click","button[class='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white']",function(){
 	    	//console.log("제발 :" +$(this).attr("comm_reply_seq"));
 	    	let data ={
 	    		"comm_reply_content" : 	$("#comm_reply_content").val(), //내용
