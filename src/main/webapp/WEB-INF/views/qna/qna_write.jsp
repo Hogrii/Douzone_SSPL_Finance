@@ -91,12 +91,12 @@ hr {
                                     value="취소"
                                 />
                              -->
-                                <input
-                                    type="submit"
+                                <button
+                                    type="button"
                                     class="btn btn-secondary"
                                     value="등록"
                                     id="qnaWriteOk"
-                                />
+                                >등록</button>
 							<!-- 
 							<button type="button" class="btn btn-secondary" id="qnaWriteBtn">등록</button>
  -->
@@ -158,6 +158,29 @@ hr {
 				}
 			});
 		}
+		
+		$("#qnaWriteOk").on("click", function() {
+			if ($("#qna_title").val() == "") {
+				alert("제목를 선택해주세요");
+				return false;
+			}
+			
+			if ($("#qna_category").val() == "") {
+				alert("카테고리를을 선택해주세요");
+				return false;
+			}
+			
+			if ($("#summernote").val() == "") {
+				alert("내용을 입력해주세요");
+				return false;
+			}
+			
+			if (confirm("이대로 작성하시겠습니까?") == true) {
+				$("#frmWrite").submit();
+			} else {
+				return false;
+			}
+		});
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/summernote.js">
