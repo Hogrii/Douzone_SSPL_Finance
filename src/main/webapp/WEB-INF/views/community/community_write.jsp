@@ -72,6 +72,10 @@
 		</div>
 	</form>
 	<!-- 글쓰기 버튼 끝 -->
+	
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 <script>
 	$(document)

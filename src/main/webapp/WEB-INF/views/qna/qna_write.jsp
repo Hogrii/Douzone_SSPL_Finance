@@ -108,6 +108,10 @@ hr {
 			</div>
 		</div>
 	</div>
+	
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 	<script>
 		$('#summernote').summernote({
 			height: 300,                 // 에디터 높이

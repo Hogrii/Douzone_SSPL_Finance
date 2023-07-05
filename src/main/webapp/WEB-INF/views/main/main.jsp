@@ -314,6 +314,8 @@
 		src="${pageContext.request.contextPath}/resources/img/topbutton.png"
 		style="width: 38px; height: 38px" /></a>
 	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 
 <script>
@@ -325,3 +327,4 @@
         };
     </script>
 </html>
+

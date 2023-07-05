@@ -82,6 +82,10 @@
 		</div>
 	</form>
 	<!-- 목록, 수정, 삭제 버튼 끝 -->
+	
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 	<script>
 		$('#summernote').summernote(
 				{
@@ -171,5 +175,6 @@
 	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+		
 </body>
 </html>

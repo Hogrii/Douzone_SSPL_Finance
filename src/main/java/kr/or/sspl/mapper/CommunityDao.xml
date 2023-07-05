@@ -103,6 +103,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from community
 		where comm_seq =#{comm_seq}
 	</delete>	
+	
+	<!-- 조회 수 증가 -->
+	<update id="addViewCount">
+		update community
+		set comm_view_count = comm_view_count+1
+		where comm_seq =#{comm_seq}
+	</update>
  
 	 
 

@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -101,7 +102,7 @@ box-icon {
 </script>
 </head>
 <body>
-	<se:authentication property="name" var="LoginUser"/>
+	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -116,7 +117,8 @@ box-icon {
 			<div class="col-md-3">
 				<form action="searchKeyword.do">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" id="qna_title" placeholder="글 제목을 입력하세요" />
+						<input type="text" class="form-control" id="qna_title"
+							placeholder="글 제목을 입력하세요" />
 						<button type="button" id="search" class="btn btn-secondary">검색</button>
 					</div>
 				</form>
@@ -147,8 +149,8 @@ box-icon {
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>
 								<c:if test="${fn:contains(list.qna_content, '<img')}">
-									<td><box-icon name="file"></box-icon></td>		
-								</c:if>								
+									<td><box-icon name="file"></box-icon></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -198,6 +200,9 @@ box-icon {
 			<!-- 페이징 끝  ★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
 		</div>
 	</div>
+
 	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 </html>

@@ -33,5 +33,6 @@ public interface CommunityDao {
 	// 게시물 삭제(순번 선택하여 삭제)
 	int communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;
  
-
+	//조회 수 증가 
+	int addViewCount(int comm_seq);
 }

@@ -1,14 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 <style>
 .container {
 	display: flex;
@@ -48,21 +53,22 @@ form {
 .card-placeholder {
 	background-color: #ccc;
 }
+
 .red-text {
-    color: red;
+	color: red;
 }
 
 .blue-text {
-    color: blue;
+	color: blue;
 }
 
 .default-text {
-    color : black;
+	color: black;
 }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script
-	src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
 	rel="stylesheet" type="text/css" />
@@ -70,29 +76,32 @@ form {
 <body>
 	<se:authentication property="name" var="LoginUser" />
 	<input type="hidden" name="id" id="id" value="${LoginUser}">
-	
-<header>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-</header>
-<div class="board">
-	<div class="column sortable">
-		<div class="column-header">조회</div>
-		<div class="sortable" id="todo" connectWith=".sortable"></div>
+
+	<header>
+		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	</header>
+	<div class="board">
+		<div class="column sortable">
+			<div class="column-header">조회</div>
+			<div class="sortable" id="todo" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header">즐겨찾기</div>
+			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header">매수</div>
+			<div class="sortable" id="done" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header">매도</div>
+			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+		</div>
 	</div>
-	<div class="column sortable">
-		<div class="column-header">즐겨찾기</div>
-		<div class="sortable" id="inProgress" connectWith=".sortable"></div>
-	</div>
-	<div class="column sortable">
-		<div class="column-header">매수</div>
-		<div class="sortable" id="done" connectWith=".sortable"></div>
-	</div>
-	<div class="column sortable">
-		<div class="column-header">매도</div>
-		<div class="sortable" id="newColumn" connectWith=".sortable"></div>
-	</div>
-</div>
-<script>
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
+	<script>
 
 $(function () {
 	  let id = $('#id').val();

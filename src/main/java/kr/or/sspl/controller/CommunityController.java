@@ -40,12 +40,14 @@ public class CommunityController {
 
 	}
 
+	//상세페이지 넘어가는 동시에 조회수 증가 
 	@GetMapping("detail.do")
 	public String detail(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		System.out.println("comm_seq : " + comm_seq);
 		System.out.println("진입2");
+		communityservice.addViewCount(comm_seq); //게시글 조회수 증가 
 		communityservice.getDetailList(comm_seq, model);
-
+		
 		return "community/community_detail";
 	}
 
@@ -144,5 +146,8 @@ public class CommunityController {
 		System.out.println("한개 삭제 완료");
 		return "redirect:/community/list.do";
 	}
+	
+	
+	
 
 }
