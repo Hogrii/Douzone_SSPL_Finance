@@ -33,9 +33,10 @@ public class CommunityController {
 	private CommunityService communityservice;
 
 	@GetMapping("list.do")
-	public String CommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
-
-		communityservice.getCommunityList(ps, cp, model);
+	public String CommunityList(String cp, String ps, Model model) throws ClassNotFoundException, SQLException {
+		System.out.println("cp: "+cp);
+		System.out.println("ps: "+ps);
+		communityservice.getCommunityList(cp, ps, model);
 		return "community/community_list";
 
 	}
@@ -48,6 +49,8 @@ public class CommunityController {
 		communityservice.addViewCount(comm_seq); //게시글 조회수 증가 
 		communityservice.getDetailList(comm_seq, model, cp, ps);
 		
+		
+		model.addAttribute("cp", 123);
 		return "community/community_detail";
 	}
 

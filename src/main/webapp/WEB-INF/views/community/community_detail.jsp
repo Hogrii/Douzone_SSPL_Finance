@@ -53,11 +53,14 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
-	
-	<c:set var="cp" value="${cpage }"></c:set>
-	<c:set var="ps" value="${pagesize }"></c:set>
+ 
+	<c:set var="ps" value="${requestScope.pagesize}" />
+	<c:set var="cp" value="${requestScope.cpage}" />
+	<c:set var="pagecount" value="${requestScope.pagecount}" />
+ 
 
-	<div class="Container py-5">
+	<div class="py-5 container">
+		 
 		<!-- 글 내용 시작 -->
 		<c:set var="detail" value="${requestScope.detaillist}" />
 		<div class="titles">
@@ -80,18 +83,18 @@
 				<div id="replyList"></div>
 			</div>
 		</div>
+		<div class="content">${ps}</div>
 		<!--  댓글 리스트 조회 끝 -->
 
 		<!-- 댓글 입력 -->
 		<form id="replyForm" name="replyForm">
-			<table class="table" style="width:100%"">
+			<table class="table" style="width: 100%">
 				<tr>
-					<td>
-						<textarea class="w-100" rows="3" id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea><br>
+					<td><textarea class="w-100" rows="3" id="comment"
+							name="comment" placeholder="댓글을 입력하세요"></textarea><br>
 						<div>
 							<button type="button" class="btn btn-secondary" id="reply_btn">등록</button>
-						</div>
-					</td>
+						</div></td>
 				</tr>
 			</table>
 		</form>
@@ -100,7 +103,7 @@
 		<div class="btns d-flex justify-content-between">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
+					onclick="location.href='list.do?ps=${pagesize}cp=${cpage}'">목록</button>
 			</div>
 			<div id="class="otherBtns">
 				<button type="submit" class="btn btn-secondary"
@@ -116,8 +119,12 @@
 </body>
 
 <script>
-$(function(){
 
+$(function(){
+	console.log(1);
+	console.log(${cp});
+	console.log(window.location.href);
+	console.log(1);
 	 //전체 댓글
 	  function getList(){
 	  $.ajax({

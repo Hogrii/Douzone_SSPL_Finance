@@ -40,14 +40,14 @@ box-icon {
 </style>
 </head>
 <body>
-	<div class="listContainer">
+	<div class="listContainer container">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<se:authentication property="name" var="LoginUser" />
 		<input id="login_id" type="hidden" value="${LoginUser}">
 		
 		
-		<c:set var="pagesize" value="${requestScope.pagesize}" />
-		<c:set var="cpage" value="${requestScope.cpage}" />
+		<c:set var="ps" value="${requestScope.pagesize}" />
+		<c:set var="cp" value="${requestScope.cpage}" />
 		<c:set var="pagecount" value="${requestScope.pagecount }" />
 		<div class="main py-5">
 			<!-- 검색버튼 시작 -->
@@ -127,7 +127,7 @@ box-icon {
 									<td></box-icon><a href="detail.do?comm_seq=${list2.comm_seq}&cp=${cpage}&ps=${pagesize}">${list2.comm_title}</a> <box-icon name='photo-album' ></box-icon></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="detail.do?comm_seq=${list2.comm_seq}&cp=${cpage}&ps=${pagesize}">${list2.comm_title}</a></td>
+									<td><a href="detail.do?comm_seq=${list2.comm_seq}&cpage=${cp}&pagesize=${ps}">${list2.comm_title}</a></td>
 								</c:otherwise>
 							</c:choose>						
 							<td>${list2.user_id}</td>
@@ -149,15 +149,15 @@ box-icon {
 				<nav>
 					<ul class="pagination">
 						<li class="page-item ${cpage == 1 ? 'disabled' : ''}"><a
-							class="page-link" href="list.do?cp=${cpage-1}&ps=${pagesize}"
+							class="page-link" href="list.do?cp=${cp-1}&ps=${ps}"
 							tabindex="-1" aria-disabled="true">이전</a></li>
 						<c:forEach var="i" begin="1" end="${pagecount}" step="1">
-							<li class="page-item ${cpage == i ? 'active' : ''}"><a
-								class="page-link" href="list.do?cp=${i}&ps=${pagesize}">${i}</a>
+							<li class="page-item ${cp == i ? 'active' : ''}"><a
+								class="page-link" href="list.do?cp=${i}&ps=${ps}">${i}</a>
 							</li>
 						</c:forEach>
 						<li class="page-item ${cpage == totalPage ? 'disabled' : ''}">
-							<a class="page-link" href="list.do?cp=${cpage+1}&ps=${pagesize}">다음</a>
+							<a class="page-link" href="list.do?cp=${cp+1}&ps=${ps}">다음</a>
 						</li>
 					</ul>
 				</nav>

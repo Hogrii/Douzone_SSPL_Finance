@@ -39,7 +39,7 @@ public class CommunityService {
 	}
 
 	// 전체 게시판 보기
-	public List<CommunityDto> getCommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
+	public List<CommunityDto> getCommunityList(String cp, String ps, Model model) throws ClassNotFoundException, SQLException {
 
 		if (cp == null || cp.trim().equals("")) {
 			cp = "1";
@@ -61,7 +61,7 @@ public class CommunityService {
 		} else {
 			pagecount = (totalcount / pagesize) + 1;
 		}
-
+		System.out.println("pagecount : "+ pagecount );
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
@@ -77,6 +77,9 @@ public class CommunityService {
 		model.addAttribute("pagesize", pagesize);
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
+		
+		System.out.println("ps : "+ ps);
+		System.out.println("cp: "+ cp);
 		
 		return list;
 	}
