@@ -37,6 +37,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- 글쓰기 내용 시작 -->
 	<se:authentication property="name" var="LoginUser" />
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	
 	<form action="writeOk.do" method="post" id="frmWrite"
 		enctype="multipart/form-data">

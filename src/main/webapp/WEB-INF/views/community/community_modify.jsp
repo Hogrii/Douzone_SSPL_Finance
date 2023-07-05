@@ -39,7 +39,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
-	<div class="userMessage">[${LoginUser}]</div>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	
 	<!-- 글쓰기 내용 시작 -->
 	<form action="modifyOk.do" method="post">
