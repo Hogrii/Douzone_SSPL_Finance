@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,7 +37,7 @@
 				let month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
 				let day = ('0' + today.getDate()).slice(-2);
 				tr += "<td>"+ year + "-" + month + "-" + day +"</td>";
-				//시가
+				//현재가
 				let price = parseInt(data.output.stck_prpr).toLocaleString();
 				tr += "<td>"+ price +"</td>";
 				//전일종가
@@ -207,7 +208,7 @@
 			});
 		});
 		$('#first_btn').click();
-		
+		let user_id = $('#login_id').val();
 		//즐겨찾기 버튼
 		$('#favorite').on('click',function() {
 			let lookup_category_num = $('#favorite').val();
@@ -222,7 +223,7 @@
 				url : "updateFavorite.do",
 				type : "GET",
 				data : {
-					"user_id" : "shs1991",
+					"user_id" : user_id,
 					"stock_code" : stock_code,
 					"lookup_category_num" : lookup_category_num
 				},
@@ -248,6 +249,8 @@
 </style>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
@@ -268,7 +271,7 @@
 			<thead>
 				<tr class="table-secondary text-center">
 					<th>날짜</th>
-					<th>시가</th>
+					<th>현재가</th>
 					<th>전일종가</th>
 					<th>최고가</th>
 					<th>최저가</th>

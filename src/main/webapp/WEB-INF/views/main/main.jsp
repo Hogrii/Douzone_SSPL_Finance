@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +33,40 @@
 </style>
 <script type="text/javascript">
 	$(function() {
+		
+		console.log("문의글 시작");
+		// 문의 글
+		$.ajax({
+			url : "main/qnaGetList.do",
+			type : "GET",
+			dataType : "JSON",
+			success : function(data) {
+				data.forEach(item => {
+					console.log("qna : " + item);
+					let li = "";
+					li = "<li class='list-group-item'><a href='qna/qnaDetail.do?qna_seq="+item.qna_seq+"'>"+item.qna_title+"</a></li>";
+					$('#qnaList').append(li);
+				});
+				//<ul class="list-group list-group-flush">
+				//<li class="list-group-item">1. An item</li>
+			}
+		})
+		
+		$.ajax({
+			url : "main/commGetList.do",
+			type : "GET",
+			dataType : "JSON",
+			success : function(data) {
+				data.forEach(item => {
+					let li = "";
+					li = "<li class='list-group-item'><a href='community/detail.do?comm_seq="+item.comm_seq+"'>"+item.comm_title+"</a></li>";
+					$('#commList').append(li);
+				});
+			}
+		})
+		
+		
+		let user_id = $('#login_id').val();
 		//거래량 순위 테이블
 		$.ajax({
 			url : "main/searchForMainRankTable.do",
@@ -43,7 +79,7 @@
 					//거래 순위
 					tr += "<td>" + items[i].data_rank + "</td>";
 					//종목명
-					tr += "<td><a href='search/searchDetail.do?stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
+					tr += "<td><a href='search/searchDetail.do?user_id=" + user_id + "&stock_code=" + items[i].mksc_shrn_iscd + "&stock_name=" + items[i].hts_kor_isnm + "'>" + items[i].hts_kor_isnm + "</a></td>";
 					//현재가
 					tr += "<td>" + parseInt(items[i].stck_prpr).toLocaleString() + "</td>";
 					//등락률
@@ -57,7 +93,6 @@
 					tr += "</td>";
 					$('#trading_volume_ranking').append(tr);
 				}
-				
 			}
 		});
 		
@@ -204,6 +239,8 @@
 </script>
 </head>
 <body>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- content 영역 -->
@@ -263,23 +300,11 @@
 		<div class="mainboard row d-flex flex-row justify-content-evenly">
 			<div id="board1" class="col-md-5">
 				<div class="py-3 py-md-3">커뮤니티</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">1. An item</li>
-					<li class="list-group-item">2. second item</li>
-					<li class="list-group-item">3. third item</li>
-					<li class="list-group-item">4. fourth item</li>
-					<li class="list-group-item">5. And a fifth one</li>
-				</ul>
+				<ul class="list-group list-group-flush" id="commList"></ul>
 			</div>
 			<div id="board2" class="col-md-5">
 				<div class="py-3 py-md-3">문의</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">1. An item</li>
-					<li class="list-group-item">2. second item</li>
-					<li class="list-group-item">3. third item</li>
-					<li class="list-group-item">4. fourth item</li>
-					<li class="list-group-item">5. And a fifth one</li>
-				</ul>
+				<ul class="list-group list-group-flush" id="qnaList"></ul>
 			</div>
 		</div>
 	</main>

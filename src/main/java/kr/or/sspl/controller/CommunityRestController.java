@@ -121,10 +121,8 @@ public class CommunityRestController {
 	@PostMapping("replyInsert")
 	public ResponseEntity<?> communityReplyInsert(@RequestBody CommunityReplyDto communityReplyDto,
 			HttpServletRequest request) throws ClassNotFoundException, SQLException {
-		//System.out.println("댓글입력컨트롤러 진입");
-		//System.out.println(communityReplyDto.toString());
 		int result = communityservice.communityReplyInsert(communityReplyDto);
-
+		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -139,19 +137,38 @@ public class CommunityRestController {
 	}
 	
 	
-	//대댓글 작성
+	//대댓글 작성완료
 	@PostMapping("reReplyInsert")
 	public ResponseEntity<?> communityReReplyInsert(@RequestBody CommunityReplyDto communityReplyDto,
 			HttpServletRequest request) throws ClassNotFoundException, SQLException {
 		System.out.println("댓댓입력컨트롤러 진입");
 		System.out.println(communityReplyDto.toString());
-		int comm_seq = communityservice.getCommSeq(communityReplyDto.getComm_reply_seq()); //comm_seq 받아오기
-		communityReplyDto.setComm_seq(comm_seq);
-		int result = communityservice.communityReReplyInsert(communityReplyDto);
-
+		int comm_seq = communityservice.getCommSeq(communityReplyDto.getComm_reply_seq()); //원본comm_seq 받아오기
+		System.out.println("원본 글번호 "+comm_seq);
+		communityReplyDto.setComm_seq(comm_seq);   
+		System.out.println();
+		int result = communityservice.communityReReplyInsert(communityReplyDto); //원본 25번 글과 댓글의 번호 가져가기
+		System.out.println("입력갯수: "+result);
+		 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	//대댓글 조회
+	/*@GetMapping("reReplySelect/{comm_seq}")
+	public ResponseEntity<List<CommunityReplyDto>> ReReplyList(@PathVariable int comm_seq) {
+		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
+		try {
+			System.out.println("rereply조회 정상실행");
+			System.out.println("refer 값: " + comm_seq);
+			
+			list = communityservice.reReplyList(comm_seq);
+			
+			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.BAD_REQUEST);
+		}
+	}*/
+	 
 	
 	
 

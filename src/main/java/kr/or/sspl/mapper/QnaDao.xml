@@ -16,14 +16,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 전체 리스트 -->
 	<select id="qnaList" parameterType ="HashMap" resultType="kr.or.sspl.dto.QnaDto">
-		<![CDATA[
 			SELECT QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
 			FROM (
-				SELECT ROWNUM AS RN, QNA_SEQ, USER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_CATEGORY, QNA_STATUS
+				SELECT 
+					ROWNUM AS RN, 
+					QNA_SEQ, 
+					USER_ID, 
+					QNA_TITLE, 
+					QNA_CONTENT, 
+					QNA_DATE, 
+					QNA_CATEGORY, 
+					QNA_STATUS
 				FROM QNA
 				ORDER BY QNA_SEQ DESC)
 			WHERE RN BETWEEN #{start} AND #{end}
-		]]>
 	</select>
 
 	<!-- 상세 페이지 -->

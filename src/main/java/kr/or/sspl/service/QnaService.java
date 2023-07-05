@@ -38,7 +38,7 @@ public class QnaService {
 	}
 	
 	// 글출력
-	public void qnaList(Model model, HttpServletRequest request) {
+	public List<QnaDto> qnaList(Model model, HttpServletRequest request) {
 		List<QnaDto> qnaList = null;
 		Map<String, Integer> listMap = new HashMap<String, Integer>();
 		try {
@@ -72,6 +72,9 @@ public class QnaService {
 				listMap.put("end", end);
 				
 				qnaList = qnaDao.qnaList(listMap);
+				for(int i=0; i<qnaList.size(); i++) {
+					System.out.println("그림포함 : " + qnaList.get(i).getQna_content());
+				}
 				
 				request.setAttribute("qnaList", qnaList);
 				request.setAttribute("pagesize", pagesize);
@@ -86,6 +89,7 @@ public class QnaService {
 		}
 		System.out.println(qnaList.toString());
 		model.addAttribute("qnaList", qnaList);
+		return qnaList;
 	}
 	
 	// 상세 페이지 출력

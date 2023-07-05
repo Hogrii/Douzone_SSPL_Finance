@@ -28,7 +28,7 @@ public class SearchService {
 		this.sqlsession = sqlsession;
 	}
 
-	//Á¾¸ñ ÀÌ¸§À¸·Î ÄÚµå °Ë»ö
+	//ì¢…ëª© ì´ë¦„ìœ¼ë¡œ ì½”ë“œ ê²€ìƒ‰
 	public List<StockDto> searchList(String stock_name) {
 		List<StockDto> stockList = new ArrayList<StockDto>();
 		try {
@@ -43,48 +43,48 @@ public class SearchService {
 		return stockList;
 	}
 	
-	//Á¾¸ñ ÄÚµå·Î »ó¼¼ Á¤º¸ °Ë»ö
+	//ì¢…ëª© ì½”ë“œë¡œ ìƒì„¸ ì •ë³´ ê²€ìƒ‰
 	public String searchByCode(String stock_code) {
 		String jsonResponse = null;
-		//ÁÖ½ÄÇöÀç°¡ ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//ì£¼ì‹í˜„ì¬ê°€ ì‹œì„¸ ìš”ì²­ ì£¼ì†Œ
 		String apiUrl = "inquire-price?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//½ÃÀå ºĞ·ù ÄÚµå
+		//GETë°©ì‹ Query param ì„¤ì •
+		//ì‹œì¥ ë¶„ë¥˜ ì½”ë“œ
 		apiUrl += "fid_cond_mrkt_div_code=J"
-				//Á¾¸ñÄÚµå
+				//ì¢…ëª©ì½”ë“œ
 				+ "&fid_input_iscd="+stock_code;
-		//Header µ¥ÀÌÅÍ
-		//ÁÖ½ÄÇöÀç°¡ ½Ã¼¼ Á¶È¸ ÄÚµå
+		//Header  ë°ì´í„°
+		//ì£¼ì‹í˜„ì¬ê°€ ì‹œì„¸ ì¡°íšŒ ì½”ë“œ
 		String tr_id = "FHKST01010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		 return jsonResponse;
 	}
 	
-	//Á¾¸ñ°Ë»ö »ó¼¼ ÆäÀÌÁö Â÷Æ® µ¥ÀÌÅÍ
+	//ì¢…ëª©ê²€ìƒ‰ ìƒì„¸ í˜ì´ì§€ ì°¨íŠ¸ ë°ì´í„°
 	public String searchForChart(String stock_code, String category, String start_date, String end_date) {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ìš”ì²­ ì£¼ì†Œ
 		String apiUrl = "inquire-daily-itemchartprice?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//½ÃÀå ºĞ·ù ÄÚµå
+		//GETë°©ì‹ Query param ì„¤ì •
+		//ì‹œì¥ ë¶„ë¥˜ ì½”ë“œ
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//Á¾¸ñÄÚµå
+				//ì¢…ëª©ì½”ë“œ
 				+ "&FID_INPUT_ISCD=" + stock_code
-				//ÀÔ·Â ³¯Â¥ (½ÃÀÛ)
+				//ì…ë ¥ ë‚ ì§œ (ì‹œì‘)
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//ÀÔ·Â ³¯Â¥ (Á¾·á)
+				//ì…ë ¥ ë‚ ì§œ (ì¢…ë£Œ)
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//±â°£ºĞ·ùÄÚµå
+				//ê¸°ê°„ë¶„ë¥˜ì½”ë“œ
 				+ "&FID_PERIOD_DIV_CODE=" + category
-				//¼öÁ¤ÁÖ°¡ ¿øÁÖ°¡ °¡°İ ¿©ºÎ
+				//ìˆ˜ì •ì£¼ê°€ ì›ì£¼ê°€ ê°€ê²© ì—¬ë¶€
 				+ "&FID_ORG_ADJ_PRC=0";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ì¡°íšŒ ì½”ë“œ
 		String tr_id = "FHKST03010100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//±âÁ¸ °Ë»ö ¸ñ·Ï¿¡ ÀÖ´ÂÁö ¿©ºÎ È®ÀÎ
+	//ê¸°ì¡´ ê²€ìƒ‰ ëª©ë¡ì— ìˆëŠ”ì§€ ì—¬ë¶€ í™•ì¸
 	public LookupListDto searchLookupOne(String user_id, String stock_code) {
 		LookupListDto lookupListDto = null;
 		Map<String, String> map = new HashMap<String, String>();
@@ -100,7 +100,7 @@ public class SearchService {
 		return lookupListDto;
 	}
 	
-	//°Ë»ö ¸ñ·Ï¿¡ Ãß°¡
+	//ê²€ìƒ‰ ëª©ë¡ì— ì¶”ê°€
 	public void insertSearch(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -111,7 +111,7 @@ public class SearchService {
 		}
 	}
 	
-	//Áñ°ÜÃ£±â µî·Ï/ÇØÁ¦
+	//ì¦ê²¨ì°¾ê¸° ë“±ë¡/í•´ì œ
 	public LookupListDto updateFavorite(LookupListDto lookupList) {
 		try {
 			LookupListDao lookupListDao = sqlsession.getMapper(LookupListDao.class);
@@ -127,62 +127,62 @@ public class SearchService {
 		return lookupList;
 	}
 	
-	//¸ŞÀÎÆäÀÌÁö Å×ÀÌºí µ¥ÀÌÅÍ
+	//ë©”ì¸í˜ì´ì§€ í…Œì´ë¸” ë°ì´í„°
 	public String searchForMainRankTable() {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ìš”ì²­ ì£¼ì†Œ
 		String apiUrl = "volume-rank?";
-		//GET¹æ½Ä Query param ¼³Á¤
+		//GETë°©ì‹ Query param ì„¤ì •
 		apiUrl += "FID_COND_MRKT_DIV_CODE=J"
-				//Á¶°Ç È­¸é ºĞ·ù ÄÚµå
+				//ì¡°ê±´ í™”ë©´ ë¶„ë¥˜ ì½”ë“œ
 				+ "&FID_COND_SCR_DIV_CODE=20171"
-				//¾÷Á¾ÄÚµå 0000(ÀüÃ¼) ±âÅ¸(¾÷Á¾ÄÚµå)
+				//ì—…ì¢…ì½”ë“œ 0000(ì „ì²´) ê¸°íƒ€(ì—…ì¢…ì½”ë“œ)
 				+ "&FID_INPUT_ISCD=0000"
-				//ºĞ·ù ±¸ºĞ ÄÚµå 0(ÀüÃ¼) 1(º¸ÅëÁÖ) 2(¿ì¼±ÁÖ)
+				//ë¶„ë¥˜ êµ¬ë¶„ ì½”ë“œ 0(ì „ì²´) 1(ë³´í†µì£¼) 2(ìš°ì„ ì£¼)
 				+ "&FID_DIV_CLS_CODE=0"
-				//¼Ò¼Ó ±¸ºĞ ÄÚµå(Æò±Õ°Å·¡·®_
+				///ì†Œì† êµ¬ë¶„ ì½”ë“œ(í‰ê· ê±°ë˜ëŸ‰)
 				+ "&FID_BLNG_CLS_CODE=0"
-				//´ë»ó ±¸ºĞ ÄÚµå	
+				//ëŒ€ìƒ êµ¬ë¶„ ì½”ë“œ	
 				+ "&FID_TRGT_CLS_CODE=111111111"
-				//´ë»ó Á¦¿Ü ±¸ºĞ ÄÚµå
+				//ëŒ€ìƒ ì œì™¸ êµ¬ë¶„ ì½”ë“œ
 				+ "&FID_TRGT_EXLS_CLS_CODE=000000"
-				//ÀÔ·Â °¡°İ1
+				//ì…ë ¥ ê°€ê²©1
 				+ "&FID_INPUT_PRICE_1="
-				//ÀÔ·Â °¡°İ2
+				//ì…ë ¥ ê°€ê²©2
 				+ "&FID_INPUT_PRICE_2="
-				//°Å·¡·® ¼ö
+				//ê±°ë˜ëŸ‰ ìˆ˜
 				+ "&FID_VOL_CNT="
-				//ÀÔ·Â ³¯Â¥1
+				//ì…ë ¥ ë‚ ì§œ1
 				+ "&FID_INPUT_DATE_1=";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ì¡°íšŒ ì½”ë“œ
 		String tr_id = "FHPST01710000";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//¸ŞÀÎÆäÀÌÁö Â÷Æ® µ¥ÀÌÅÍ
+	//ë©”ì¸í˜ì´ì§€ ì°¨íŠ¸ ë°ì´í„°
 	public String searchForMainChart(String industry_code, String start_date, String end_date) {
 		String jsonResponse = null;
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ ¿äÃ» ÁÖ¼Ò
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ìš”ì²­ ì£¼ì†Œ
 		String apiUrl = "inquire-daily-indexchartprice?";
-		//GET¹æ½Ä Query param ¼³Á¤
-		//Á¶°Ç ½ÃÀå ºĞ·ù ÄÚµå
+		//GETë°©ì‹ Query param ì„¤ì •
+		//ì¡°ê±´ ì‹œì¥ ë¶„ë¥˜ ì½”ë“œ
 		apiUrl += "FID_COND_MRKT_DIV_CODE=U"
-				//¾÷Á¾ »ó¼¼ÄÚµå kospi : 0001 / kosdaq : 1001
+				//ì—…ì¢… ìƒì„¸ì½”ë“œ kospi : 0001 / kosdaq : 1001
 				+ "&FID_INPUT_ISCD=" + industry_code
-				//Á¶È¸ ½ÃÀÛ ÀÏÀÚ
+				//ì¡°íšŒ ì‹œì‘ ì¼ì
 				+ "&FID_INPUT_DATE_1=" + start_date
-				//Á¶È¸ Á¾·á ÀÏÀÚ
+				//ì¡°íšŒ ì¢…ë£Œ ì¼ì
 				+ "&FID_INPUT_DATE_2=" + end_date
-				//±â°£ºĞ·ùÄÚµå D:ÀÏºÀ W:ÁÖºÀ, M:¿ùºÀ, Y:³âºÀ
+				//ê¸°ê°„ë¶„ë¥˜ì½”ë“œ D:ì¼ë´‰ W:ì£¼ë´‰, M:ì›”ë´‰, Y:ë…„ë´‰
 				+ "&FID_PERIOD_DIV_CODE=D";
-		//±¹³»ÁÖ½Ä±â°£º° ½Ã¼¼ Á¶È¸ ÄÚµå
+		//êµ­ë‚´ì£¼ì‹ê¸°ê°„ë³„ ì‹œì„¸ ì¡°íšŒ ì½”ë“œ
 		String tr_id = "FHKUP03500100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
 	}
 	
-	//ÇÑ±¹ÅõÀÚ api
+	//í•œêµ­íˆ¬ì api
 	public String connectAPI(String apiUrl, String tr_id) {
 		String jsonResponse = null;
 		 try {
@@ -191,7 +191,7 @@ public class SearchService {
 	            connection.setRequestMethod("GET");
 	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjE5YTliZjU0LTAxMmEtNGI5MC04MmY2LTI4NDA2YTI1MzIyMiIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NDYwNjY1LCJpYXQiOjE2ODgzNzQyNjUsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.b3qDLsbXifOtOqj5SiksqNZWSDY1BhmPos_m1zHaE5v1i55ItMmNMz_sptETyX58FREIfnmpsJ77msZ-j0Rh9w");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjE2ZTc1MDBiLWRhZmMtNGU0Zi1hOWU1LTE2YWExNzViOWVjOCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NTQ2NDgyLCJpYXQiOjE2ODg0NjAwODIsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.BoPoGK_XHP01qKMAbs-fQG857u1RlpXaj_KH9Se9wSRC4xdi4p8yFHEBvpFt2O3E-0I-eYYOMFDIaXrDM6AoaA");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
 	            connection.setRequestProperty("tr_id", tr_id);

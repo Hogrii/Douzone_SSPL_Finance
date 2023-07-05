@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -34,7 +36,10 @@ box-icon {
 <body>
 	<div class="listContainer">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+		<se:authentication property="name" var="LoginUser" />
+		<input id="login_id" type="hidden" value="${LoginUser}">
+		
+		
 		<c:set var="pagesize" value="${requestScope.pagesize}" />
 		<c:set var="cpage" value="${requestScope.cpage}" />
 		<c:set var="pagecount" value="${requestScope.pagecount }" />
@@ -51,20 +56,17 @@ box-icon {
 											<c:forEach var="i" begin="5" end="20" step="5">
 												<c:choose>
 													<c:when test="${pagesize == i }">
-														<option value="${i}" selected>
-															${i}</option>
+														<option value="${i}" selected>${i}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${i}">
-															${i}</option>
+														<option value="${i}">${i}</option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
 										</select>
 									</form>
 								</div>
-								<label for="" style="margin-bottom: 0">개씩
-									보기</label>
+								<label for="" style="margin-bottom: 0">개씩 보기</label>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-6">
@@ -127,21 +129,19 @@ box-icon {
 			<!-- 글쓰기 버튼 시작 -->
 			<div class="writeContainer">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='write.do'">
-					글 작성</button>
+					onclick="location.href='write.do'">글 작성</button>
 			</div>
 			<!-- 글쓰기 버튼 끝 -->
 			<!-- 페이징 시작 -->
 			<div id="communityPaging" class="d-flex justify-content-center mt-4">
 				<nav>
 					<ul class="pagination">
-						<li class="page-item ${cpage == 1 ? 'disabled' : ''}">
-							<a class="page-link" href="list.do?cp=${cpage-1}&ps=${pagesize}"
-							tabindex="-1" aria-disabled="true">이전</a>
-						</li>
+						<li class="page-item ${cpage == 1 ? 'disabled' : ''}"><a
+							class="page-link" href="list.do?cp=${cpage-1}&ps=${pagesize}"
+							tabindex="-1" aria-disabled="true">이전</a></li>
 						<c:forEach var="i" begin="1" end="${pagecount}" step="1">
-							<li class="page-item ${cpage == i ? 'active' : ''}">
-								<a class="page-link" href="list.do?cp=${i}&ps=${pagesize}">${i}</a>
+							<li class="page-item ${cpage == i ? 'active' : ''}"><a
+								class="page-link" href="list.do?cp=${i}&ps=${pagesize}">${i}</a>
 							</li>
 						</c:forEach>
 						<li class="page-item ${cpage == totalPage ? 'disabled' : ''}">

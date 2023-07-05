@@ -45,7 +45,6 @@
 					</a>
 				</div>
 				
-				
 				<se:authentication property="name" var="LoginUser" />
 				<div class="userMessage">[${LoginUser}]</div>
 				<div class="myPage">
@@ -54,11 +53,13 @@
 					</a>
 				</div>
 			</se:authorize>
-				<div class="join">
-					<a href="${pageContext.request.contextPath}/member/join">
-						<button type="button" class="btn btn-secondary">회원가입</button>
-					</a>
-				</div>
+				<se:authorize access="!hasRole('ROLE_USER')">
+					<div class="join">
+						<a href="${pageContext.request.contextPath}/member/join">
+							<button type="button" class="btn btn-secondary">회원가입</button>
+						</a>
+					</div>
+				</se:authorize>
 				<se:authorize access="!hasRole('ROLE_USER')">
 					<div class="login">
 						<a href="${pageContext.request.contextPath}/member/login">
