@@ -11,5 +11,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN stock s ON l.stock_code = s.stock_code
 		WHERE l.user_id = #{user_id}
 	</select>
+	
+	<update id="kanbanUpdate" parameterType="java.util.List">
+	  <foreach collection="list" item="item" open="DECLARE BEGIN" separator=";" close="; END;" >
+	    UPDATE lookup_list
+	    SET lookup_list_order = #{item.lookup_list_order},
+	        lookup_category_num = #{item.lookup_category_num}
+	    WHERE lookup_list_num = #{item.lookup_list_num}
+	  </foreach>
+	</update>
+	
+
 
 </mapper>
