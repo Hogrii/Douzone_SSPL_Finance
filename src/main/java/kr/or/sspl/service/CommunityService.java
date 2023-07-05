@@ -82,11 +82,13 @@ public class CommunityService {
 	}
 
 	// 상세페이지
-	public void getDetailList(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
+	public void getDetailList(int comm_seq, Model model, String cpage, String pagesize) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
 		
 		model.addAttribute("detaillist", communityDto);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("pagesize", pagesize);
 		
 	}
 	

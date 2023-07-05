@@ -124,10 +124,10 @@ box-icon {
 							<td>${list2.comm_title}</td>
 							<c:choose>
 								<c:when test="${fn:contains(list2.comm_content, '<img')}">
-									<td></box-icon><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a> <box-icon name='photo-album' ></box-icon></td>
+									<td></box-icon><a href="detail.do?comm_seq=${list2.comm_seq}&cp=${cpage}&ps=${pagesize}">${list2.comm_title}</a> <box-icon name='photo-album' ></box-icon></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a></td>
+									<td><a href="detail.do?comm_seq=${list2.comm_seq}&cp=${cpage}&ps=${pagesize}">${list2.comm_title}</a></td>
 								</c:otherwise>
 							</c:choose>						
 							<td>${list2.user_id}</td>

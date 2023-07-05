@@ -45,8 +45,8 @@ public class QnAController {
 	
 	// 상세 페이지 이동
 	@GetMapping("qnaDetail.do")
-	public String qnaDetail(Model model, String qna_seq) {
-		qnaService.qnaDetail(model, qna_seq);
+	public String qnaDetail(Model model, String qna_seq, String ps, String cp) {
+		qnaService.qnaDetail(model, qna_seq, ps, cp);
 		return "qna/qna_detail";
 	}
 	

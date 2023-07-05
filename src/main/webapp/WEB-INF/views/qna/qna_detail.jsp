@@ -36,6 +36,9 @@
 <body>
 	<se:authentication property="name" var="LoginUser"/>
 	<input id="login_id" type="hidden" value="${LoginUser}">
+	
+	<c:set var="cp" value="${cpage }"></c:set>
+	<c:set var="ps" value="${pagesize }"></c:set>
 
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -110,7 +113,7 @@
 							<input 
 								type="button" 
 								class="btn btn-secondary"
-								onclick="location.href='qnaList.do'" 
+								onclick="location.href='qnaList.do?cp=${cpage}&ps=${pagesize }'" 
 								value="글목록" /> 
 							<input
 								type="submit" 
