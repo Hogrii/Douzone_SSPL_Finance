@@ -24,6 +24,8 @@
 	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
 	crossorigin="anonymous">
+<link href="${pageContext.request.contextPath }/resources/css/global.css"
+	rel="stylesheet" type="text/css">
 <title>문의게시판(글목록)</title>
 <style>
 * {
@@ -144,7 +146,7 @@ box-icon {
 							<tr class="border-bottom border-2">
 								<td class="qna_seq">${list.qna_seq }</td>
 								<td>${list.qna_category }</td>
-								<td class="title" qna_seq="${list.qna_seq }"><box-icon name="lock" type="solid"></box-icon> ${list.qna_title }</td>
+								<td class="title" qna_seq="${list.qna_seq }"><box-icon name="lock" type="solid"></box-icon>${list.qna_title }</td>
 								<td class="user_id" id="user_id${list.qna_seq}">${list.user_id }</td>
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>
