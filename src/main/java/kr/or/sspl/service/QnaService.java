@@ -38,7 +38,7 @@ public class QnaService {
 	}
 	
 	// 글출력
-	public void qnaList(Model model, HttpServletRequest request) {
+	public List<QnaDto> qnaList(Model model, HttpServletRequest request) {
 		List<QnaDto> qnaList = null;
 		Map<String, Integer> listMap = new HashMap<String, Integer>();
 		try {
@@ -86,6 +86,7 @@ public class QnaService {
 		}
 		System.out.println(qnaList.toString());
 		model.addAttribute("qnaList", qnaList);
+		return qnaList;
 	}
 	
 	// 상세 페이지 출력
