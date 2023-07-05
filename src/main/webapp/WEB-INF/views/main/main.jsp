@@ -249,7 +249,7 @@
 	<main class="container my-5">
 		<div class="row">
 			<div class="col-md-8 align-self-center">
-				<h5>오늘의 증시</h5>
+				<h5><b>오늘의 증시</b></h5>
 			</div>
 			<div class="col-md-4">
 				<form action="search/searchList.do">
@@ -276,7 +276,7 @@
         </div>
     </div>
 		</div>
-		<div class="py-3 py-md-3">거래량순위</div>
+		<h5 class="py-3 py-md-3"><b>거래량순위</b></h5>
 		<hr class="my-2 gy-5" />
 		<div class="row py-3 py-md-3">
 			<div class="col-md-12">
@@ -301,11 +301,11 @@
 		
 		<div class="mainboard row d-flex flex-row justify-content-evenly">
 			<div id="board1" class="col-md-5">
-				<div class="py-3 py-md-3">커뮤니티</div>
+				<div class="py-3 py-md-3"><h5><b>커뮤니티</b></h5></div>
 				<ul class="list-group list-group-flush" id="commList"></ul>
 			</div>
 			<div id="board2" class="col-md-5">
-				<div class="py-3 py-md-3">문의</div>
+				<div class="py-3 py-md-3"><h5><b>문의</b></h5></div>
 				<ul class="list-group list-group-flush" id="qnaList"></ul>
 			</div>
 		</div>
