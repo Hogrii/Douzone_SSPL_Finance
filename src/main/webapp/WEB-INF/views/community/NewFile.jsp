@@ -22,5 +22,8 @@
 	html +=			<input type="button" class="cancleReply" id="cancleReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="취소" style="display:none">
 	html +=		</div>
 	html +=	</div>
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 </html>

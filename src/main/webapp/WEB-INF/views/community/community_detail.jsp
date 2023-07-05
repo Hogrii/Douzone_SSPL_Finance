@@ -4,8 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="se"
 	uri="http://www.springframework.org/security/tags"%>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,7 +108,8 @@
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 끝 -->
 	</div>
-
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 
 <script>
@@ -128,11 +127,8 @@ $(function(){
 			
 	      let i =0;
 	      $.each(data, function() {
-	    	  //console.log(data[i++]);
-	    	  console.log(data.length);
 	    	  
 	    	  let html = "";
-	    	  console.log("comm_reply_seq 는 "+this.comm_reply_seq);
 	    	  
 	    	  if(data[i++].depth===1){	    		  
 	    		html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
@@ -162,64 +158,13 @@ $(function(){
 	    	  }
 		   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
 		      $("#replyList").append(html);
-		      //getReRepyList(this.comm_reply_seq);//대댓글 조회 
 	      });
 		}
 	  });
 	} //댓글 조회 끝
-	
-	
-	    //대댓글 조회
-	   /* function getReRepyList(comm_reply_seq){
-	  	  $.ajax({
-	  	    type: "get",
-	  	    url: "/sspl_finance/restcommunity/reReplySelect/" + ${detail.comm_seq},
-	  	    contentType: "application/json; charset=utf-8",
-	  	    
-	  	    success: function(data) {
-	  	      //$("#replyList").empty();
-	  	      let html = "";
-	  	      
-	  	      if(data.length< 1){
-	  	    	html = "등록된 댓글이 없습니다.";
-	  	      }else{
-	  	    	  let i =0;
-	  	      $.each(data, function() {
-	  	    	  let reply_seq = data[i++].refer;
-	  	    	  if(comm_reply_seq == reply_seq){
-	  	    		console.log("comm_reply_seq :" + comm_reply_seq);
-	  	    		console.log("reply_seq :" + reply_seq);
-	  	    	  	
-		  		  $('#rereply'+reply_seq).empty();
-	  	    	  console.log("reply_seq : " + reply_seq);
-	  	    	  html+="<div id='rereply'" + reply_seq + ">"
-		  	    	html += "<div class='d-flex justify-content-between '>"
-			  		    html += "<div class='reply_item ms-3'>";
-				  			html += "<div class='user_id'>" + this.user_id + "</div>";
-				  			html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
-				  			html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
-				  			html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
-			  	        html += "</div>";
-			  	        html += "<div class='btns'>";
-				  			html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3'>삭제</button></div>";
-			  			html += "</div>";		    	
-		  	        html += "</div>";
-		  	   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";
-		  	   		html += "<br>";
-		  	   	html+="</div>";
-		  	      $("#reply"+reply_seq).after(html);
-	  	    	  }
-	  	      });
-	  	      }
-	  		}
-	  	  });
-	  	} //댓글 조회 끝
-	  	*/
-
 
 	   getList(); //댓글조회
 	   
-	  
 	  //버튼 누르면 댓글 추가 
 	  $('#reply_btn').on('click',function(){
 		  console.log("코맨트??????"+$("#comment").val());
@@ -283,7 +228,6 @@ $(function(){
 	  		      console.log("대댓글 작성 됏유");
 	  		      console.log(data);
 	  		      getList();
-	  		      //getReRepyList();
 	  		    }
 	  	  });
 	    }); // 작성완료 끝 
@@ -301,7 +245,6 @@ $(function(){
 		  		success: function(result){
 		  			console.log("댓글 삭제완료");
 		  			 getList();
-		  			// getReRepyList();
 		  		}
 		  		, error: function(error){
 		  			console.log("에러 : " + error);

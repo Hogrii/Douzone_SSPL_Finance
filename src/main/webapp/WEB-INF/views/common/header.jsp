@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
-<html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,7 +23,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/body.css"
 	rel="stylesheet" type="text/css">
 </head>
-<body>
+	<header class="container">
 	<!-- header 시작 -->
 	<div class="header">
 		<div class="top">
@@ -105,5 +104,4 @@
 		</div>
 	</div>
 	<!-- header 끝 -->
-</body>
-</html>
+	</header>

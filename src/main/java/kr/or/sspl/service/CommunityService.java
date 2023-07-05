@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import kr.or.sspl.dao.CommunityDao;
@@ -84,9 +85,18 @@ public class CommunityService {
 	public void getDetailList(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		CommunityDto communityDto = comunityDao.getDetailList(comm_seq);
+		
 		model.addAttribute("detaillist", communityDto);
+		
 	}
-
+	
+	//@Transactional
+	public int addViewCount(int comm_seq) {
+		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
+		int viewCount= comunityDao.addViewCount(comm_seq);
+		return viewCount;
+	}
+	
 	public int searchListTotal(Model model) throws ClassNotFoundException, SQLException {
 		int result = 0;
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
@@ -173,19 +183,7 @@ public class CommunityService {
 		return result;
 
 	}
-
-	// 대댓글 조회
-	/*
-	public List<CommunityReplyDto> reReplyList(int comm_seq) {
-		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
-		System.out.println("rereply 서비스 옴");
-		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);
-		list = communityReplyDao.reReplyList(comm_seq);
-		System.out.println(list.get(0).getRefer());
-		System.out.println("대댓글의 내용 "+list.toString());
-		return list;
-	}*/
-	
+ 
 	// comm_seq 조회
 	public int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException {
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);

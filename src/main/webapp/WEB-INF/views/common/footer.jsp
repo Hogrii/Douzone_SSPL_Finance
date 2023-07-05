@@ -12,7 +12,7 @@
 </head>
 
 	<!-- footer 시작 -->
-	<div class="footer">footer</div>
+	<div class="footer"></div>
 	<!-- footer 끝 -->
 
 </html>

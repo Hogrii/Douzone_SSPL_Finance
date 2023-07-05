@@ -163,6 +163,8 @@ box-icon {
 			<!-- 페이징 끝 -->
 		</div>
 	</div>
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script>
         $(document).ready(function () {
