@@ -142,6 +142,7 @@
 		                }),
 		                datasets: [
 		                    {
+		                    	label: 'KOSPI',
 		                        data: chart_data.map(function (x) {
 		                            return x[1];
 		                        }),
@@ -203,6 +204,7 @@
 		                }),
 		                datasets: [
 		                    {
+		                    	label: 'KOSDAQ',
 		                        data: chart_data.map(function (x) {
 		                            return x[1];
 		                        }),

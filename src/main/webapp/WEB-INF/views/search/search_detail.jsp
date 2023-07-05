@@ -166,6 +166,7 @@
 			        let last_data = [last_date ,last_price];
 			        chart_data.push(last_data);
 			        */
+			        let stock_name = $('#stock_name').text();
 			        let lineChart = new Chart(ctx, {
 			            type: "line",
 			            data: {
@@ -174,6 +175,7 @@
 			                }),
 			                datasets: [
 			                    {
+			                    	label : stock_name,
 			                        data: chart_data.map(function (x) {
 			                            return x[1];
 			                        }),
@@ -256,7 +258,7 @@
 	<!-- content 영역 -->
 	<div class="container my-5">
 		<div class="d-flex flex-row">
-			<h4><b>${stock_name}</b> (<span class="mx-1" id="stock_code">${stock_code}</span>)</h4>
+			<h4><b id="stock_name">${stock_name}</b> (<span class="mx-1" id="stock_code">${stock_code}</span>)</h4>
 			<c:choose>
 				<c:when test="${lookup_category_num == 0}">
 					<button id="favorite" type="button" class="btn btn-light mx-3" value="1">등록</button>		
