@@ -72,6 +72,9 @@ public class QnaService {
 				listMap.put("end", end);
 				
 				qnaList = qnaDao.qnaList(listMap);
+				for(int i=0; i<qnaList.size(); i++) {
+					System.out.println("그림포함 : " + qnaList.get(i).getQna_content());
+				}
 				
 				request.setAttribute("qnaList", qnaList);
 				request.setAttribute("pagesize", pagesize);
