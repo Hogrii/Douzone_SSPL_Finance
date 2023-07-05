@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,19 @@ public class KanbanRestController {
 		
 			
 		return new ResponseEntity<List<LookupListDto>>(list, HttpStatus.OK);
+	}
+	
+	@PutMapping("kanban_update")
+	public ResponseEntity<String> kanbanUpdate(@RequestBody List<LookupListDto> list){
+		
+		
+		
+		System.out.println(list);
+		kanbanService.kanbanUpdate(list);
+		String msg = "성공";
+		
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
+		
 	}
 	
 }

@@ -37,5 +37,23 @@ public class KanbanService {
 		return list;
 		
 	}
+	
+	public String kanbanUpdate(List<LookupListDto> list) {
+		
+		String msg = null;
+		try {
+			
+			System.out.println("서비스:"+list);
+			KanbanDao dao = sqlsession.getMapper(KanbanDao.class);
+			dao.kanbanUpdate(list);
+			msg = "성공";
+
+		} catch (Exception e) {
+		
+			System.out.println(e.getMessage());
+		}
+		
+		return msg;
+	}
 
 }
