@@ -35,6 +35,8 @@ form {
 	margin: 10px;
 	padding: 10px;
 	background-color: #f2f2f2;
+	overflow-y: scroll;
+  	height: 800px;
 }
 
 .column-header {
@@ -46,7 +48,7 @@ form {
 .card {
 	padding: 10px;
 	background-color: #fff;
-	margin-bottom: 10px;
+	margin-bottom: 1px;
 	cursor: pointer;
 }
 
@@ -80,24 +82,46 @@ form {
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
+	<div class="row">
+			<div class="col-3 column-header text-center fs-3">조회</div>
+			<div class="col-3 column-header text-center fs-3 text-warning text-opacity-75">즐겨찾기</div>
+			<div class="col-3 column-header text-center fs-3 text-danger">매수</div>
+			<div class="col-3 column-header text-center fs-3 text-primary">매도</div>
+	</div>
 	<div class="board">
 		<div class="column sortable">
-			<div class="column-header">조회</div>
 			<div class="sortable" id="todo" connectWith=".sortable"></div>
 		</div>
 		<div class="column sortable">
-			<div class="column-header">즐겨찾기</div>
 			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
 		</div>
 		<div class="column sortable">
-			<div class="column-header">매수</div>
 			<div class="sortable" id="done" connectWith=".sortable"></div>
 		</div>
 		<div class="column sortable">
-			<div class="column-header">매도</div>
 			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
 		</div>
 	</div>
+	<!-- 
+	<div class="board">
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky ">조회</div>
+			<div class="sortable" id="todo" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-warning text-opacity-75">즐겨찾기</div>
+			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-danger">매수</div>
+			<div class="sortable" id="done" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-primary">매도</div>
+			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+		</div>
+	</div>
+	 -->
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
@@ -147,8 +171,8 @@ $(function () {
 				  });
 				
 				let cardContent = $('<div>')
-				  .html('<span class="card-text fs-6"><b>['  + change_name + ']</b></span><hr class="my-2">');
-				  
+				  .html('<span class="card-text fs-6"><b>['  + change_name + ']</b></span><hr class="my-2">')
+				
 				let card = $('<div>')
 				  .addClass('card')
 				  .attr('id', item.stock_code)
