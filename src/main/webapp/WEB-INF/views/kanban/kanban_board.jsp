@@ -96,9 +96,9 @@ form {
 
 $(function () {
 	  let id = $('#id').val();
-	  let change_data;
+	
 	  $.ajax({
-	    url: '/sspl_finance/kanban/kanban_board/' + id,
+	    url: '/sspl_finance/kanban/kanban-board/' + id,
 	    type: 'get',
 	    contentType: 'application/json;charset=UTF-8',
 	    dataType: 'json',
@@ -118,10 +118,10 @@ $(function () {
 	        let change_name = item.stock_name; 
 	        	
 	        if (change_name.length > 12) {
-	        	 console.log(change_name.length);
-	        	 console.log(change_name);
+	        	 
+	   
 	        	 change_name = change_name.substring(0, 12) + '...';
-	        	 console.log(change_name);
+	    
 			  }
 	    	  
 	        // 칸반 카드 요소 생성
@@ -146,6 +146,7 @@ $(function () {
 				  .attr('lookup_list_num', item.lookup_list_num)
 				  .attr('lookup_category_num', item.lookup_category_num)
 				  .attr('lookup_list_order', item.lookup_list_order)
+				  .attr('stock_name', item.stock_name)
 				  .css({
 				    position: 'relative'
 				  });
@@ -237,10 +238,21 @@ $(function () {
 	    }
 	  });
 
-	  $(document).on( 'click' , '#xbtn' , function() { $(this).parent().remove()} )
+	  $(document).on( 'click' , '#xbtn' , function() { 
+		  let lookupListNo = $(this).parent().attr('lookup_list_num');
+		  console.log(lookupListNo);
+		  $(this).parent().remove();
+	      delete_data(lookupListNo);
+	  	  
+	  });
 	  
-	  $(document).on('dblclick', '.card' function() {
-		 	let   
+	  $(document).on('dblclick', '.card' , function() {
+		    let user_id = id;
+		 	let stock_code = $(this).attr('id');
+		 	let stock_name = $(this).attr('stock_name'); 
+		 	console.log(user_id+","+stock_code+","+stock_name);
+		 	location.href = "/sspl_finance/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
+		 	
 	  });
 	  
 	  
@@ -266,8 +278,8 @@ $(function () {
 		    console.log("업데이트"+change_data);
 		    console.log("변환"+JSON.stringify(change_data));
 		    $.ajax({
-		        url: "/sspl_finance/kanban/kanban_update",
-		        type: "put",
+		        url: "/sspl_finance/kanban/kanban-board",
+		        type: "PUT",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: JSON.stringify(change_data),
 		        dataType: "JSON",
@@ -320,6 +332,21 @@ $(function () {
 		        }
 		    });
 		}
+	  
+	  function delete_data(lookupListNo) {
+		  $.ajax({
+		      url: '/sspl_finance/kanban/kanban-board/'+lookupListNo,
+		      type: 'DELETE', 
+		      dataType: 'test',
+		      success: function(data) {
+		      },
+		      error: function(xhr, status, error) {
+		        console.error(error); // 에러 처리
+		       }
+		    });
+		  };
+
+
 	});
 </script>
 </body>

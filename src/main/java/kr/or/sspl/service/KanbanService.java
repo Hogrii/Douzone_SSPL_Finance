@@ -55,5 +55,23 @@ public class KanbanService {
 		
 		return msg;
 	}
+	
+	public String kanbanDelete(String lookup_list_num) {
+		
+		String msg = null;
+		try {
+			
+		
+			KanbanDao dao = sqlsession.getMapper(KanbanDao.class);
+			dao.kanbanDelete(lookup_list_num);
+			msg = "성공";
+
+		} catch (Exception e) {
+		
+			System.out.println(e.getMessage());
+		}
+		
+		return msg;
+	}
 
 }
