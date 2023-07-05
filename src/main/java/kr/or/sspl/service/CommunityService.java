@@ -68,6 +68,10 @@ public class CommunityService {
 		CommunityDao comunityDao = sqlsession.getMapper(CommunityDao.class);
 		List<CommunityDto> list = comunityDao.list(map);
 
+		for(int i=0; i<list.size(); i++) {
+			System.out.println("그림포함 : " + list.get(i).getComm_content());
+		}
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pagesize", pagesize);
 		model.addAttribute("pagecount", pagecount);

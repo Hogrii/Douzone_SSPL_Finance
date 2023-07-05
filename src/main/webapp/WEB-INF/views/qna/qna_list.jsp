@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -126,7 +126,9 @@ box-icon {
 								<td>${list.user_id }</td>
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>
-								<td><box-icon name="file"></box-icon></td>
+								<c:if test="${fn:contains(list.qna_content, '<img')}">
+									<td><box-icon name="file"></box-icon></td>		
+								</c:if>								
 							</tr>
 						</c:forEach>
 					</tbody>
