@@ -36,9 +36,8 @@ hr {
 </style>
 </head>
 <body>
-<se:authentication property="name" var="LoginUser" />
-<div class="userMessage">[${LoginUser}]</div>
-
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
@@ -50,8 +49,9 @@ hr {
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
 							class="text-danger">* </span>아이디</label> <input type="text"
-							class="form-control" id="user_id" name="user_id"
-							placeholder="아이디를 입력하세요" />
+							class="form-control" id="user_id" name="user_id" value="${LoginUser}" readonly
+							style="border:none"
+							/>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
@@ -91,12 +91,12 @@ hr {
                                     value="취소"
                                 />
                              -->
-                                <input
-                                    type="submit"
+                                <button
+                                    type="button"
                                     class="btn btn-secondary"
                                     value="등록"
                                     id="qnaWriteOk"
-                                />
+                                >등록</button>
 							<!-- 
 							<button type="button" class="btn btn-secondary" id="qnaWriteBtn">등록</button>
  -->
@@ -158,6 +158,29 @@ hr {
 				}
 			});
 		}
+		
+		$("#qnaWriteOk").on("click", function() {
+			if ($("#qna_title").val() == "") {
+				alert("제목를 선택해주세요");
+				return false;
+			}
+			
+			if ($("#qna_category").val() == "") {
+				alert("카테고리를을 선택해주세요");
+				return false;
+			}
+			
+			if ($("#summernote").val() == "") {
+				alert("내용을 입력해주세요");
+				return false;
+			}
+			
+			if (confirm("이대로 작성하시겠습니까?") == true) {
+				$("#frmWrite").submit();
+			} else {
+				return false;
+			}
+		});
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/summernote.js">
