@@ -22,6 +22,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>메인페이지(mainpage)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="${pageContext.request.contextPath }/resources/css/global.css"
+	rel="stylesheet" type="text/css">
 <style>
 #moveTopBtn {
 	position: fixed;
@@ -280,7 +282,7 @@
 		<hr class="my-2 gy-5" />
 		<div class="row py-3 py-md-3">
 			<div class="col-md-12">
-				<table class="table text-center">
+				<table class="table table-hover text-center">
 					<thead class="bg-secondary text-dark bg-opacity-25">
 						<tr>
 							<th>순위</th>
