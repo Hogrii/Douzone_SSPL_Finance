@@ -53,6 +53,9 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
+	
+	<c:set var="cp" value="${cpage }"></c:set>
+	<c:set var="ps" value="${pagesize }"></c:set>
 
 	<div class="Container py-5">
 		<!-- 글 내용 시작 -->
@@ -97,11 +100,11 @@
 		<div class="btns d-flex justify-content-between">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do'">목록</button>
+					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
 			</div>
 			<div id="class="otherBtns">
 				<button type="submit" class="btn btn-secondary"
-					onclick="location.href='modify.do?comm_seq=${detail.comm_seq}'">수정</button>
+					onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage }&ps=${pagesize }'">수정</button>
 				<button type="button" class="btn btn-secondary"
 					onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
 			</div>

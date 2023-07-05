@@ -92,11 +92,16 @@ box-icon {
 			let writeUser = $('#user_id'+qna_seq).text();
 			console.log("loginUser : " + loginUser);
 			console.log("writeUser : " + writeUser);
+			
+			let cpage = $(this).attr("cpage");
+			let pagesize = $(this).attr("pagesize");
+			console.log("cpage : " + cpage);
+			console.log("pagesize : " + pagesize);
 
 			if(loginUser !== writeUser) {
 				alert("접근 권한이 없습니다.");
 			}else {
-				location.href = "qnaDetail.do?qna_seq=" + qna_seq;
+				location.href = "qnaDetail.do?qna_seq="+qna_seq+"&cp="+cpage+"&ps="+pagesize;
 			}
 		})
 				
@@ -146,7 +151,7 @@ box-icon {
 							<tr class="border-bottom border-2">
 								<td class="qna_seq">${list.qna_seq }</td>
 								<td>${list.qna_category }</td>
-								<td class="title" qna_seq="${list.qna_seq }"><box-icon name="lock" type="solid"></box-icon>${list.qna_title }</td>
+								<td class="title" qna_seq="${list.qna_seq }" cpage="${cpage}" pagesize="${pagesize }" }><box-icon name="lock" type="solid"></box-icon>${list.qna_title }</td>
 								<td class="user_id" id="user_id${list.qna_seq}">${list.user_id }</td>
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>

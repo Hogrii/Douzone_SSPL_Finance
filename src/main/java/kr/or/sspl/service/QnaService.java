@@ -93,7 +93,7 @@ public class QnaService {
 	}
 	
 	// 상세 페이지 출력
-	public void qnaDetail(Model model, String qna_seq) {
+	public void qnaDetail(Model model, String qna_seq, String pagesize, String cpage) {
 		QnaDto qna = null;
 		List<QnaReplyDto> qnaReplyList = null;
 		try {
@@ -106,6 +106,8 @@ public class QnaService {
 		}
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaReplyList", qnaReplyList);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("pagesize", pagesize);
 	}
 	
 	// 글 삭제

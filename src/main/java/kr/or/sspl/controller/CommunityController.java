@@ -42,11 +42,11 @@ public class CommunityController {
 
 	//상세페이지 넘어가는 동시에 조회수 증가 
 	@GetMapping("detail.do")
-	public String detail(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
+	public String detail(int comm_seq, Model model, String cp, String ps) throws ClassNotFoundException, SQLException {
 		System.out.println("comm_seq : " + comm_seq);
 		System.out.println("진입2");
 		communityservice.addViewCount(comm_seq); //게시글 조회수 증가 
-		communityservice.getDetailList(comm_seq, model);
+		communityservice.getDetailList(comm_seq, model, cp, ps);
 		
 		return "community/community_detail";
 	}
@@ -83,10 +83,10 @@ public class CommunityController {
 	}
 
 	@GetMapping("modify.do")
-	public String modify(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
+	public String modify(int comm_seq, Model model, String cp, String ps) throws ClassNotFoundException, SQLException {
 		System.out.println("진입3");
 		System.out.println("comm_seq:" + comm_seq);
-		communityservice.getDetailList(comm_seq, model);
+		communityservice.getDetailList(comm_seq, model, cp, ps);
 		return "community/community_modify";
 	}
 

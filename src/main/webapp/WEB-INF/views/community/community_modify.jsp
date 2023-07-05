@@ -41,6 +41,9 @@
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
 	
+	<c:set var="cp" value="${cpage }"></c:set>
+	<c:set var="ps" value="${pagesize }"></c:set>
+	
 	<!-- 글쓰기 내용 시작 -->
 	<form action="modifyOk.do" method="post">
 		<c:set var="detail" value="${requestScope.detaillist}" />
@@ -71,7 +74,7 @@
 		<div class="btns">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do'">목록</button>
+					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
 			</div>
 			<div class="otherBtns">
 				<button type="button" class="btn btn-secondary"
