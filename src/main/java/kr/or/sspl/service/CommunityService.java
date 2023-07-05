@@ -169,6 +169,7 @@ public class CommunityService {
 	}
 
 	// 대댓글 조회
+	/*
 	public List<CommunityReplyDto> reReplyList(int comm_seq) {
 		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
 		System.out.println("rereply 서비스 옴");
@@ -177,8 +178,8 @@ public class CommunityService {
 		System.out.println(list.get(0).getRefer());
 		System.out.println("대댓글의 내용 "+list.toString());
 		return list;
-	}
-
+	}*/
+	
 	// comm_seq 조회
 	public int getCommSeq(int comm_reply_seq) throws ClassNotFoundException, SQLException {
 		CommunityReplyDao communityReplyDao = sqlsession.getMapper(CommunityReplyDao.class);

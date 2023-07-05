@@ -154,7 +154,7 @@ public class CommunityRestController {
 	}
 	
 	//대댓글 조회
-	@GetMapping("reReplySelect/{comm_seq}")
+	/*@GetMapping("reReplySelect/{comm_seq}")
 	public ResponseEntity<List<CommunityReplyDto>> ReReplyList(@PathVariable int comm_seq) {
 		List<CommunityReplyDto> list = new ArrayList<CommunityReplyDto>();
 		try {
@@ -167,7 +167,7 @@ public class CommunityRestController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<CommunityReplyDto>>(list, HttpStatus.BAD_REQUEST);
 		}
-	}
+	}*/
 	 
 	
 	

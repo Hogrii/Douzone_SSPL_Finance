@@ -130,12 +130,33 @@ $(function(){
 
 	    success: function(data) {
 	      $("#replyList").empty();
-	      let html = "";
-
+			
+	      let i =0;
 	      $.each(data, function() {
+	    	  //console.log(data[i++]);
+	    	  console.log(data.length);
+	    	  
+	    	  let html = "";
 	    	  console.log("comm_reply_seq 는 "+this.comm_reply_seq);
-		    	html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
-				    html += "<div class='reply_item'>";
+	    	  
+	    	  if(data[i++].depth===1){
+	    		  
+	    		console.log("나는 대댓글");
+	    		html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
+		    		  html += "<div class='reply_item'>";
+						html += "<div class='user_id'>" + this.user_id + "</div>";
+						html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
+						html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
+						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
+			        html += "</div>";
+				        html += "<div class='btns'>";
+						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3'>삭제</button></div>";
+					html += "</div>";		    	
+		        html += "</div>";
+	    	  }else{
+	    		console.log("나는 댓글");
+				html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
+					  html += "<div class='reply_item'>";
 						html += "<div class='user_id'>" + this.user_id + "</div>";
 						html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
 						html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
@@ -146,9 +167,10 @@ $(function(){
 						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3'>삭제</button></div>";
 					html += "</div>";		    	
 		        html += "</div>";
+	    	  }
 		   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
 		      $("#replyList").append(html);
-		      getReRepyList(this.comm_reply_seq);//대댓글 조회 
+		      //getReRepyList(this.comm_reply_seq);//대댓글 조회 
 	      });
 		}
 	  });
@@ -156,7 +178,7 @@ $(function(){
 	
 	
 	    //대댓글 조회
-	    function getReRepyList(comm_reply_seq){
+	   /* function getReRepyList(comm_reply_seq){
 	  	  $.ajax({
 	  	    type: "get",
 	  	    url: "/sspl_finance/restcommunity/reReplySelect/" + ${detail.comm_seq},
@@ -200,6 +222,7 @@ $(function(){
 	  		}
 	  	  });
 	  	} //댓글 조회 끝
+	  	*/
 
 
 	   getList(); //댓글조회
