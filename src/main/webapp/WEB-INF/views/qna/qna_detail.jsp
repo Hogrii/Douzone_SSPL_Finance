@@ -34,7 +34,8 @@
 </style>
 </head>
 <body>
-<div class="userMessage">[${LoginUser}]</div>
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />

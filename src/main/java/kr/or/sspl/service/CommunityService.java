@@ -38,7 +38,7 @@ public class CommunityService {
 	}
 
 	// 전체 게시판 보기
-	public void getCommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
+	public List<CommunityDto> getCommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
 
 		if (cp == null || cp.trim().equals("")) {
 			cp = "1";
@@ -72,6 +72,8 @@ public class CommunityService {
 		model.addAttribute("pagesize", pagesize);
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
+		
+		return list;
 	}
 
 	// 상세페이지

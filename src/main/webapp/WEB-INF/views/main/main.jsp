@@ -33,6 +33,39 @@
 </style>
 <script type="text/javascript">
 	$(function() {
+		
+		console.log("문의글 시작");
+		// 문의 글
+		$.ajax({
+			url : "main/qnaGetList.do",
+			type : "GET",
+			dataType : "JSON",
+			success : function(data) {
+				data.forEach(item => {
+					console.log("qna : " + item);
+					let li = "";
+					li = "<li class='list-group-item'><a href='qna/qnaDetail.do?qna_seq="+item.qna_seq+"'>"+item.qna_title+"</a></li>";
+					$('#qnaList').append(li);
+				});
+				//<ul class="list-group list-group-flush">
+				//<li class="list-group-item">1. An item</li>
+			}
+		})
+		
+		$.ajax({
+			url : "main/commGetList.do",
+			type : "GET",
+			dataType : "JSON",
+			success : function(data) {
+				data.forEach(item => {
+					let li = "";
+					li = "<li class='list-group-item'><a href='community/detail.do?comm_seq="+item.comm_seq+"'>"+item.comm_title+"</a></li>";
+					$('#commList').append(li);
+				});
+			}
+		})
+		
+		
 		let user_id = $('#login_id').val();
 		//거래량 순위 테이블
 		$.ajax({
@@ -60,7 +93,6 @@
 					tr += "</td>";
 					$('#trading_volume_ranking').append(tr);
 				}
-				
 			}
 		});
 		
@@ -268,23 +300,11 @@
 		<div class="mainboard row d-flex flex-row justify-content-evenly">
 			<div id="board1" class="col-md-5">
 				<div class="py-3 py-md-3">커뮤니티</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">1. An item</li>
-					<li class="list-group-item">2. second item</li>
-					<li class="list-group-item">3. third item</li>
-					<li class="list-group-item">4. fourth item</li>
-					<li class="list-group-item">5. And a fifth one</li>
-				</ul>
+				<ul class="list-group list-group-flush" id="commList"></ul>
 			</div>
 			<div id="board2" class="col-md-5">
 				<div class="py-3 py-md-3">문의</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">1. An item</li>
-					<li class="list-group-item">2. second item</li>
-					<li class="list-group-item">3. third item</li>
-					<li class="list-group-item">4. fourth item</li>
-					<li class="list-group-item">5. And a fifth one</li>
-				</ul>
+				<ul class="list-group list-group-flush" id="qnaList"></ul>
 			</div>
 		</div>
 	</main>
