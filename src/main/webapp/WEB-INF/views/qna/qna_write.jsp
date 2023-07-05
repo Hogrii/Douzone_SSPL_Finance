@@ -36,9 +36,8 @@ hr {
 </style>
 </head>
 <body>
-<se:authentication property="name" var="LoginUser" />
-<div class="userMessage">[${LoginUser}]</div>
-
+	<se:authentication property="name" var="LoginUser"/>
+	<input id="login_id" type="hidden" value="${LoginUser}">
 	<!-- header 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<!-- content 영역 -->
@@ -50,8 +49,9 @@ hr {
 					<div class="d-flex flex-row mb-2">
 						<label for="id" class="form-label col-md-2"><span
 							class="text-danger">* </span>아이디</label> <input type="text"
-							class="form-control" id="user_id" name="user_id"
-							placeholder="아이디를 입력하세요" />
+							class="form-control" id="user_id" name="user_id" value="${LoginUser}" readonly
+							style="border:none"
+							/>
 					</div>
 					<hr />
 					<div class="d-flex flex-row mb-2">
