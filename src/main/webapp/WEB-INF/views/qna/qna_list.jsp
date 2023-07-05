@@ -75,6 +75,28 @@ box-icon {
 				}
 			})
 		})
+		
+		/*
+			$('.cancleReply').on('click', function(){
+			console.log("취소버튼 눌렀어~");
+			let qna_reply_seq = $(this).attr("qna_reply_seq");
+		 */
+		$('.title').on("click", function(){
+			let qna_seq = $(this).attr("qna_seq");
+			console.log("qna_seq : " + qna_seq);			
+
+			let loginUser = $('#login_id').val();
+			let writeUser = $('#user_id'+qna_seq).text();
+			console.log("loginUser : " + loginUser);
+			console.log("writeUser : " + writeUser);
+
+			if(loginUser !== writeUser) {
+				alert("접근 권한이 없습니다.");
+			}else {
+				location.href = "qnaDetail.do?qna_seq=" + qna_seq;
+			}
+		})
+				
 	})
 </script>
 </head>
@@ -118,12 +140,10 @@ box-icon {
 					<tbody id="tbody">
 						<c:forEach var="list" items="${qnaList}">
 							<tr class="border-bottom border-2">
-								<td>${list.qna_seq }</td>
+								<td class="qna_seq">${list.qna_seq }</td>
 								<td>${list.qna_category }</td>
-								<td><a href="qnaDetail.do?qna_seq=${list.qna_seq }"> <box-icon
-											name="lock" type="solid"></box-icon> ${list.qna_title }
-								</a></td>
-								<td>${list.user_id }</td>
+								<td class="title" qna_seq="${list.qna_seq }"><box-icon name="lock" type="solid"></box-icon> ${list.qna_title }</td>
+								<td class="user_id" id="user_id${list.qna_seq}">${list.user_id }</td>
 								<td>${list.qna_date}</td>
 								<td>${list.qna_status }</td>
 								<c:if test="${fn:contains(list.qna_content, '<img')}">
