@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						comm_seq,
 						user_id,
 						comm_title,
-						<![CDATA[case when INSTR(comm_content,'<img') > 0 then '(*그림포함*) '||SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1)  else comm_content end as comm_content,]]>
+						comm_content,
 						comm_writen_date,
 						comm_category,
 						comm_view_count

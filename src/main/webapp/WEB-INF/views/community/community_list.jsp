@@ -20,6 +20,10 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
 <title>커뮤니티게시판</title>
 <style>
 * {
@@ -115,9 +119,15 @@ box-icon {
 						<tr>
 							<td>${list2.comm_seq}</td>
 							<td>${list2.comm_category}</td>
-							<td><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a>
-							</td>
-							<td>${list2.comm_content}</td>
+							<td>${list2.comm_title}</td>
+							<c:choose>
+								<c:when test="${fn:contains(list2.comm_content, '<img')}">
+									<td></box-icon><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a> <box-icon name='photo-album' ></box-icon></td>
+								</c:when>
+								<c:otherwise>
+									<td><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a></td>
+								</c:otherwise>
+							</c:choose>						
 							<td>${list2.user_id}</td>
 							<td>${list2.comm_writen_date}</td>
 							<td>${list2.comm_view_count}</td>
