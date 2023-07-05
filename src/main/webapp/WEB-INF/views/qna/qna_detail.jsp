@@ -148,18 +148,18 @@
 						</div>
 						<div class="d-flex flex-row">
 							<div>
-								<input type="button" class="updateReply" id="updateReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="수정">								
+								<input type="button" class="updateReply btn btn-secondary" id="updateReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="수정">								
 							</div>
 							<div style="margin-left: 5px">
-								<input type="button" class="deleteReply" id="deleteReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="삭제">
+								<input type="button" class="deleteReply btn btn-secondary" id="deleteReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="삭제">
 							</div>
 						</div>
 						<div class="d-flex flex-row">
 							<div>
-								<input type="button" class="updateOkReply" id="updateOkReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="완료" style="display:none">								
+								<input type="button" class="updateOkReply btn btn-secondary" id="updateOkReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="완료" style="display:none">								
 							</div>
 							<div style="margin-left: 5px">
-								<input type="button" class="cancleReply" id="cancleReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="취소" style="display:none">
+								<input type="button" class="cancleReply btn btn-secondary" id="cancleReply${replyList.qna_reply_seq}" qna_seq="${qna.qna_seq }" qna_reply_seq="${replyList.qna_reply_seq}" value="취소" style="display:none">
 							</div>
 						</div>
 						<!-- 
