@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class KanbanController {
 	
 	@GetMapping("/kanban_board.do")
-	public String kanban() {
-		
+	public String kanban() {		
 		return "/kanban/kanban_board";
 	}
 

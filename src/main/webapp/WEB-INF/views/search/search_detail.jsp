@@ -23,195 +23,183 @@
 		//let stock_code = ('000000000'+${stock_code}).slice(-6);
 		let stock_code = $('#stock_code').text();
 		//주식 상세 데이터 
-		$
-				.ajax({
-					url : "searchByCode.do",
+		$.ajax({
+			url : "searchByCode.do",
+			type : "GET",
+			data : {
+				"stock_code" : stock_code
+			},
+			dataType : "JSON",
+			success : function(data) {
+				let tr = "<tr class='text-center'>";
+				console.log(stock_code);
+				//현재날짜
+				let today = new Date();
+				let year = today.getFullYear();
+				let month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
+				let day = ('0' + today.getDate()).slice(-2);
+				tr += "<td>" + year + "-" + month + "-" + day + "</td>";
+				//현재가
+				let price = parseInt(data.output.stck_prpr)
+						.toLocaleString();
+				tr += "<td>" + price + "</td>";
+				//전일종가
+				let yesterdayLastPrice = parseInt(data.output.stck_prpr)
+						- parseInt(data.output.prdy_vrss.substr(1));
+				tr += "<td>" + yesterdayLastPrice.toLocaleString()
+						+ "</td>";
+				//최고가
+				let high_price = parseInt(data.output.stck_hgpr)
+						.toLocaleString();
+				tr += "<td class='text-danger'>" + high_price + "</td>";
+				//최저가
+				let low_price = parseInt(data.output.stck_lwpr)
+						.toLocaleString();
+				tr += "<td class='text-primary'>" + low_price + "</td>";
+				//전일 대비 & 전일 대비율
+				let gap = parseInt(data.output.prdy_vrss);
+				if (gap < 0) {
+					tr += "<td class='text-primary'>▼"
+							+ gap.toLocaleString() + "</td>";
+					tr += "<td class='text-primary'>▼"
+							+ data.output.prdy_ctrt + "%</td>";
+				} else {
+					tr += "<td class='text-danger'>▲"
+							+ gap.toLocaleString() + "</td>";
+					tr += "<td class='text-danger'>▲"
+							+ data.output.prdy_ctrt + "%</td>";
+				}
+				//거래량
+				let yesterdayVloume = (parseFloat(data.output.prdy_vrss_vol_rate) - 100.0)
+						.toFixed(2); //소수 둘째 자리 까지만
+				if (yesterdayVloume < 0) {
+					tr += "<td class='text-primary'>▼"
+							+ yesterdayVloume + "%</td>";
+				} else {
+					tr += "<td class='text-danger'>▲" + yesterdayVloume
+							+ "%</td>";
+				}
+				$('#day_tbody').append(tr);
+				//연중 최고가
+				let highPrice_year = "<td>"
+						+ parseInt(data.output.stck_dryy_hgpr)
+								.toLocaleString() + "</td>";
+				$('#highPrice_year').append(highPrice_year);
+				//연중 최저가
+				let lowPrice_year = "<td>"
+						+ parseInt(data.output.stck_dryy_lwpr)
+								.toLocaleString() + "</td>";
+				$('#lowPrice_year').append(lowPrice_year);
+				//자본금
+				let capital = "<td>"
+						+ parseInt(data.output.cpfn).toLocaleString()
+						+ "</td>";
+				$('#capital').append(capital);
+				//상장주식수
+				let listed_stocks = "<td>"
+						+ parseInt(data.output.lstn_stcn)
+								.toLocaleString() + "</td>";
+				$('#listed_stocks').append(listed_stocks);
+				//시가총액
+				let market_capitalization = "<td>"
+						+ parseInt(data.output.hts_avls)
+								.toLocaleString() + "</td>";
+				$('#market_capitalization').append(
+						market_capitalization);
+				//외국인 소진율 hts_frgn_ehrt
+				let foreigner_exhaustion_rate = "<td>"
+						+ data.output.hts_frgn_ehrt + "%</td>";
+				$('#foreigner_exhaustion_rate').append(
+						foreigner_exhaustion_rate);
+				//PER/EPS per, eps
+				let pereps = "<td>" + data.output.per + " / "
+						+ data.output.eps + "</td>";
+				$('#pereps').append(pereps);
+			}
+
+		});
+		//차트 데이터 비동기 요청
+		$('.chart_btn')
+			.on(
+				'click',
+				function() {
+					$('.chart').empty();
+					$('.chart').html('<canvas id="myChart" class="w-100 h-100"></canvas>');
+						//기간 분류
+						let category = $(this).val();
+						console.log('기간 분류 : ' + category);
+						let today = new Date();
+						//종료일 설정
+						let end_date;
+						let end_year = today.getFullYear();
+						let end_month = ('0' + (today.getMonth() + 1))
+								.slice(-2); // 월은 0부터 시작하므로 1을 더함
+						let end_day = ('0' + today.getDate()).slice(-2);
+						end_date = end_year + end_month + end_day;
+						//시작일 설정
+						let start_date;
+						if (category === 'D') {
+							today.setDate(today.getDate() - 7);
+							let start_year = today.getFullYear();
+							let start_month = String(today.getMonth() + 1)
+									.padStart(2, '0');
+							let start_day = String(today.getDate())
+									.padStart(2, '0');
+
+							start_date = start_year + start_month
+									+ start_day;
+							console.log('시작일 : ' + start_date);
+						} else if (category === 'W') {
+							today.setMonth(today.getMonth() - 3);
+							let start_year = today.getFullYear();
+							let start_month = String(today.getMonth() + 1)
+									.padStart(2, '0');
+							let start_day = String(today.getDate())
+									.padStart(2, '0');
+
+							start_date = start_year + start_month
+									+ start_day;
+							console.log('시작일 : ' + start_date);
+						} else if (category === 'M') {
+							today.setMonth(today.getMonth() - 6);
+							let start_year = today.getFullYear();
+							let start_month = String(today.getMonth() + 1)
+									.padStart(2, '0');
+							let start_day = String(today.getDate())
+									.padStart(2, '0');
+
+							start_date = start_year + start_month
+									+ start_day;
+							console.log('시작일 : ' + start_date);
+						} else if (category === 'Y') {
+							today.setFullYear(today.getFullYear() - 5);
+							let start_year = today.getFullYear();
+							let start_month = String(today.getMonth() + 1)
+								.padStart(2, '0');
+							let start_day = String(today.getDate())
+								.padStart(2, '0');
+					start_date = start_year + start_month + start_day;
+				}
+				$.ajax({
+					url : "searchForChart.do",
 					type : "GET",
 					data : {
-						"stock_code" : stock_code
+						"stock_code" : stock_code,
+						"category" : category,
+						"start_date" : start_date,
+						"end_date" : end_date					
 					},
 					dataType : "JSON",
 					success : function(data) {
-						let tr = "<tr class='text-center'>";
-						console.log(stock_code);
-						//현재날짜
-						let today = new Date();
-						let year = today.getFullYear();
-						let month = ('0' + (today.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
-						let day = ('0' + today.getDate()).slice(-2);
-						tr += "<td>" + year + "-" + month + "-" + day + "</td>";
-						//현재가
-						let price = parseInt(data.output.stck_prpr)
-								.toLocaleString();
-						tr += "<td>" + price + "</td>";
-						//전일종가
-						let yesterdayLastPrice = parseInt(data.output.stck_prpr)
-								- parseInt(data.output.prdy_vrss.substr(1));
-						tr += "<td>" + yesterdayLastPrice.toLocaleString()
-								+ "</td>";
-						//최고가
-						let high_price = parseInt(data.output.stck_hgpr)
-								.toLocaleString();
-						tr += "<td class='text-danger'>" + high_price + "</td>";
-						//최저가
-						let low_price = parseInt(data.output.stck_lwpr)
-								.toLocaleString();
-						tr += "<td class='text-primary'>" + low_price + "</td>";
-						//전일 대비 & 전일 대비율
-						let gap = parseInt(data.output.prdy_vrss);
-						if (gap < 0) {
-							tr += "<td class='text-primary'>▼"
-									+ gap.toLocaleString() + "</td>";
-							tr += "<td class='text-primary'>▼"
-									+ data.output.prdy_ctrt + "%</td>";
-						} else {
-							tr += "<td class='text-danger'>▲"
-									+ gap.toLocaleString() + "</td>";
-							tr += "<td class='text-danger'>▲"
-									+ data.output.prdy_ctrt + "%</td>";
-						}
-						//거래량
-						let yesterdayVloume = (parseFloat(data.output.prdy_vrss_vol_rate) - 100.0)
-								.toFixed(2); //소수 둘째 자리 까지만
-						if (yesterdayVloume < 0) {
-							tr += "<td class='text-primary'>▼"
-									+ yesterdayVloume + "%</td>";
-						} else {
-							tr += "<td class='text-danger'>▲" + yesterdayVloume
-									+ "%</td>";
-						}
-						$('#day_tbody').append(tr);
-						//연중 최고가
-						let highPrice_year = "<td>"
-								+ parseInt(data.output.stck_dryy_hgpr)
-										.toLocaleString() + "</td>";
-						$('#highPrice_year').append(highPrice_year);
-						//연중 최저가
-						let lowPrice_year = "<td>"
-								+ parseInt(data.output.stck_dryy_lwpr)
-										.toLocaleString() + "</td>";
-						$('#lowPrice_year').append(lowPrice_year);
-						//자본금
-						let capital = "<td>"
-								+ parseInt(data.output.cpfn).toLocaleString()
-								+ "</td>";
-						$('#capital').append(capital);
-						//상장주식수
-						let listed_stocks = "<td>"
-								+ parseInt(data.output.lstn_stcn)
-										.toLocaleString() + "</td>";
-						$('#listed_stocks').append(listed_stocks);
-						//시가총액
-						let market_capitalization = "<td>"
-								+ parseInt(data.output.hts_avls)
-										.toLocaleString() + "</td>";
-						$('#market_capitalization').append(
-								market_capitalization);
-						//외국인 소진율 hts_frgn_ehrt
-						let foreigner_exhaustion_rate = "<td>"
-								+ data.output.hts_frgn_ehrt + "%</td>";
-						$('#foreigner_exhaustion_rate').append(
-								foreigner_exhaustion_rate);
-						//PER/EPS per, eps
-						let pereps = "<td>" + data.output.per + " / "
-								+ data.output.eps + "</td>";
-						$('#pereps').append(pereps);
-					}
-
-				});
-		//차트 데이터 비동기 요청
-		$('.chart_btn')
-				.on(
-						'click',
-						function() {
-							$('.chart').empty();
-							$('.chart')
-									.html(
-											'<canvas id="myChart" class="w-100 h-100"></canvas>');
-							//기간 분류
-							let category = $(this).val();
-							console.log('기간 분류 : ' + category);
-							let today = new Date();
-							//종료일 설정
-							let end_date;
-							let end_year = today.getFullYear();
-							let end_month = ('0' + (today.getMonth() + 1))
-									.slice(-2); // 월은 0부터 시작하므로 1을 더함
-							let end_day = ('0' + today.getDate()).slice(-2);
-							end_date = end_year + end_month + end_day;
-							console.log('종료일 : ' + end_date);
-							//시작일 설정
-							let start_date;
-							if (category === 'D') {
-								today.setDate(today.getDate() - 7);
-								let start_year = today.getFullYear();
-								let start_month = String(today.getMonth() + 1)
-										.padStart(2, '0');
-								let start_day = String(today.getDate())
-										.padStart(2, '0');
-
-								start_date = start_year + start_month
-										+ start_day;
-								console.log('시작일 : ' + start_date);
-							} else if (category === 'W') {
-								today.setMonth(today.getMonth() - 3);
-								let start_year = today.getFullYear();
-								let start_month = String(today.getMonth() + 1)
-										.padStart(2, '0');
-								let start_day = String(today.getDate())
-										.padStart(2, '0');
-
-								start_date = start_year + start_month
-										+ start_day;
-								console.log('시작일 : ' + start_date);
-							} else if (category === 'M') {
-								today.setMonth(today.getMonth() - 6);
-								let start_year = today.getFullYear();
-								let start_month = String(today.getMonth() + 1)
-										.padStart(2, '0');
-								let start_day = String(today.getDate())
-										.padStart(2, '0');
-
-								start_date = start_year + start_month
-										+ start_day;
-								console.log('시작일 : ' + start_date);
-							} else if (category === 'Y') {
-								today.setFullYear(today.getFullYear() - 5);
-								let start_year = today.getFullYear();
-								let start_month = String(today.getMonth() + 1)
-										.padStart(2, '0');
-								let start_day = String(today.getDate())
-										.padStart(2, '0');
-
-				start_date = start_year + start_month + start_day;
-				console.log('시작일 : ' + start_date);
-			}
-			$.ajax({
-				url : "searchForChart.do",
-				type : "GET",
-				data : {
-					"stock_code" : stock_code,
-					"category" : category,
-					"start_date" : start_date,
-					"end_date" : end_date					
-				},
-				dataType : "JSON",
-				success : function(data) {
-					console.log(data);
-					let ctx = document.getElementById("myChart").getContext("2d");
-			        let chart_data = [];
-			        $.each(data.output2.reverse(), function(index, item) {
-			        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
-			        	  let price = item.stck_clpr;
-			        	  let each_data = [date, price];
-			        	  chart_data.push(each_data);
-			        });
-			        /*
-			        let last_date = end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
-			        let last_price = data.output1.stck_prpr;
-			        let last_data = [last_date ,last_price];
-			        chart_data.push(last_data);
-			        */
+						console.log(data);
+						let ctx = document.getElementById("myChart").getContext("2d");
+				        let chart_data = [];
+				        $.each(data.output2.reverse(), function(index, item) {
+				        	  let date = item.stck_bsop_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+				        	  let price = item.stck_clpr;
+				        	  let each_data = [date, price];
+				        	  chart_data.push(each_data);
+				        });
 			        let stock_name = $('#stock_name').text();
 			        let lineChart = new Chart(ctx, {
 			            type: "line",
@@ -258,37 +246,34 @@
 		$('#first_btn').click();
 		let user_id = $('#login_id').val();
 		//즐겨찾기 버튼
-		$('#favorite')
-				.on(
-						'click',
-						function() {
-							let lookup_category_num = $('#favorite').val();
-							console.log('lookup_category_num : '
-									+ lookup_category_num);
-							//즐겨찾기 등록
-							if (lookup_category_num == 1) {
-								$('#favorite').removeClass('btn-light')
-										.addClass('btn-secondary').val(0).text(
-												'해제');
-							} else {//즐겨찾기 해제
-								$('#favorite').removeClass('btn-secondary')
-										.addClass('btn-light').val(1)
-										.text('등록');
-							}
-							$.ajax({
-								url : "updateFavorite.do",
-								type : "GET",
-								data : {
-									"user_id" : user_id,
-									"stock_code" : stock_code,
-									"lookup_category_num" : lookup_category_num
-								},
-								dataType : "JSON",
-								success : function(data) {
-									console.log(data);
-								}
-							});
-						});
+		$('#favorite').on('click',function() {
+			let lookup_category_num = $('#favorite').val();
+			console.log('lookup_category_num : '
+					+ lookup_category_num);
+			//즐겨찾기 등록
+			if (lookup_category_num == 1) {
+				$('#favorite').removeClass('btn-light')
+						.addClass('btn-secondary').val(0).text(
+								'해제');
+			} else {//즐겨찾기 해제
+				$('#favorite').removeClass('btn-secondary')
+						.addClass('btn-light').val(1)
+						.text('등록');
+			}
+			$.ajax({
+				url : "updateFavorite.do",
+				type : "GET",
+				data : {
+					"user_id" : user_id,
+					"stock_code" : stock_code,
+					"lookup_category_num" : lookup_category_num
+				},
+				dataType : "JSON",
+				success : function(data) {
+					console.log(data);
+				}
+			});
+		});
 	});
 </script>
 <style>
@@ -394,13 +379,7 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
 </body>
-<!-- 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/detail_chart.js"></script>
- -->
 </html>
