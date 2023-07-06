@@ -17,7 +17,12 @@
 </head>
 
 	<!-- footer 시작 -->
-	<div class="footer mt-5"></div>
+	<div class="footer mt-5 py-4">
+		<p>Since : 2023-06-26 - 2023-07-07</p>
+		<p>Owner : 이진호 손민아 송하석 박성환</p>
+		<p>Company : SSPL_FINANCE
+		<p>Copyrightⓒ 2023 SSPL.Ltd. All rights reserved.</p>
+	</div>
 	<!-- footer 끝 -->
 
 </html>
