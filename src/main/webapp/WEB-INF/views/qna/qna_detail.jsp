@@ -201,9 +201,6 @@
 	
 	<script>
 		$('.deleteReply').on('click', function(){
-			console.log("삭제하러갈거야");
-			console.log("qna_seq : " + $(this).attr("qna_seq"));
-			console.log("qna_reply_seq : " + $(this).attr("qna_reply_seq"));
 			let qna_seq = $(this).attr("qna_seq");
 			let qna_reply_seq = $(this).attr("qna_reply_seq"); 
 			$.ajax({
@@ -217,7 +214,6 @@
 		})
 		
 		$('.updateReply').on('click', function(){
-			console.log("수정버튼 눌렀어~");
 			let qna_reply_seq = $(this).attr("qna_reply_seq");
 			$('#deleteReply'+qna_reply_seq).attr("style", "display:none");
 			$('#updateReply'+qna_reply_seq).attr("style", "display:none");
@@ -231,7 +227,6 @@
 		})
 		
 		$('.cancleReply').on('click', function(){
-			console.log("취소버튼 눌렀어~");
 			let qna_reply_seq = $(this).attr("qna_reply_seq");
 			$('#updateOkReply'+qna_reply_seq).attr("style", "display:none");
 			$('#cancleReply'+qna_reply_seq).attr("style", "display:none");
@@ -245,22 +240,16 @@
 		})
 		
 		$('.updateOkReply').on('click', function(){
-			console.log("수정합시다~");
-			let qna_reply_seq = $(this).attr("qna_reply_seq");
-			console.log("seq : " + qna_reply_seq);
-			
+			let qna_reply_seq = $(this).attr("qna_reply_seq");			
 			let data = {
 				"qna_reply_seq" : qna_reply_seq,
 				"qna_reply_content": $('#qna_reply_editContent'+qna_reply_seq).val()
 			}
-			console.log(data);
 			$.ajax({
 				url : "updateOkReply.do",
 				type : "POST",
 				data: data,
 				success : function(response) {
-					console.log("수정하고 왔어요~~");
-					console.log("response : " + response.qna_reply_content);
 					let div = "";
 					div += "<div class='col-md-11' id='qna_reply_content" + qna_reply_seq + "'>";
 					div += response.qna_reply_content;

@@ -169,7 +169,6 @@ box-icon {
 </body>
 <script>
         $(document).ready(function () {
-            console.log("여기옴?");
             getList();
      
             function getList() {
@@ -200,7 +199,6 @@ box-icon {
                             $("#ps").css('visibility','hidden');  
                             $("#totalcount").css('visibility','hidden');
                             $("#communityPaging").css('visibility','hidden');
-                            console.log(result);
                             let ajaxTable = "";
 
                             $.each(result, function (key, value) {
@@ -220,10 +218,7 @@ box-icon {
 
                             $("#communityBody").append(ajaxTable);                     
                         },
-                        error: function (xhr) {
-                            console.log("안불러와짐");
-                            console.log(xhr.status);
-                        },
+                        error: function (xhr) {},
                     }); //ajax
                 }); //keyup
             }

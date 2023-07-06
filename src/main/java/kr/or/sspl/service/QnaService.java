@@ -29,7 +29,6 @@ public class QnaService {
 	// 글쓰기
 	public void qnaWriteOk(QnaDto qnaDto, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			System.out.println(qnaDto.getUser_id() + " " + qnaDto.getQna_title() + " " + qnaDto.getQna_content() + " " + qnaDto.getQna_category());
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			qnaDao.qnaWrite(qnaDto);
 		}catch(Exception e) {
@@ -63,8 +62,6 @@ public class QnaService {
 				} else {
 					pagecount = (totalcount / pagesize) + 1;
 				}
-				System.out.println("cpage : " + cpage);
-				System.out.println("pagesize : " + pagesize);
 				int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
 				int end = cpage * pagesize; // 1 * 5 = 5
 				
@@ -72,9 +69,6 @@ public class QnaService {
 				listMap.put("end", end);
 				
 				qnaList = qnaDao.qnaList(listMap);
-				for(int i=0; i<qnaList.size(); i++) {
-					System.out.println("그림포함 : " + qnaList.get(i).getQna_content());
-				}
 				
 				request.setAttribute("qnaList", qnaList);
 				request.setAttribute("pagesize", pagesize);
@@ -87,7 +81,6 @@ public class QnaService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(qnaList.toString());
 		model.addAttribute("qnaList", qnaList);
 		return qnaList;
 	}
@@ -100,7 +93,6 @@ public class QnaService {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			qna = qnaDao.qna(qna_seq);
 			qnaReplyList = qnaDao.qnaReplyList(Integer.parseInt(qna_seq));
-			System.out.println("댓글 개수 : " + qnaReplyList.size());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -130,10 +122,7 @@ public class QnaService {
 			replyHash.put("qna_seq", qna_seq);
 			replyHash.put("qna_reply_content", qna_reply_content);
 			qnaDao.qnaReply(replyHash);
-			// 부여된 롤에 따라 분기 필요할듯?
-			System.out.println("답변완료 바꾸기 시작");
 			qnaDao.qnaState(qna_seq);
-			System.out.println("답변완료 바꾸기 시작");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -145,8 +134,6 @@ public class QnaService {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			QnaDto qnaInfo = qnaDao.qna(qna_seq);
 			request.setAttribute("qna", qnaInfo);
-			System.out.println("qna cp : " + cp);
-			System.out.println("qna ps : " + ps);
 			request.setAttribute("cpage", cp);
 			request.setAttribute("pagesize", ps);
 		}catch(Exception e) {

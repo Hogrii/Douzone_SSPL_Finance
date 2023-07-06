@@ -84,38 +84,8 @@ hr {
 				});
 			}
 		});
-		/*
-		//페이지네이션
-		function pageNation(data) {
-			let total = data.length;
-			let totalPageNum = 15;
-			let pageBtnCount;
-			if(total%totalPageNum == 0) {
-				pageBtnCount = total/totalPageNum;
-			}else {
-				pageBtnCount = (total/totalPageNum) + 1;								
-			}
-			
-			let pageNum=1;
-			let start_page = (15*pageNum)-15;
-			let end_page = (15*pageNum)-1;
-			console.log("1번찾기 : " + $('.pagination').children().eq(1).text());
-			for(let i = 1; i < pageBtnCount; i++) {
-				let li = '<li class="page-item"><button class="page-link" value="' + (1+i) + '">' + (1+i) + '</button></li>';
-				$('.pagination').children().last().before(li);
-			}
-			for(let i = start_page; i < end_page; i++) {
-				let stock_code = data[i].stock_code;
-				let stock_name = data[i].stock_name;
-				let tr = "<tr id="+ stock_code +"></tr>";
-				$('tbody').append(tr); 
-				detail_data(stock_code, stock_name);
-			}
-		}
-		*/
 		
-		$("#search").click();
-		
+		$("#search").click();		
 		$("#keyword").on('keypress', function(e) {
 		    if (e.which === 13) { // 엔터 키를 눌렀을 때
 		      $("#search").click(); // id가 "search"인 버튼 클릭
@@ -142,7 +112,6 @@ hr {
 					let sign = data.output.prdy_vrss_sign;
 					//전일대비율
 					let per = data.output.prdy_ctrt;
-					console.log(data.output.cpfn_cnnm);
 					td += "<td><a href='searchDetail.do?user_id=" + user_id + "&stock_code="+stock_code+"&stock_name="+stock_name+"'>" + stock_name + "</a></td>";
 					if(parseInt(sign) < 3) { //전일 대비 상승일 경우
 					td += "<td class='text-danger'>" + parseInt(price).toLocaleString() + "</td>";
@@ -200,10 +169,8 @@ hr {
 				</table>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 	<!-- footer 영역 -->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>	
 </body>
 </html>

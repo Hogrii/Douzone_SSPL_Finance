@@ -11,11 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<style type="text/css">
-
-</style>
 </head>
-
 	<!-- footer 시작 -->
 	<div class="footer mt-5 py-4">
 		<p>Since : 2023-06-26 - 2023-07-07</p>
@@ -24,6 +20,5 @@
 		<p>Copyrightⓒ 2023 SSPL.Ltd. All rights reserved.</p>
 	</div>
 	<!-- footer 끝 -->
-
 </html>
 

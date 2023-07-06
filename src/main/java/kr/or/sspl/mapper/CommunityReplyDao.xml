@@ -74,5 +74,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		community_reply
 		where comm_reply_seq =#{comm_reply_seq}
 	</delete>
-
 </mapper>

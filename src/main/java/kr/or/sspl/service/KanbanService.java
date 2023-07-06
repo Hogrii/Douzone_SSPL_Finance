@@ -20,58 +20,38 @@ public class KanbanService {
 		this.sqlsession = sqlsession;
 	}
 	
-	public List<LookupListDto> selectAll(String user_id){
-		
-			List<LookupListDto> list = null; 
-		try {
-			
+	public List<LookupListDto> selectAll(String user_id){		
+		List<LookupListDto> list = null; 
+		try {			
 			KanbanDao dao = sqlsession.getMapper(KanbanDao.class);
 			list = dao.selectAll(user_id);
-			System.out.println(list);
-
-		} catch (Exception e) {
-		
-			System.out.println(e.getMessage());
-		}
-		
-		return list;
-		
+		} catch (Exception e) {		
+			e.printStackTrace();
+		}		
+		return list;		
 	}
 	
-	public String kanbanUpdate(List<LookupListDto> list) {
-		
+	public String kanbanUpdate(List<LookupListDto> list) {		
 		String msg = null;
 		try {
-			
-			System.out.println("서비스:"+list);
 			KanbanDao dao = sqlsession.getMapper(KanbanDao.class);
 			dao.kanbanUpdate(list);
 			msg = "성공";
-
 		} catch (Exception e) {
-		
-			System.out.println(e.getMessage());
-		}
-		
+			e.printStackTrace();		
+		}		
 		return msg;
 	}
 	
-	public String kanbanDelete(String lookup_list_num) {
-		
+	public String kanbanDelete(String lookup_list_num) {		
 		String msg = null;
 		try {
-			
-		
 			KanbanDao dao = sqlsession.getMapper(KanbanDao.class);
 			dao.kanbanDelete(lookup_list_num);
 			msg = "성공";
-
 		} catch (Exception e) {
-		
-			System.out.println(e.getMessage());
-		}
-		
+			e.printStackTrace();
+		}		
 		return msg;
 	}
-
 }
