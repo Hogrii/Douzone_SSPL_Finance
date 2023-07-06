@@ -52,8 +52,8 @@ public class QnAController {
 	
 	// 수정 페이지 이동
 	@RequestMapping("qnaModify.do")
-	public String qnaModify(String qna_seq, HttpServletRequest request) {
-		qnaService.qnaModify(qna_seq, request);
+	public String qnaModify(String qna_seq, HttpServletRequest request, String cp, String ps) {
+		qnaService.qnaModify(qna_seq, request, cp, ps);
 		return "qna/qna_modify";
 	}
 	
