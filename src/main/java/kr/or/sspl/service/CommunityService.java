@@ -76,9 +76,6 @@ public class CommunityService {
 		model.addAttribute("list", list);
 		model.addAttribute("pagecount", pagecount);
 		
-		System.out.println("cp : " +cp );
-		System.out.println("ps : " +ps );
-		 
 		return list;
 	}
 

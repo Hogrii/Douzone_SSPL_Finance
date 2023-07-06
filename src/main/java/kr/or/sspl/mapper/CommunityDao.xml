@@ -110,7 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where comm_seq= #{comm_seq}
 	</update>
 
-
 	<!-- 글 삭제 -->
 	<delete id="communityDelete">
 		delete
@@ -125,7 +124,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		comm_view_count+1
 		where comm_seq =#{comm_seq}
 	</update>
-
-
-
 </mapper>
