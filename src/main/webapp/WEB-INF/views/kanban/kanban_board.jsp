@@ -82,24 +82,28 @@ form {
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
-	<div class="row">
-			<div class="col-3 column-header text-center fs-3">조회</div>
-			<div class="col-3 column-header text-center fs-3 text-warning text-opacity-75">즐겨찾기</div>
-			<div class="col-3 column-header text-center fs-3 text-danger">매수</div>
-			<div class="col-3 column-header text-center fs-3 text-primary">매도</div>
+	<div class="row_container d-flex justify-content-center mt-5">
+		<div class="row" style="width:88%">
+				<div class="col-3 column-header text-center fs-3">조회</div>
+				<div class="col-3 column-header text-center fs-3 text-warning text-opacity-75">즐겨찾기</div>
+				<div class="col-3 column-header text-center fs-3 text-danger">매수</div>
+				<div class="col-3 column-header text-center fs-3 text-primary">매도</div>
+		</div>
 	</div>
-	<div class="board">
-		<div class="column sortable">
-			<div class="sortable" id="todo" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="sortable" id="done" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+	<div class="board_container d-flex justify-content-center">
+		<div class="board" style="width:88%">
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="todo" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="done" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+			</div>
 		</div>
 	</div>
 	<!-- 
