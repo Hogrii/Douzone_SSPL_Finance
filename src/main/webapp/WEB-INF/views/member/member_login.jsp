@@ -38,6 +38,7 @@
 	src="${pageContext.request.contextPath }/resources/js/member/member_login.js"></script>
 </head>
 
+
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
