@@ -53,10 +53,6 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
-	
-	<c:set var="cp" value="${cpage }"></c:set>
-	<c:set var="ps" value="${pagesize }"></c:set>
-
 	<div class="container my-5">
 		<!-- 글 내용 시작 -->
 		<c:set var="detail" value="${requestScope.detaillist}" />
@@ -84,14 +80,13 @@
 
 		<!-- 댓글 입력 -->
 		<form id="replyForm" name="replyForm">
-			<table class="table" style="width:100%"">
+			<table class="table" style="width: 100%"">
 				<tr>
-					<td>
-						<textarea class="w-100" rows="3" id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea><br>
+					<td><textarea class="w-100" rows="3" id="comment"
+							name="comment" placeholder="댓글을 입력하세요"></textarea><br>
 						<div>
 							<button type="button" class="btn btn-secondary" id="reply_btn">등록</button>
-						</div>
-					</td>
+						</div></td>
 				</tr>
 			</table>
 		</form>
@@ -100,16 +95,27 @@
 		<div class="btns d-flex justify-content-between">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
+					onclick="location.href='list.do?cp=${cp}&ps=${ps}'">목록</button>
 			</div>
-			<c:if test="${LoginUser} == ${detail.user_id}">
-			<div id="class="otherBtns">
-				<button type="submit" class="btn btn-secondary" 
-					onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage }&ps=${pagesize }'">수정</button>
-				<button type="button" class="btn btn-secondary"
-					onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
-			</div>
-			</c:if>
+			<c:choose>
+				<c:when test="${LoginUser == detail.user_id}">
+					<!-- Result값이 있다면 실행할 로직 -->
+					<div id="otherBtns">
+						<button type="submit" class="btn btn-secondary"
+							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="otherBtns" style="display: none">
+						<button type="submit" class="btn btn-secondary"
+							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 끝 -->
 	</div>
@@ -246,7 +252,7 @@ $(function(){
 	    }); // 작성완료 끝 
 	    
 	    //댓글 삭제 
-	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondarys']",function(){<!--delete ajax!-->
+	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){<!--delete ajax!-->
 	    	console.log("여기와??????????????????");   
 	    	let comm_reply_seq = $(this).val();
 	    	 

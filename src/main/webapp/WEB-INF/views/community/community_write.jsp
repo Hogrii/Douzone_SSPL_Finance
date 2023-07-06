@@ -64,12 +64,13 @@
 				<textarea id="summernote" name="comm_content"></textarea>
 			</div>
 			<!-- summernote 끝 -->
-			<input id="login_id" name="login_id" type="hidden" value="${LoginUser}">
+			<div>${LoginUser}</div>
+			<input id="login_id" name="user_id" type="text" value="${LoginUser}">
 			<!-- 글쓰기 버튼 시작 -->
 			<div class="writeBtns">
-				<button class="btn btn-secondary" id="goWrite">완료</button>
+				<button type="submit" class="btn btn-secondary" id="goWrite">완료</button>
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do'">취소</button>
+					onclick="location.href='list.do?cp=${cp}&ps=${ps}'">취소</button>
 			</div>
 		</form>
 		<!-- 글쓰기 버튼 끝 -->
