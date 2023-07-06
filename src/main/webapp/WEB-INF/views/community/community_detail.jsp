@@ -53,7 +53,6 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
-  
 	<div class="container my-5">
 		<!-- 글 내용 시작 -->
 		<c:set var="detail" value="${requestScope.detaillist}" />
@@ -117,7 +116,6 @@
 					</div>
 				</c:otherwise>
 			</c:choose>
-
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 끝 -->
 	</div>
