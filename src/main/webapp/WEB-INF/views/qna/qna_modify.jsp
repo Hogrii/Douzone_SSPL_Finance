@@ -95,7 +95,11 @@ hr {
 					<div class="row">
 						<div class="d-grid gap-4 d-md-flex justify-content-md-end">
 							<input type="submit" class="btn btn-secondary" value="수정" />
-							<input type="button" class="btn btn-secondary" value="취소" />
+							<input 
+								type="button" 
+								class="btn btn-secondary" 
+								onclick="location.href='qnaList.do?cp=${cpage}&ps=${pagesize }'"
+								value="취소" />
 						</div>
 					</div>
 				</form>

@@ -140,11 +140,15 @@ public class QnaService {
 	}
 	
 	// 수정 페이지 이동
-	public void qnaModify(String qna_seq, HttpServletRequest request) {
+	public void qnaModify(String qna_seq, HttpServletRequest request, String cp, String ps) {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			QnaDto qnaInfo = qnaDao.qna(qna_seq);
 			request.setAttribute("qna", qnaInfo);
+			System.out.println("qna cp : " + cp);
+			System.out.println("qna ps : " + ps);
+			request.setAttribute("cpage", cp);
+			request.setAttribute("pagesize", ps);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	

@@ -47,7 +47,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<form
-					action="qnaModify.do?qna_seq=${qna.qna_seq }"
+					action="qnaModify.do?qna_seq=${qna.qna_seq }&cp=${cpage}&ps=${pagesize }"
 					method="post">
 					<hr />
 					<div class="d-flex flex-row mb-2">
