@@ -1,8 +1,5 @@
 package kr.or.sspl.dto;
 
-import java.sql.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

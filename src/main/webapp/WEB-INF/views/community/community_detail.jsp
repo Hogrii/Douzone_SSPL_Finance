@@ -57,7 +57,7 @@
 	<c:set var="cp" value="${cpage }"></c:set>
 	<c:set var="ps" value="${pagesize }"></c:set>
 
-	<div class="Container py-5">
+	<div class="container my-5">
 		<!-- 글 내용 시작 -->
 		<c:set var="detail" value="${requestScope.detaillist}" />
 		<div class="titles">
@@ -102,12 +102,14 @@
 				<button type="button" class="btn btn-secondary"
 					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
 			</div>
+			<c:if test="${LoginUser} == ${detail.user_id}">
 			<div id="class="otherBtns">
-				<button type="submit" class="btn btn-secondary"
+				<button type="submit" class="btn btn-secondary" 
 					onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage }&ps=${pagesize }'">수정</button>
 				<button type="button" class="btn btn-secondary"
 					onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
 			</div>
+			</c:if>
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 끝 -->
 	</div>
@@ -118,6 +120,7 @@
 <script>
 $(function(){
 
+	
 	 //전체 댓글
 	  function getList(){
 	  $.ajax({
@@ -133,7 +136,7 @@ $(function(){
 	    	  
 	    	  let html = "";
 	    	  
-	    	  if(data[i++].depth===1){	    		  
+	    	  if(data[i++].depth==1){	    		  
 	    		html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
 		    		  html += "<div class='reply_item'>";
 						html += "<div class='user_id'>" + this.user_id + "</div>";
@@ -142,7 +145,10 @@ $(function(){
 						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
 			        html += "</div>";
 				        html += "<div class='btns'>";
-						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+						if("${LoginUser}" == this.user_id )
+				            html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+				        else
+				            html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";	
 					html += "</div>";		    	
 		        html += "</div>";
 	    	  }else{
@@ -152,12 +158,16 @@ $(function(){
 						html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
 						html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
 						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
-			        html += "</div>";
+			          html += "</div>";
 				        html += "<div class='btns'>";
 						html += "<div><button type='button' class ='reReply btn btn-secondary' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
-						html += "<div><button type='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+						if("${LoginUser}" == this.user_id )
+					        html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+				        else
+				            html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
 					html += "</div>";		    	
 		        html += "</div>";
+		        console.log(html);
 	    	  }
 		   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
 		      $("#replyList").append(html);
@@ -172,7 +182,7 @@ $(function(){
 	  $('#reply_btn').on('click',function(){
 		  console.log("코맨트??????"+$("#comment").val());
 		 let requestdata = {
-			  "user_id" : "shs1994", 
+			  "user_id" : "${LoginUser}", 
 			  "comm_reply_content" : $("#comment").val(),
 			  "comm_seq" : ${detail.comm_seq},
 			  
@@ -216,7 +226,7 @@ $(function(){
 	    	let data ={
 	    		"comm_reply_content" : 	$("#comm_reply_content").val(), //내용
 	    		"comm_reply_seq": $(this).attr("comm_reply_seq"), //기존댓글의 seq
-	    		"user_id" : "shs1991", // 댓글작성자
+	    		"user_id" : "${LoginUser}", // 댓글작성자
 	    	}
 	    	
 	    	let data2 = JSON.stringify(data);
@@ -236,7 +246,7 @@ $(function(){
 	    }); // 작성완료 끝 
 	    
 	    //댓글 삭제 
-	    $(document).on("click","button[class='replydelete mx-3']",function(){<!--delete ajax!-->
+	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondarys']",function(){<!--delete ajax!-->
 	    	console.log("여기와??????????????????");   
 	    	let comm_reply_seq = $(this).val();
 	    	 
