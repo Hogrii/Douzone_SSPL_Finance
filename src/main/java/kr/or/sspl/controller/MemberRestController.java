@@ -39,7 +39,7 @@ public class MemberRestController {
 	
 	@GetMapping("/idcheck/{id}")
 	public ResponseEntity<Map<String, String>> idCheck(@PathVariable(value = "id") String id){
-		System.out.println(id);
+		System.out.println("★★★★★★★★"+id);
 		Map<String, String> map = memberService.idCheck(id);
 		
 		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);

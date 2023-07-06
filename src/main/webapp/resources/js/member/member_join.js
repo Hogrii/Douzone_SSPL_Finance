@@ -22,7 +22,7 @@ $(function() {
 	        } else {
 	          message = '사용 가능한 아이디입니다';
 	          id_check = 1;
-	          focusdata = '';
+	          focusdata = '#user_id';
 	        }
 	        $('#resultMessage').empty();
 	        $('#resultModal').modal('show');
@@ -121,12 +121,23 @@ $(function() {
 
 	  // 모달 닫기 버튼 클릭 이벤트 처리
 	  $('#resultModal').on('click', '[data-dismiss="modal"]', function() {
-	    $('#resultModal').modal('hide');
-
-	    $('#resultModal').on('hidden.bs.modal', function() {
-	      focusOn(focusdata); // Set focus on the input field stored in focusdata variable
-	    });
-	  });
+		  closeModal();
+		});
+		
+		$(document).on('keydown', function(event) {
+		  if (event.key === "Escape") {
+		    closeModal();
+		  }
+		});
+		
+		
+      function closeModal() {
+		  $('#resultModal').modal('hide');
+		
+		  $('#resultModal').on('hidden.bs.modal', function() {
+		    focusOn(focusdata); // Set focus on the input field stored in focusdata variable
+		  });
+}
 
 	  function nextPage(message) {
 	    if (message.includes('성공')) {
@@ -147,5 +158,6 @@ $(function() {
 	    console.log(elementId);
 	    $(elementId).focus();
 	  }
+	  
 
 	});

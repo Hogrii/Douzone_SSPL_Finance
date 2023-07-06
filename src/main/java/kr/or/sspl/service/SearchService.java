@@ -176,7 +176,7 @@ public class SearchService {
 				+ "&FID_INPUT_DATE_2=" + end_date
 				//기간분류코드 D:일봉 W:주봉, M:월봉, Y:년봉
 				+ "&FID_PERIOD_DIV_CODE=D";
-		//국내주식기간별 시세 조회 코드
+		//국내주식기간별 시세 조회 코드	
 		String tr_id = "FHKUP03500100";
 		jsonResponse = connectAPI(apiUrl, tr_id);
 		return jsonResponse;
@@ -191,7 +191,7 @@ public class SearchService {
 	            connection.setRequestMethod("GET");
 	            
 	            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6Ijc5NGE3ZGJiLTljMTctNDcyOS1iYTczLWI0MDFjOGYxZjExNCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NjMyOTg2LCJpYXQiOjE2ODg1NDY1ODYsImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.KF6-zmGBuz62UvV5mGfjOrQ8wUcgr0afHIpXZeu4-n6baWR3G51I3fnuyrEKQv9RkT9cv-BiJjAVQFV-HX9_Kw");
+	            connection.setRequestProperty("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjdhYjc0YTQ1LWE1NjktNDg0Ni1iYmY0LTNiY2NlYmM2YTQyYyIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg4NzIxMzY5LCJpYXQiOjE2ODg2MzQ5NjksImp0aSI6IlBTc0VVN3BNbFA0bzBlTVJObVlVRzFBcTdDZmJDWjR1dVU4ZCJ9.zfttmRKqXyX-2KXEX15RZ9A2cyhofn9AJI6WZP7n9r-8cxaVe-9CCBdjfvIgelulrSB5BrV-aqnYDLl-gc0MVg");
 	            connection.setRequestProperty("appkey", "PSsEU7pMlP4o0eMRNmYUG1Aq7CfbCZ4uuU8d");
 	            connection.setRequestProperty("appsecret", "3leesykWctdjLwK7bc482HezywI8js9ZjKMWPT23+5WPvzqi1UuTkaNQ6eU+jtiMw89CWiXCLWfOCgUsJxkAdwfm2PhdQH5lfvkHNfbdkj0hspZFYWhBIHtUT3IvQtyV9AF2Xl0g6p9QxR2B9mCd0rNZDkoknjQsZxf42NkWbISyBeL1VFE=");
 	            connection.setRequestProperty("tr_id", tr_id);

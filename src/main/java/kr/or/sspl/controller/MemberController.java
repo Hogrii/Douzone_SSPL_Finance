@@ -44,6 +44,7 @@ public class MemberController {
 	@GetMapping("member_modify")
 	public String modify() {
 		
+		
 		return "/member/member_modify";
 	}
 	
