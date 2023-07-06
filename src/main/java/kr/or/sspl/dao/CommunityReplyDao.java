@@ -7,7 +7,6 @@ import java.util.Map;
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunityReplyDto;
 import kr.or.sspl.dto.CommunitySearchData;
-import kr.or.sspl.dto.SaveReqDto;
 
 public interface CommunityReplyDao {
 

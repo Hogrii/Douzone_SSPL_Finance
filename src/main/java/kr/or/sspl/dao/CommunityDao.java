@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import kr.or.sspl.dto.CommunityDto;
 import kr.or.sspl.dto.CommunitySearchData;
-import kr.or.sspl.dto.SaveReqDto;
 
 public interface CommunityDao {
 
@@ -25,10 +24,10 @@ public interface CommunityDao {
 	List<CommunityDto> searchList(CommunitySearchData SearchData) throws ClassNotFoundException, SQLException;
  
 	//게시물 입력
-	int communityInsert(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
+	int communityInsert(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
 
 	//게시물 수정
-	int communityUpdate(SaveReqDto saveReqDto) throws ClassNotFoundException, SQLException;
+	int communityUpdate(CommunityDto communityDto) throws ClassNotFoundException, SQLException;
 
 	//게시물 삭제
 	int communityDelete(int comm_seq) throws ClassNotFoundException, SQLException;

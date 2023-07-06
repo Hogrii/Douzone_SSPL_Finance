@@ -64,7 +64,7 @@ public class CommunityRestController {
 		int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
 		int end = cpage * pagesize; // 1 * 5 = 5
 
-		int searchTotalCount = communityservice.searchListTotal(model); // 전체 데이터\
+		int searchTotalCount = communityservice.searchListTotal(model); // 전체 데이터
 
 		System.out.println("조회 총갯수 " + searchTotalCount);
 

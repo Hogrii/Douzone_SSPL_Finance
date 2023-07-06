@@ -46,10 +46,7 @@ box-icon {
 		<se:authentication property="name" var="LoginUser" />
 		<input id="login_id" type="hidden" value="${LoginUser}">
 
-
-		<c:set var="pagesize" value="${requestScope.pagesize}" />
-		<c:set var="cpage" value="${requestScope.cpage}" />
-		<c:set var="pagecount" value="${requestScope.pagecount }" />
+ 
 		<div class="main py-5">
 			<!-- 검색버튼 시작 -->
 			<div class="container">
@@ -67,7 +64,7 @@ box-icon {
 											onchange="submit()">
 											<c:forEach var="i" begin="5" end="20" step="5">
 												<c:choose>
-													<c:when test="${pagesize == i }">
+													<c:when test="${ps == i }">
 														<option value="${i}" selected>${i}</option>
 													</c:when>
 													<c:otherwise>
@@ -143,10 +140,10 @@ box-icon {
 			</table>
 			<!-- 테이블 끝 -->
 			<!-- 글쓰기 버튼 시작 -->
-	 
+	 	<div>${cpage}</div>
 			<div class="writeContainer">
 				<button type="button" class="btn btn-secondary left"
-					onclick="location.href='write.do'">글 작성</button>
+					onclick="location.href='write.do?cp=${cp}&ps=${ps}'">글 작성</button>
 			</div>
 
 			<!-- 글쓰기 버튼 끝 -->
@@ -154,16 +151,16 @@ box-icon {
 			<div id="communityPaging" class="d-flex justify-content-center mt-4">
 				<nav>
 					<ul class="pagination">
-						<li class="page-item ${cpage == 1 ? 'disabled' : ''}"><a
-							class="page-link" href="list.do?cp=${cpage-1}&ps=${pagesize}"
+						<li class="page-item ${cp == 1 ? 'disabled' : ''}"><a
+							class="page-link" href="list.do?cp=${cp-1}&ps=${ps}"
 							tabindex="-1" aria-disabled="true">이전</a></li>
 						<c:forEach var="i" begin="1" end="${pagecount}" step="1">
-							<li class="page-item ${cpage == i ? 'active' : ''}"><a
-								class="page-link" href="list.do?cp=${i}&ps=${pagesize}">${i}</a>
+							<li class="page-item ${cp == i ? 'active' : ''}"><a
+								class="page-link" href="list.do?cp=${i}&ps=${ps}">${i}</a>
 							</li>
 						</c:forEach>
-						<li class="page-item ${cpage == pagecount ? 'disabled' : ''}">
-							<a class="page-link" href="list.do?cp=${cpage+1}&ps=${pagesize}">다음</a>
+						<li class="page-item ${cp == pagecount ? 'disabled' : ''}">
+							<a class="page-link" href="list.do?cp=${cp+1}&ps=${ps}">다음</a>
 						</li>
 					</ul>
 				</nav>
@@ -187,10 +184,10 @@ box-icon {
                 
                 $("#search").keyup(function () {
                     const CommunitySearchData = {
-                        field: keyword,
-                        query: $(this).val(),
-                        cpage: ${cpage},
-                        pagesize  : ${pagesize} 
+                        "field": keyword,
+                        "query": $(this).val(),
+                        "cp": ${cp},
+                        "ps"  : ${ps} 
                     };
                     if($(this).val().length < 1){
                     	window.location.href="/sspl_finance/community/list.do";
