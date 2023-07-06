@@ -66,8 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 조건검색 -->
 	<select id="searchList"
 		parameterType="kr.or.sspl.dto.CommunitySearchData"
-		resultType="kr.or.sspl.dto.CommunityDto">
-		
+		resultType="kr.or.sspl.dto.CommunityDto">		
 		select comm_seq,
 		       user_id,
 		       comm_title,
@@ -86,8 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			        from community
 		           where ${field} like '%${query}%'
 		           order by comm_writen_date desc
-		      )
-		      
+		      )		      
 	</select>
 
 	<!-- 글 추가 -->

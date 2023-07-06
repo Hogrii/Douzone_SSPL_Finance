@@ -138,7 +138,6 @@ hr {
 		* 이미지 파일 업로드
 		*/
 		function uploadSummernoteImageFile(file, editor) {
-			console.log("update call!!");
 			data = new FormData();
 			data.append("file", file);
 			$.ajax({
@@ -149,14 +148,7 @@ hr {
 				contentType : false,
 				processData : false,
 				success : function(data) {
-					//console.log(data); 
-	            	//항상 업로드된 파일의 url이 있어야 한다.
-	                //var json = JSON.parse(data);
 	            	$(editor).summernote('insertImage', data.url);
-	                 //$(el).summernote('editor.insertImage',data["url"]);
-	                 //jsonArray.push(json["url"]);
-	                 //jsonFn(jsonArray);
-					//$(editor).summernote('insertImage', data.url);
 				}
 			});
 		}

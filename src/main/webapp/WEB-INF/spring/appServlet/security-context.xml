@@ -12,29 +12,21 @@
 	<!-- 페이지 접근 권한 -->
  
  <mvc:annotation-driven/>
- 
 	<security:http >
 	 <security:csrf disabled="true" />
 		<security:form-login login-page="/member/login"
 		                     default-target-url="/"
-		                     authentication-failure-url="/member/login?error"/>
-		                     
+		                     authentication-failure-url="/member/login?error"/>		                     
 		<security:logout     logout-url = "/member/logout"
-							 logout-success-url="/"/>
-	
+							 logout-success-url="/"/>	
 		<security:intercept-url pattern="/community/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/kanban/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/qna/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/search/**" access="hasRole('ROLE_USER')" />
-  		<security:intercept-url pattern="/resources/**" access="permitAll()" />
-  		
+  		<security:intercept-url pattern="/resources/**" access="permitAll()" />  		
   		<!-- 자동로그인 기능  -->
- <!--  		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/> -->
-	</security:http>
-
-
-	<!-- 권한 확인 -->
-	 
+	</security:http>	
+	<!-- 권한 확인 -->	 
     <security:authentication-manager>
         <security:authentication-provider>
             <security:jdbc-user-service
@@ -49,5 +41,3 @@
         </security:authentication-provider>
     </security:authentication-manager>
 </beans>
-
-

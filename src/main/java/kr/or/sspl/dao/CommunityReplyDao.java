@@ -12,9 +12,6 @@ public interface CommunityReplyDao {
 
 	// 댓글 조회(대댓글 포함)
 	List<CommunityReplyDto> communityReplyList(int comm_seq);
-	 
-	//대댓글 조회 
-	//List<CommunityReplyDto> reReplyList(int comm_seq);
 
 	// 댓글 입력
 	int communityReplyInsert(CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException;

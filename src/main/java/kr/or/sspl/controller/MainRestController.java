@@ -42,9 +42,6 @@ public class MainRestController {
 	
 	@GetMapping("searchForMainChart.do")
 	public String searchForMainChart(String industry_code, String start_date, String end_date) {
-		System.out.println(industry_code);
-		System.out.println(start_date);
-		System.out.println(end_date);
 		String jsonResponse = searchService.searchForMainChart(industry_code, start_date, end_date);
 		return jsonResponse;
 	}
@@ -52,9 +49,7 @@ public class MainRestController {
 	// 메인 페이지 리스트 출력
 	@GetMapping("qnaGetList.do")
 	public List<QnaDto> qnaGetList(Model model, HttpServletRequest reqeust) {
-		System.out.println("문의글 주세요");
 		List<QnaDto> qnaList = qnaService.qnaList(model, reqeust);
-		System.out.println("문의글리스트 : " + qnaList.toString());
 		return  qnaList;
 	}
 	
@@ -63,6 +58,5 @@ public class MainRestController {
 	public List<CommunityDto> CommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
 		List<CommunityDto> commList = communityservice.getCommunityList(ps, cp, model);
 		return commList;
-
 	}
 }

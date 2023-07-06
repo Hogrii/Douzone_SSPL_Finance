@@ -42,7 +42,6 @@ box-icon {
 	$(function() {
 		$('#search').on('click', function(){
 			let qna_title = $('#qna_title').val();
-			console.log("qna_title : " + qna_title);
 			$.ajax({
 				url : "searchKeyword.do",
 				type : "GET",
@@ -51,7 +50,6 @@ box-icon {
 				},
 				dataType : "JSON",
 				success : function(data) {
-					console.log("data : " + data);
 					$('#tbody').empty();
 					$('#page').empty();
 					if(data.length == 0) { //검색 결과가 없는 경우
@@ -78,25 +76,15 @@ box-icon {
 				}
 			})
 		})
-		
-		/*
-			$('.cancleReply').on('click', function(){
-			console.log("취소버튼 눌렀어~");
-			let qna_reply_seq = $(this).attr("qna_reply_seq");
-		 */
+
 		$('.title').on("click", function(){
-			let qna_seq = $(this).attr("qna_seq");
-			console.log("qna_seq : " + qna_seq);			
+			let qna_seq = $(this).attr("qna_seq");		
 
 			let loginUser = $('#login_id').val();
 			let writeUser = $('#user_id'+qna_seq).text();
-			console.log("loginUser : " + loginUser);
-			console.log("writeUser : " + writeUser);
 			
 			let cpage = $(this).attr("cpage");
 			let pagesize = $(this).attr("pagesize");
-			console.log("cpage : " + cpage);
-			console.log("pagesize : " + pagesize);
 
 			if(loginUser !== writeUser) {
 				alert("접근 권한이 없습니다.");

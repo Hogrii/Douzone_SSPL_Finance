@@ -20,7 +20,6 @@ import kr.or.sspl.dto.StockDto;
 
 @Service
 public class SearchService {
-
 	private SqlSession sqlsession;
 
 	@Autowired
@@ -95,7 +94,6 @@ public class SearchService {
 			lookupListDto = lookupListDao.selectSearchOne(map);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 		}
 		return lookupListDto;
 	}
@@ -107,7 +105,6 @@ public class SearchService {
 			lookupListDao.insertSearch(lookupList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -122,7 +119,6 @@ public class SearchService {
 			lookupList = lookupListDao.selectSearchOne(map);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 		}
 		return lookupList;
 	}
@@ -208,10 +204,8 @@ public class SearchService {
 
 	            jsonResponse = response.toString();
 	        } catch (Exception e) {
-	        	System.out.println(e.getMessage());
 	            e.printStackTrace();
 	        }
-		 System.out.println(jsonResponse);
 		 return jsonResponse;
 	}
 }

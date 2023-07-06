@@ -19,43 +19,27 @@ import kr.or.sspl.service.KanbanService;
 
 @RestController
 @RequestMapping("/kanban/")
-public class KanbanRestController {
-	
+public class KanbanRestController {	
 	
 	@Autowired
 	private KanbanService kanbanService;
 	
 	@GetMapping("/kanban-board/{id}")
 	public ResponseEntity<List<LookupListDto>> lookupList(@PathVariable(value = "id") String user_id) {
-		
-		System.out.println(user_id);
-		
-		List<LookupListDto> list = kanbanService.selectAll(user_id);
-		
-			
+		List<LookupListDto> list = kanbanService.selectAll(user_id);			
 		return new ResponseEntity<List<LookupListDto>>(list, HttpStatus.OK);
 	}
 	
 	@PutMapping("kanban-board")
 	public ResponseEntity<String> kanbanUpdate(@RequestBody List<LookupListDto> list){
-		
-		
-		
-		System.out.println(list);
 		kanbanService.kanbanUpdate(list);
-		String msg = "성공";
-		
-		return new ResponseEntity<String>(msg, HttpStatus.OK);
-		
+		String msg = "성공";		
+		return new ResponseEntity<String>(msg, HttpStatus.OK);		
 	}
 	
 	@DeleteMapping("/kanban-board/{lookupListNo}")
 	public ResponseEntity<String> kanbanDelete(@PathVariable(value = "lookupListNo") String lookup_list_num){
-		
-		System.out.println(lookup_list_num);
-		String msg = kanbanService.kanbanDelete(lookup_list_num);
-		
+		String msg = kanbanService.kanbanDelete(lookup_list_num);		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
-	}
-	
+	}	
 }

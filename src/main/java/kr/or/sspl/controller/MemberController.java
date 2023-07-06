@@ -21,15 +21,6 @@ public class MemberController {
 		return "/member/member_join";
 	}
 	
-//	@PostMapping("joinOk")
-//	public String joinOk(MemberDto memberdto) {
-//		System.out.println(memberdto.toString());
-//		String msg = memberService.join(memberdto);
-//		System.out.println(msg);
-//	
-//		return "/main/main";
-//	}
-	
 	@GetMapping("login")
 	public String login() {
 		System.out.println("로그인");
@@ -42,11 +33,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("member_modify")
-	public String modify() {
-		
-		
+	public String modify() {	
 		return "/member/member_modify";
 	}
-	
-	
 }

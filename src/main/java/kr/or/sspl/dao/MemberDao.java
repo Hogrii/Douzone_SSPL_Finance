@@ -28,6 +28,4 @@ public interface MemberDao {
 	
 	//유저 정보 갱신
 	void userModify(MemberDto dto);
-	
-	
 }
