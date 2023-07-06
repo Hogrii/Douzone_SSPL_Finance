@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		          select comm_seq,
 		                 user_id,
 		                 comm_title,
-		                 <![CDATA[case when INSTR(comm_content,'<img') > 0 then '(*그림포함*) '||SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1)  else comm_content end as comm_content,]]>
+		                  <![CDATA[case when INSTR(comm_content,'<img') > 0 then SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1) || '<br>' || SUBSTR(comm_content,INSTR(comm_content,'<img'), length(comm_content))else comm_content end as comm_content,]]>
 		                 to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,
 		                 comm_category,
 		                 comm_view_count 
@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		parameterType="kr.or.sspl.dto.CommunityDto">
 		<selectKey order="BEFORE" keyProperty="comm_seq"
 			resultType="int">
-			SELECT MAX(comm_seq)+1 FROM community
+			SELECT nvl(MAX(comm_seq)+1,0) FROM community
 		</selectKey>
 		insert into
 		community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count)

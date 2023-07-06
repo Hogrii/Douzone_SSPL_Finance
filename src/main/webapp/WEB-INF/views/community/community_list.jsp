@@ -53,10 +53,10 @@ box-icon {
 				<div class="form-group">
 					<div class="row">
 						<!-- 총 게시물 출력 시작 -->
-						<div id="totalcount" class="totalPostContainer">총
+						<div id="totalcount" class="totalPostContainer my-3">총
 							${requestScope.total}건의 게시물</div>
 						<!-- 총 게시물 출력 끝 -->
-						<div id="ps" class="col-sm-12 col-md-6">
+						<div id="ps" class="col-sm-12 col-md-6 my-2">
 							<div class="form-group d-flex align-items-center">
 								<div class="col-sm-1" style="padding-left: 0">
 									<form name="list">
@@ -85,9 +85,9 @@ box-icon {
 									<select id="selectBox" class="form-control col-md-2 pt-1 pb-1">
 										<option value="comm_title" selected>제목</option>
 										<option value="comm_content">내용</option>
-										<option value="user_id">작성자</option>
+										<option value="user_id">글쓴이</option>
 										<option value="comm_category">카테고리</option>
-									</select>
+ㄴ									</select>
 								</div>
 								<div class="searchText">
 									<input type="text" id="search" placeholder="검색어를 입력하세요" />
@@ -108,7 +108,6 @@ box-icon {
 						<td>순번</td>
 						<td>카테고리</td>
 						<td>제목</td>
-						<td>내용</td>
 						<td>글쓴이</td>
 						<td>작성날짜</td>
 						<td>조회수</td>
@@ -121,7 +120,6 @@ box-icon {
 						<tr>
 							<td>${list2.comm_seq}</td>
 							<td>${list2.comm_category}</td>
-							<td>${list2.comm_title}</td>
 							<c:choose>
 								<c:when test="${fn:contains(list2.comm_content, '<img')}">
 									<td></box-icon><a href="detail.do?comm_seq=${list2.comm_seq}">${list2.comm_title}</a>
@@ -210,12 +208,9 @@ box-icon {
                             $.each(result, function (key, value) {
                                 ajaxTable += "<tr>";
                                 ajaxTable += "<td>" + value.comm_seq + "</td>";
-                                ajaxTable +=
+                                ajaxTable += 
                                     "<td>" + value.comm_category + "</td>";
-                                ajaxTable +=
                                     "<td>" + value.comm_title + "</td>";
-                                ajaxTable +=
-                                    "<td>" + value.comm_content + "</td>";
                                 ajaxTable += "<td>" + value.user_id + "</td>";
                                 ajaxTable +=
                                     "<td>"+ value.comm_writen_date + "</td>";
