@@ -43,9 +43,9 @@
 		<form action="writeOk.do" method="post" id="frmWrite"
 			enctype="multipart/form-data">
 
-			<div class="writeBar py-5">
-				<div class="writeCategory">
-					<select id="comm_category" name="comm_category">
+			<div class="writeBar py-1">
+				<div class="writeCategory ">
+					<select class="selectBox" class="form-control col-md-2 pt-3 pb-3" id="comm_category" name="comm_category">
 						<option value="">유형</option>
 						<option value="매도">매도</option>
 						<option value="매수">매수</option>
@@ -53,7 +53,7 @@
 						<option value="환율">환율</option>
 					</select>
 				</div>
-				제목 : <input type="text" placeholder="제목을 입력하세요" id="comm_title"
+				   제목 : <input type="text" placeholder="제목을 입력하세요" id="comm_title"
 					name="comm_title" />
 			</div>
 			<!-- 글쓰기 내용 끝 -->
@@ -64,8 +64,7 @@
 				<textarea id="summernote" name="comm_content"></textarea>
 			</div>
 			<!-- summernote 끝 -->
-			<div>${LoginUser}</div>
-			<input id="login_id" name="user_id" type="text" value="${LoginUser}">
+			<input id="login_id" name="user_id" type="hidden" value="${LoginUser}">
 			<!-- 글쓰기 버튼 시작 -->
 			<div class="writeBtns">
 				<button type="submit" class="btn btn-secondary" id="goWrite">완료</button>
