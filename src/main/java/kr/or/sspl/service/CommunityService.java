@@ -47,9 +47,9 @@ public class CommunityService {
 		if (ps == null || ps.trim().equals("")) {
 			ps = "5";
 		}
-		int pagesize = Integer.parseInt(ps);
 		int cpage = Integer.parseInt(cp);
-
+		int pagesize = Integer.parseInt(ps);
+		
 		int start = cpage * pagesize - (pagesize - 1); // 1*5 -(5-1) = 1
 		int end = cpage * pagesize; // 1 * 5 = 5
 
@@ -61,7 +61,7 @@ public class CommunityService {
 		} else {
 			pagecount = (totalcount / pagesize) + 1;
 		}
-		System.out.println("pagecount : "+ pagecount );
+
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
@@ -78,8 +78,6 @@ public class CommunityService {
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("cpage", cpage);
 		
-		System.out.println("ps : "+ ps);
-		System.out.println("cp: "+ cp);
 		
 		return list;
 	}

@@ -18,13 +18,7 @@
   <bean id="driverManagerDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig"></constructor-arg>
  </bean>
-	 
-	 
-	 
-	 
-	 
-
-
+ 
 	<!-- JDBC Template -->
 	<bean id="" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="driverManagerDataSource" />

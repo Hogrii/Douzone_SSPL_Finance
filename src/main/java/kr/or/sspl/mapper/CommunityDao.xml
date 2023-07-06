@@ -3,30 +3,32 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.sspl.dao.CommunityDao">
+
 	<!-- 전체데이터 갯수 -->
 	<select id="communityCount" resultType="int">
 		select count(*)
-			from community
+		from community
 	</select>
 
 	<!-- 전체리스트 조회 -->
 	<select id="list" parameterType="Map"
 		resultType="kr.or.sspl.dto.CommunityDto">
-		
-		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
-			from 
-			(
-				select rownum as rn,
-						comm_seq,
-						user_id,
-						comm_title,
-						comm_content,
-						comm_writen_date,
-						comm_category,
-						comm_view_count
-					from community
-						order by comm_seq desc
-			)
+
+		select comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date,
+		'YYYY-MM-DD') as comm_writen_date,comm_category,comm_view_count
+		from
+		(
+		select rownum as rn,
+		comm_seq,
+		user_id,
+		comm_title,
+		comm_content,
+		comm_writen_date,
+		comm_category,
+		comm_view_count
+		from community
+		order by comm_seq desc
+		)
 		where rn between #{start} and #{end}
 
 	</select>
@@ -34,29 +36,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 상세페이지 -->
 	<select id="getDetailList" parameterType="int"
 		resultType="kr.or.sspl.dto.CommunityDto">
+		
 		select comm_seq,
-		       user_id,
-		       comm_title,
+		user_id,
+		comm_title,
 		       <![CDATA[case when INSTR(comm_content,'<img') > 0 then SUBSTR(comm_content,0,INSTR(comm_content,'<img')-1) || '<br>' || SUBSTR(comm_content,INSTR(comm_content,'<img'), length(comm_content))else comm_content end as comm_content,]]>
-		       to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date
-		       ,comm_category
-		       ,comm_view_count
-			from community
+		to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date
+		,comm_category
+		,comm_view_count
+		from community
 		where comm_seq =#{comm_seq}
 	</select>
 
-	<!-- 조건검색 갯수 --> 
-	<select id="searchListTotal" parameterType="int" resultType="kr.or.sspl.dto.CommunityDto">
+	<!-- 조건검색 갯수 -->
+	<select id="searchListTotal" parameterType="int"
+		resultType="kr.or.sspl.dto.CommunityDto">
+		
 		select count(1)
-		  from (
-		          select rownum as rn, comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
-			        from community
-		           where ${field} like '%${query}%'
-		           order by comm_writen_date desc
-		       )		       
+		from (
+		select rownum as rn,
+		comm_seq,user_id,comm_title,comm_content,to_char(comm_writen_date,
+		'YYYY-MM-DD') as comm_writen_date ,comm_category,comm_view_count
+		from community
+		where ${field} like '%${query}%'
+		order by comm_writen_date desc
+		)
+		
 	</select>
 	<!-- 조건검색 -->
-	<select id="searchList" parameterType="kr.or.sspl.dto.CommunitySearchData" resultType="kr.or.sspl.dto.CommunityDto">
+	<select id="searchList"
+		parameterType="kr.or.sspl.dto.CommunitySearchData"
+		resultType="kr.or.sspl.dto.CommunityDto">
+		
 		select comm_seq,
 		       user_id,
 		       comm_title,
@@ -76,41 +87,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		           where ${field} like '%${query}%'
 		           order by comm_writen_date desc
 		      )
-		  <!--  where rn between #{start} and #{end} -->
-		       
+		      
 	</select>
 
 	<!-- 글 추가 -->
-	<insert id="communityInsert" parameterType="kr.or.sspl.dto.SaveReqDto">
-		<selectKey order="BEFORE" keyProperty="comm_seq" resultType="int">
-			SELECT MAX(comm_seq)+1  FROM community
+	<insert id="communityInsert"
+		parameterType="kr.or.sspl.dto.SaveReqDto">
+		<selectKey order="BEFORE" keyProperty="comm_seq"
+			resultType="int">
+			SELECT MAX(comm_seq)+1 FROM community
 		</selectKey>
-		insert into community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count)
-		values(#{comm_seq},#{user_id},#{comm_title},#{comm_content},sysdate,#{comm_category},0)
+		insert into
+		community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count)
+		values(#{comm_seq},#{login_id},#{comm_title},#{comm_content},sysdate,#{comm_category},0)
 	</insert>
-	
+
 	<!-- 글 수정 -->
-	<update id="communityUpdate" parameterType="kr.or.sspl.dto.SaveReqDto">
-		update community 
-		set comm_content = #{comm_content} 
+	<update id="communityUpdate"
+		parameterType="kr.or.sspl.dto.SaveReqDto">
+		update community
+		set comm_content = #{comm_content}
 		where comm_seq= #{comm_seq}
 	</update>
-	 
-	
+
+
 	<!-- 글 삭제 -->
 	<delete id="communityDelete">
 		delete
 		from community
 		where comm_seq =#{comm_seq}
-	</delete>	
-	
+	</delete>
+
 	<!-- 조회 수 증가 -->
 	<update id="addViewCount">
 		update community
-		set comm_view_count = comm_view_count+1
+		set comm_view_count =
+		comm_view_count+1
 		where comm_seq =#{comm_seq}
 	</update>
- 
-	 
+
+
 
 </mapper>
