@@ -40,8 +40,9 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<se:authentication property="name" var="LoginUser" />
 	<input id="login_id" type="hidden" value="${LoginUser}">
-	
+ 
 	<!-- 글쓰기 내용 시작 -->
+	<div class="container my-5">
 	<form action="modifyOk.do" method="post">
 		<c:set var="detail" value="${requestScope.detaillist}" />
 		<div class="editBar py-5">
@@ -71,17 +72,21 @@
 		<div class="btns">
 			<div class="listBtn">
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do'">목록</button>
+					onclick="location.href='list.do?cp=${cpage}&ps=${pagesize }'">목록</button>
 			</div>
 			<div class="otherBtns">
 				<button type="button" class="btn btn-secondary"
 					onclick="goWrite(this.form)">완료</button>
 				<button type="button" class="btn btn-secondary"
-					onclick="location.href='list.do'">취소</button>
+					onclick="location.href='list.do?cp=${cp}&ps=${ps}'">취소</button>
 			</div>
 		</div>
 	</form>
 	<!-- 목록, 수정, 삭제 버튼 끝 -->
+	</div>
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 	<script>
 		$('#summernote').summernote(
 				{
@@ -171,5 +176,6 @@
 	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+		
 </body>
 </html>

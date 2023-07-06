@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonObject;
 
 import kr.or.sspl.dto.CommunityDto;
-import kr.or.sspl.dto.SaveReqDto;
 import kr.or.sspl.service.CommunityService;
 
 @Controller
@@ -33,67 +32,61 @@ public class CommunityController {
 	private CommunityService communityservice;
 
 	@GetMapping("list.do")
-	public String CommunityList(String ps, String cp, Model model) throws ClassNotFoundException, SQLException {
+	public String CommunityList(String cp, String ps, Model model) throws ClassNotFoundException, SQLException {
 
-		communityservice.getCommunityList(ps, cp, model);
+		System.out.println("cp: "+cp);
+		System.out.println("ps: "+ps);
+		communityservice.getCommunityList(cp, ps, model);
+
 		return "community/community_list";
 
 	}
 
+	//상세페이지 넘어가는 동시에 조회수 증가 
 	@GetMapping("detail.do")
-	public String detail(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
-		System.out.println("comm_seq : " + comm_seq);
-		System.out.println("진입2");
-		communityservice.getDetailList(comm_seq, model);
+	public String detail(int comm_seq, Model model, String cp, String ps) throws ClassNotFoundException, SQLException {
 
+		communityservice.addViewCount(comm_seq); //게시글 조회수 증가 
+		communityservice.getDetailList(comm_seq, model, cp, ps);
+		
 		return "community/community_detail";
 	}
 
 	@GetMapping("write.do")
-	public String write() {
+	public String write(Model model,String cp, String ps) {
 		System.out.println("진입4");
+		model.addAttribute("cp",cp);
+		model.addAttribute("ps",ps);
 		return "community/community_write";
 	}
 
 	// 글쓰기
-	@RequestMapping("writeOk.do")
-	public String communityInsert(CommunityDto communityDto, HttpServletRequest request)
+	@PostMapping("writeOk.do")
+
+	public String communityInsert(CommunityDto communityDto)
 			throws ClassNotFoundException, SQLException {
-		request.setAttribute("user_id", "shs1993");
-		String user_id = (String) request.getAttribute("user_id");
-		System.out.println("communityInsert 진입");
-		String comm_title = request.getParameter("comm_title");
-		System.out.println("comm_title:" + comm_title);
-		String comm_category = request.getParameter("comm_category");
-		System.out.println("comm_category:" + comm_category);
-		String comm_content = request.getParameter("comm_content");
-		SaveReqDto saveReqDto = new SaveReqDto();
-		saveReqDto.setComm_category(comm_category);
-		saveReqDto.setComm_content(comm_content);
-		saveReqDto.setComm_title(comm_title);
-		saveReqDto.setUser_id(user_id);
+		  System.out.println("여기와?");
+	    System.out.println("getUser_id"+communityDto.getUser_id());
+	    System.out.println("getComm_title"+communityDto.getComm_title());	    
+	  
+		  communityservice.communityInsert(communityDto);
 
-		System.out.println("comm_content:" + comm_content);
-
-		communityservice.communityInsert(saveReqDto);
-
-		return "redirect:/community/list.do";
+		  return "redirect:/community/list.do";
 	}
 
 	@GetMapping("modify.do")
-	public String modify(int comm_seq, Model model) throws ClassNotFoundException, SQLException {
+	public String modify(int comm_seq, Model model, String cp, String ps) throws ClassNotFoundException, SQLException {
 		System.out.println("진입3");
 		System.out.println("comm_seq:" + comm_seq);
-		communityservice.getDetailList(comm_seq, model);
+		communityservice.getDetailList(comm_seq, model, cp, ps);
 		return "community/community_modify";
 	}
 
 	@PostMapping("modifyOk.do")
-	public String modifyOk(SaveReqDto saveReqDto, HttpServletRequest request)
+	public String modifyOk(CommunityDto communityDto)
 			throws ClassNotFoundException, SQLException {
 		System.out.println("진입4");
-		System.out.println("saveReqDto.getComm_content :" + saveReqDto.getComm_content());
-		communityservice.communityUpdate(saveReqDto);
+		communityservice.communityUpdate(communityDto);
 		return "redirect:/community/list.do";
 	}
 
@@ -144,5 +137,8 @@ public class CommunityController {
 		System.out.println("한개 삭제 완료");
 		return "redirect:/community/list.do";
 	}
+	
+	
+	
 
 }

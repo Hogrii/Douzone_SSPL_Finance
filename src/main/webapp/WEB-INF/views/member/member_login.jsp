@@ -38,6 +38,7 @@
 	src="${pageContext.request.contextPath }/resources/js/member/member_login.js"></script>
 </head>
 
+
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -54,7 +55,7 @@
 							<label for="user_id">아이디</label> <input type="text"
 								class="form-control form-control" name="username" id="user_id"
 								placeholder="아이디를 입력하세요" />
-						</div>	
+						</div>
 						<div class="form-group pt-3">
 							<label for="password">비밀번호</label> <input type="password"
 								class="form-control form-control" name="password" id="password"
@@ -97,5 +98,8 @@
 		</div>
 	</div>
 
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 </html>

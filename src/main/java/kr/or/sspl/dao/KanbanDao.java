@@ -14,7 +14,7 @@ public interface KanbanDao {
 	
 	void kanbanUpdate(@Param("list") List<LookupListDto> list);
 	
+	void kanbanDelete(String lookup_list_num);
 
 	
 }
-

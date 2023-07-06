@@ -22,6 +22,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>메인페이지(mainpage)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="${pageContext.request.contextPath }/resources/css/global.css"
+	rel="stylesheet" type="text/css">
 <style>
 #moveTopBtn {
 	position: fixed;
@@ -142,6 +144,7 @@
 		                }),
 		                datasets: [
 		                    {
+		                    	label: 'KOSPI',
 		                        data: chart_data.map(function (x) {
 		                            return x[1];
 		                        }),
@@ -203,6 +206,7 @@
 		                }),
 		                datasets: [
 		                    {
+		                    	label: 'KOSDAQ',
 		                        data: chart_data.map(function (x) {
 		                            return x[1];
 		                        }),
@@ -247,7 +251,7 @@
 	<main class="container my-5">
 		<div class="row">
 			<div class="col-md-8 align-self-center">
-				<h5>오늘의 증시</h5>
+				<h5><b>오늘의 증시</b></h5>
 			</div>
 			<div class="col-md-4">
 				<form action="search/searchList.do">
@@ -274,11 +278,11 @@
         </div>
     </div>
 		</div>
-		<div class="py-3 py-md-3">거래량순위</div>
+		<h5 class="py-3 py-md-3"><b>거래량순위</b></h5>
 		<hr class="my-2 gy-5" />
 		<div class="row py-3 py-md-3">
 			<div class="col-md-12">
-				<table class="table text-center">
+				<table class="table table-hover text-center">
 					<thead class="bg-secondary text-dark bg-opacity-25">
 						<tr>
 							<th>순위</th>
@@ -299,11 +303,11 @@
 		
 		<div class="mainboard row d-flex flex-row justify-content-evenly">
 			<div id="board1" class="col-md-5">
-				<div class="py-3 py-md-3">커뮤니티</div>
+				<div class="py-3 py-md-3"><h5><b>커뮤니티</b></h5></div>
 				<ul class="list-group list-group-flush" id="commList"></ul>
 			</div>
 			<div id="board2" class="col-md-5">
-				<div class="py-3 py-md-3">문의</div>
+				<div class="py-3 py-md-3"><h5><b>문의</b></h5></div>
 				<ul class="list-group list-group-flush" id="qnaList"></ul>
 			</div>
 		</div>
@@ -312,6 +316,8 @@
 		src="${pageContext.request.contextPath}/resources/img/topbutton.png"
 		style="width: 38px; height: 38px" /></a>
 	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 </body>
 
 <script>
@@ -323,3 +329,4 @@
         };
     </script>
 </html>
+

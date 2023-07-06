@@ -1,14 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 <style>
 .container {
 	display: flex;
@@ -30,6 +35,8 @@ form {
 	margin: 10px;
 	padding: 10px;
 	background-color: #f2f2f2;
+	overflow-y: scroll;
+  	height: 800px;
 }
 
 .column-header {
@@ -41,28 +48,29 @@ form {
 .card {
 	padding: 10px;
 	background-color: #fff;
-	margin-bottom: 10px;
+	margin-bottom: 1px;
 	cursor: pointer;
 }
 
 .card-placeholder {
 	background-color: #ccc;
 }
+
 .red-text {
-    color: red;
+	color: red;
 }
 
 .blue-text {
-    color: blue;
+	color: blue;
 }
 
 .default-text {
-    color : black;
+	color: black;
 }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script
-	src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
 	rel="stylesheet" type="text/css" />
@@ -70,35 +78,64 @@ form {
 <body>
 	<se:authentication property="name" var="LoginUser" />
 	<input type="hidden" name="id" id="id" value="${LoginUser}">
-	
-<header>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-</header>
-<div class="board">
-	<div class="column sortable">
-		<div class="column-header">조회</div>
-		<div class="sortable" id="todo" connectWith=".sortable"></div>
+
+	<header>
+		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	</header>
+	<div class="row_container d-flex justify-content-center mt-5">
+		<div class="row" style="width:88%">
+				<div class="col-3 column-header text-center fs-3">조회</div>
+				<div class="col-3 column-header text-center fs-3 text-warning text-opacity-75">즐겨찾기</div>
+				<div class="col-3 column-header text-center fs-3 text-danger">매수</div>
+				<div class="col-3 column-header text-center fs-3 text-primary">매도</div>
+		</div>
 	</div>
-	<div class="column sortable">
-		<div class="column-header">즐겨찾기</div>
-		<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+	<div class="board_container d-flex justify-content-center">
+		<div class="board" style="width:88%">
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="todo" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="done" connectWith=".sortable"></div>
+			</div>
+			<div class="column sortable" style="overflow-y: hidden">
+				<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+			</div>
+		</div>
 	</div>
-	<div class="column sortable">
-		<div class="column-header">매수</div>
-		<div class="sortable" id="done" connectWith=".sortable"></div>
+	<!-- 
+	<div class="board">
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky ">조회</div>
+			<div class="sortable" id="todo" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-warning text-opacity-75">즐겨찾기</div>
+			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-danger">매수</div>
+			<div class="sortable" id="done" connectWith=".sortable"></div>
+		</div>
+		<div class="column sortable">
+			<div class="column-header text-center fs-3 sticky text-primary">매도</div>
+			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+		</div>
 	</div>
-	<div class="column sortable">
-		<div class="column-header">매도</div>
-		<div class="sortable" id="newColumn" connectWith=".sortable"></div>
-	</div>
-</div>
-<script>
+	 -->
+	<!-- footer 영역 -->
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
+	<script>
 
 $(function () {
 	  let id = $('#id').val();
-	  let change_data;
+	
 	  $.ajax({
-	    url: '/sspl_finance/kanban/kanban_board/' + id,
+	    url: '/sspl_finance/kanban/kanban-board/' + id,
 	    type: 'get',
 	    contentType: 'application/json;charset=UTF-8',
 	    dataType: 'json',
@@ -118,10 +155,10 @@ $(function () {
 	        let change_name = item.stock_name; 
 	        	
 	        if (change_name.length > 12) {
-	        	 console.log(change_name.length);
-	        	 console.log(change_name);
+	        	 
+	   
 	        	 change_name = change_name.substring(0, 12) + '...';
-	        	 console.log(change_name);
+	    
 			  }
 	    	  
 	        // 칸반 카드 요소 생성
@@ -138,14 +175,15 @@ $(function () {
 				  });
 				
 				let cardContent = $('<div>')
-				  .html('<span class="card-text fs-6"><b>['  + change_name + ']</b></span><hr class="my-2">');
-				  
+				  .html('<span class="card-text fs-6"><b>['  + change_name + ']</b></span><hr class="my-2">')
+				
 				let card = $('<div>')
 				  .addClass('card')
 				  .attr('id', item.stock_code)
 				  .attr('lookup_list_num', item.lookup_list_num)
 				  .attr('lookup_category_num', item.lookup_category_num)
 				  .attr('lookup_list_order', item.lookup_list_order)
+				  .attr('stock_name', item.stock_name)
 				  .css({
 				    position: 'relative'
 				  });
@@ -237,10 +275,21 @@ $(function () {
 	    }
 	  });
 
-	  $(document).on( 'click' , '#xbtn' , function() { $(this).parent().remove()} )
+	  $(document).on( 'click' , '#xbtn' , function() { 
+		  let lookupListNo = $(this).parent().attr('lookup_list_num');
+		  console.log(lookupListNo);
+		  $(this).parent().remove();
+	      delete_data(lookupListNo);
+	  	  
+	  });
 	  
-	  $(document).on('dblclick', '.card' function() {
-		 	let   
+	  $(document).on('dblclick', '.card' , function() {
+		    let user_id = id;
+		 	let stock_code = $(this).attr('id');
+		 	let stock_name = $(this).attr('stock_name'); 
+		 	console.log(user_id+","+stock_code+","+stock_name);
+		 	location.href = "/sspl_finance/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
+		 	
 	  });
 	  
 	  
@@ -266,8 +315,8 @@ $(function () {
 		    console.log("업데이트"+change_data);
 		    console.log("변환"+JSON.stringify(change_data));
 		    $.ajax({
-		        url: "/sspl_finance/kanban/kanban_update",
-		        type: "put",
+		        url: "/sspl_finance/kanban/kanban-board",
+		        type: "PUT",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: JSON.stringify(change_data),
 		        dataType: "JSON",
@@ -320,6 +369,21 @@ $(function () {
 		        }
 		    });
 		}
+	  
+	  function delete_data(lookupListNo) {
+		  $.ajax({
+		      url: '/sspl_finance/kanban/kanban-board/'+lookupListNo,
+		      type: 'DELETE', 
+		      dataType: 'test',
+		      success: function(data) {
+		      },
+		      error: function(xhr, status, error) {
+		        console.error(error); // 에러 처리
+		       }
+		    });
+		  };
+
+
 	});
 </script>
 </body>

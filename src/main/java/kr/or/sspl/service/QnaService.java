@@ -93,7 +93,7 @@ public class QnaService {
 	}
 	
 	// 상세 페이지 출력
-	public void qnaDetail(Model model, String qna_seq) {
+	public void qnaDetail(Model model, String qna_seq, String pagesize, String cpage) {
 		QnaDto qna = null;
 		List<QnaReplyDto> qnaReplyList = null;
 		try {
@@ -106,6 +106,8 @@ public class QnaService {
 		}
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaReplyList", qnaReplyList);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("pagesize", pagesize);
 	}
 	
 	// 글 삭제
@@ -138,11 +140,15 @@ public class QnaService {
 	}
 	
 	// 수정 페이지 이동
-	public void qnaModify(String qna_seq, HttpServletRequest request) {
+	public void qnaModify(String qna_seq, HttpServletRequest request, String cp, String ps) {
 		try {
 			QnaDao qnaDao = sqlsession.getMapper(QnaDao.class);
 			QnaDto qnaInfo = qnaDao.qna(qna_seq);
 			request.setAttribute("qna", qnaInfo);
+			System.out.println("qna cp : " + cp);
+			System.out.println("qna ps : " + ps);
+			request.setAttribute("cpage", cp);
+			request.setAttribute("pagesize", ps);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	
