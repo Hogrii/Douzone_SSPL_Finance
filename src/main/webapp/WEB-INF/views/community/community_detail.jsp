@@ -82,12 +82,11 @@
 		<form id="replyForm" name="replyForm">
 			<table class="table" style="width: 100%"">
 				<tr>
-					<td>
-						<textarea class="w-100" rows="3" id="comment"name="comment" placeholder="댓글을 입력하세요"></textarea><br>
+					<td><textarea class="w-100" rows="3" id="comment"
+							name="comment" placeholder="댓글을 입력하세요"></textarea><br>
 						<div>
 							<button type="button" class="btn btn-secondary" id="reply_btn">등록</button>
-						</div>
-					</td>
+						</div></td>
 				</tr>
 			</table>
 		</form>
@@ -95,40 +94,25 @@
 		<!-- 목록, 수정, 삭제 버튼 시작 -->
 		<div class="btns d-flex justify-content-between">
 			<div class="listBtn">
-				<button 
-					type="button" 
-					class="btn btn-secondary"
-					onclick="location.href='list.do?cp=${cp}&ps=${ps}'">목록
-				</button>
+				<button type="button" class="btn btn-secondary"
+					onclick="location.href='list.do?cp=${cp}&ps=${ps}'">목록</button>
 			</div>
 			<c:choose>
 				<c:when test="${LoginUser == detail.user_id}">
 					<!-- Result값이 있다면 실행할 로직 -->
 					<div id="otherBtns">
-						<button 
-							type="submit" 
-							class="btn btn-secondary"
-							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정
-						</button>
-						<button 
-							type="button" 
-							class="btn btn-secondary"
-							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제
-						</button>
+						<button type="submit" class="btn btn-secondary"
+							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
 					</div>
 				</c:when>
 				<c:otherwise>
 					<div id="otherBtns" style="display: none">
-						<button 
-							type="submit" 
-							class="btn btn-secondary"
-							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정
-						</button>
-						<button 
-							type="button" 
-							class="btn btn-secondary"
-							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제
-						</button>
+						<button type="submit" class="btn btn-secondary"
+							onclick="location.href='modify.do?comm_seq=${detail.comm_seq}&cp=${cpage}&ps=${pagesize}'">수정</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="location.href='delete.do?comm_seq=${detail.comm_seq}'">삭제</button>
 					</div>
 				</c:otherwise>
 			</c:choose>
@@ -140,92 +124,105 @@
 </body>
 
 <script>
-$(function(){	
+$(function(){
+
+	
 	 //전체 댓글
-	function getList(){
-		$.ajax({
+	  function getList(){
+	  $.ajax({
 	    type: "get",
 	    url: "/sspl_finance/restcommunity/replySelect/" + ${detail.comm_seq},
 	    contentType: "application/json; charset=utf-8",
+
 	    success: function(data) {
-			$("#replyList").empty();			
-			let i =0;
-			$.each(data, function() {	    	  
-				let html = "";	    	  
-				if(data[i++].depth==1){	    		  
-					html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
-						html += "<div class='reply_item'>";
-						html += "<div class='user_id'>" + this.user_id + "</div>";
-						html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
-						html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
-						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
-			        html += "</div>";
-				        html += "<div class='btns'>";
-						if("${LoginUser}" == this.user_id )
-				        	html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
-				        else
-				            html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";	
-						html += "</div>";		    	
-			        html += "</div>";
-				}else{
-					html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
-						html += "<div class='reply_item'>";
-						html += "<div class='user_id'>" + this.user_id + "</div>";
-						html += "<div id='comm_reply_seq'>"+ "댓글번호 :" +this.comm_reply_seq+"</div>";
-						html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
-						html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
-			        html += "</div>";
-				    html += "<div class='btns'>";
-						html += "<div><button type='button' class ='reReply btn btn-secondary' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
-					if("${LoginUser}" == this.user_id )
-						html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
-				        else
-				        	html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
-						html += "</div>";		    	
-					html += "</div>";
-				}
-				html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
-				$("#replyList").append(html);
-			});
+	      $("#replyList").empty();
+			
+	      let i =0;
+	      $.each(data, function() {
+	    	  
+	    	  let html = "";
+	    	  
+	    	  if(data[i++].depth==1){//대댓글 조회 (들여쓰기)
+		    	  html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"' style='margin-left:50px'>"
+		    	  html += "<div class='reply_item'>";
+				  html += "<div class='user_id'>" + this.user_id + "</div>";
+				  html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
+				  html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
+			      html += "</div>";
+				  html += "<div class='btns'>";
+				  if("${LoginUser}" == this.user_id )
+			      	html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+			      else
+			    	html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";	
+					html += "</div>";		    	
+		          	html += "</div>";
+	    	  }else{// 댓
+				  html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
+				  html += "<div class='reply_item'>";
+				  html += "<div class='user_id'>" + this.user_id + "</div>";
+				  html += "<div class='reply_content'>" + this.comm_reply_content + "</div>";
+				  html += "<div class='comm_reply_writen_date'>" + this.comm_reply_writen_date + "</div>";        
+				  html += "</div>";
+				  html += "<div class='btns'>";
+				  html += "<div><button type='button' class ='reReply btn btn-secondary' value='"+this.comm_reply_seq+"'>대댓글작성</button></div>";
+				  if("${LoginUser}" == this.user_id )
+				  	html += "<div><button type ='button' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+				  else
+					  html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";
+					  html += "</div>";		    	
+				      html += "</div>";
+		      	  console.log(html);
+	    	  }
+		   		html += "<hr id='hr" + this.comm_reply_seq + "'/>";	
+		      $("#replyList").append(html);
+	      });
 		}
-		});
+	  });
 	} //댓글 조회 끝
 
-	getList(); //댓글조회
+	   getList(); //댓글조회
 	   
-	//버튼 누르면 댓글 추가 
-	$('#reply_btn').on('click',function(){
- 	let requestdata = {
-  		"user_id" : "${LoginUser}", 
-  		"comm_reply_content" : $("#comment").val(),
-  		"comm_seq" : ${detail.comm_seq},			  
- 	}
- 	let data = JSON.stringify(requestdata);
- 	$.ajax({
-  		type: "post",
-  		url: "/sspl_finance/restcommunity/replyInsert",
-  		data: data,
-  		dataType: "json",
-		  	contentType: "application/json; charset=utf-8",
-		  	success: function(data) {
-		      	getList();
-		      	$('#comment').val("");
-		      	$('#comment').focus();
-		  	}
-	  	})
-  	}); //댓글 추가 끝
+	  //버튼 누르면 댓글 추가 
+	  $('#reply_btn').on('click',function(){
+		  console.log("코맨트??????"+$("#comment").val());
+		 let requestdata = {
+			  "user_id" : "${LoginUser}", 
+			  "comm_reply_content" : $("#comment").val(),
+			  "comm_seq" : ${detail.comm_seq},
+			  
+		  }
+		 console.log("이거타? "+requestdata);
+		  let data = JSON.stringify(requestdata);
+		  console.log(data);
+		  $.ajax({
+			  type: "post",
+			  url: "/sspl_finance/restcommunity/replyInsert",
+			  data: data,
+			  dataType: "json",
+			  contentType: "application/json; charset=utf-8",
+			  success: function(data) {
+			      console.log("들어옴!!!");
+			      console.log(data);
+			      console.log(data.comm_reply_seq);
+			      getList();
+			      $('#comment').val("");
+			      $('#comment').focus();
+			      //getReRepyList();
+			    }
+		  })
+	  }); //댓글 추가 끝
  
-	//대댓글 작성버튼
-	$(document).on("click","button[class='reReply btn btn-secondary']",function(){
-		let comm_reply_seq = $(this).val(); //댓글의 seq번호 (이 번호에 대해 대댓글 달아야 함 )
-		let html = "";
-		html += "<div class='d-flex flex-row justify-content-between align-items-center'>";
-		html += "<input type='text' placeholder='내용을 입력해주세요' id ='comm_reply_content' class ='w-75'/>";
-		html += "<div class='w-25 row'><button type='button' class ='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white' comm_reply_seq='"+comm_reply_seq+"'>작성완료</button>";
-		html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5 m-2 btn btn-sm btn-secondary text-white'>취소</button></div>";
-		html += "</div>";
-		$('#hr'+comm_reply_seq).before(html);
-	}); //대댓글 작성 완료 끝 
+	    //대댓글 작성버튼
+	    $(document).on("click","button[class='reReply btn btn-secondary']",function(){
+			  let comm_reply_seq = $(this).val(); //댓글의 seq번호 (이 번호에 대해 대댓글 달아야 함 )
+			  let html = "";
+		 	  html += "<div class='d-flex flex-row justify-content-between align-items-center'>";
+			  html += "<input type='text' placeholder='내용을 입력해주세요' id ='comm_reply_content' class ='w-75'/>";
+			  html += "<div class='w-25 row'><button type='button' class ='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white' comm_reply_seq='"+comm_reply_seq+"'>작성완료</button>";
+			  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5 m-2 btn btn-sm btn-secondary text-white'>취소</button></div>";
+			  html += "</div>";
+		  $('#hr'+comm_reply_seq).before(html);
+		  }); //대댓글 작성 완료 끝 
 		
 		//대댓글완료버튼 
 	    $(document).on("click","button[class='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white']",function(){
@@ -245,6 +242,8 @@ $(function(){
 	  		  dataType: "json",
 	  		  contentType: "application/json; charset=utf-8",
 	  		  success: function(data) {
+	  		      console.log("대댓글 작성 됏유");
+	  		      console.log(data);
 	  		      getList();
 	  		    }
 	  	  });
@@ -253,7 +252,6 @@ $(function(){
 	    //댓글 삭제 
 	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){<!--delete ajax!-->
 	    	let comm_reply_seq = $(this).val();
-	    	 
 		  	$.ajax({
 		  		url: "/sspl_finance/restcommunity/replyDelete/"+comm_reply_seq,
 		  		type : 'get',
