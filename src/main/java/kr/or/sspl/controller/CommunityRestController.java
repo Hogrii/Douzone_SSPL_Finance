@@ -48,10 +48,12 @@ public class CommunityRestController {
 		String field = searchData.getField();
 		String query = searchData.getQuery();
 		
+		System.out.println("이거 들어와?:"+query);
 		if (cp == null || cp.trim().equals("")) {
 			cp = "1";
 		}
 		if (ps == null || ps.trim().equals("")) {
+			ps="5";
 		}
 
 		int pagesize = Integer.parseInt(ps);

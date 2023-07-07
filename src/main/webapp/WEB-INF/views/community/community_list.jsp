@@ -136,7 +136,6 @@ box-icon {
 			</table>
 			<!-- 테이블 끝 -->
 			<!-- 글쓰기 버튼 시작 -->
-	 	<div>${cpage}</div>
 			<div class="writeContainer">
 				<button type="button" class="btn btn-secondary left"
 					onclick="location.href='write.do?cp=${cp}&ps=${ps}'">글 작성</button>
@@ -172,18 +171,21 @@ box-icon {
             getList();
      
             function getList() {
+            	
                 let keyword = $("#selectBox option:selected").val();
                 $("#selectBox").change(function () {
                     keyword = $("#selectBox option:selected").val();
                 });
                 
                 $("#search").keyup(function () {
+                	
                     const CommunitySearchData = {
                         "field": keyword,
                         "query": $(this).val(),
                         "cp": ${cp},
                         "ps"  : ${ps} 
                     };
+                    console.log(CommunitySearchData);
                     if($(this).val().length < 1){
                     	window.location.href="/sspl_finance/community/list.do";
                     	return;
@@ -204,15 +206,11 @@ box-icon {
                             $.each(result, function (key, value) {
                                 ajaxTable += "<tr>";
                                 ajaxTable += "<td>" + value.comm_seq + "</td>";
-                                ajaxTable += 
-                                    "<td>" + value.comm_category + "</td>";
-                                    "<td>" + value.comm_title + "</td>";
+                                ajaxTable += "<td>" + value.comm_category + "</td>";
+                                ajaxTable += "<td>" + value.comm_title + "</td>";
                                 ajaxTable += "<td>" + value.user_id + "</td>";
-                                ajaxTable +=
-                                    "<td>"+ value.comm_writen_date + "</td>";
-                                    
-                                ajaxTable +=
-                                    "<td>" + value.comm_view_count + "</td>";
+                                ajaxTable += "<td>"+ value.comm_writen_date + "</td>";
+                                ajaxTable += "<td>" + value.comm_view_count + "</td>";
                                 ajaxTable += "</tr>";
                             });
 
