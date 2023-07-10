@@ -15,12 +15,19 @@
  ***
 
  ## 개요
+ ![개요](https://github.com/Hogrii/Douzone_SSPL_Finance/assets/91480271/80d355b1-f0c4-4ae5-88fc-2b1299310496)
  ***
 
  ## 사용기술 및 개발환경
+ ![image](https://github.com/Hogrii/Douzone_SSPL_Finance/assets/91480271/7b7daf65-bdbd-491e-a42b-459e7c1f64d2)
  ***
 
  ## 프로젝트 기능소개
+ - 로그인 & 회원가입
+ - Spring Security
+ - 증권 API
+ - 칸반보드
+ - 게시판
  ***
 
  ## 문서
