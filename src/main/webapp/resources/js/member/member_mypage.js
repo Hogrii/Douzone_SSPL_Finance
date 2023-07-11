@@ -2,11 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	  let form = document.querySelector('form');
 	  form.addEventListener('submit', function(e) {
 	    e.preventDefault();
-
+		let path = window.location.pathname;
+	  	let pathSegments = path.split('/');
+	 	 let extractedPart = pathSegments.slice(0,2).join('/');
 	    let formData = new FormData(form);
 	    let password = formData.get('password');
 
-	    fetch('/sspl_finance/member/passwordCheck', {
+	    fetch(extractedPart + '/member/passwordCheck', {
 	      method: 'POST',
 	      headers: {
 	        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    .then(function(data) {
 	      console.log(data);
 	      if (data === "true") {
-	        location.href = "/sspl_finance/member/member_modify";
+	        location.href = extractedPart + "/member/member_modify";
 	      } else if (data === "false") {
 	        let resultMessage = document.querySelector('#resultMessage');
 	        resultMessage.innerHTML = "비밀번호를 잘못 입력하셨습니다.";

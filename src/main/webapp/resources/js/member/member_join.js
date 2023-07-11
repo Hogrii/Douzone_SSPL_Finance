@@ -7,9 +7,12 @@ $(function() {
 	  $('#id_check').on('click', function() {
 	    let id = $('#user_id').val();
 	    console.log(id);
-
+	    
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 	    $.ajax({
-	      url: '/sspl_finance/member/idcheck/' + id,
+	      url: extractedPart + '/member/idcheck/' + id,
 	      type: 'get',
 	      contentType: 'application/json;charset=UTF-8',
 	      dataType: 'json',
@@ -98,7 +101,7 @@ $(function() {
 
 	    console.log(formData);
 	    $.ajax({
-	      url: '/sspl_finance/member/joinOk',
+	      url: extractedPart + '/member/joinOk',
 	      type: 'POST',
 	      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 	      data: formData,
@@ -141,7 +144,7 @@ $(function() {
 
 	  function nextPage(message) {
 	    if (message.includes('성공')) {
-	      location.href = "/sspl_finance/";
+	      location.href = extractedPart + "/";
 	    } else if (message.includes('@')) {
 	      focusdata = '#email';
 	      focusOn(focusdata);

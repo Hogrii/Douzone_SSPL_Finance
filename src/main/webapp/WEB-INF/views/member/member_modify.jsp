@@ -33,9 +33,11 @@
 		let a_userData = {};
 		let new_userData = {};
 		let focusdata = '';
-
+		let path = window.location.pathname;
+	  	let pathSegments = path.split('/');
+	 	let extractedPart = pathSegments.slice(0,2).join('/');
 		$.ajax({
-			url : '/sspl_finance/member/userData/',
+			url : 'userData',
 			type : 'get',
 			contentType : 'application/json;charset=UTF-8',
 			data : {
@@ -108,7 +110,7 @@
 							console.log("sdfsdfsdf" + formData.name);
 							$
 									.ajax({
-										url : '/sspl_finance/member/passwordCheck', // 수정된 주소로 변경
+										url : 'passwordCheck', // 수정된 주소로 변경
 										type : 'POST',
 										contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
 										data : formData,
@@ -140,7 +142,7 @@
 							function nextPage(message) {
 								if (message.includes("성공")
 										|| message.includes("완료")) {
-									location.href = "/sspl_finance/";
+									location.href = extractedPart + "/";
 								} else if (message.includes("@")) {
 									focusdata = "#email";
 									focusOn(focusdata);
@@ -183,7 +185,7 @@
 								console.log(now_userData);
 								$
 										.ajax({
-											url : "/sspl_finance/member/dupDataCheck",
+											url : "dupDataCheck",
 											type : "POST",
 											contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
 											data : now_userData,
@@ -233,7 +235,7 @@
 
 								$
 										.ajax({
-											url : "/sspl_finance/member/userModify",
+											url : "userModify",
 											type : "POST",
 											contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
 											data : now_userData,

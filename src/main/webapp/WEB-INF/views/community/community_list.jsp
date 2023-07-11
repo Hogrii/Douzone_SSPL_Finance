@@ -85,7 +85,7 @@ box-icon {
 										<option value="comm_content">내용</option>
 										<option value="user_id">글쓴이</option>
 										<option value="comm_category">카테고리</option>
-ㄴ									</select>
+									</select>
 								</div>
 								<div class="searchText">
 									<input type="text" id="search" placeholder="검색어를 입력하세요" />
@@ -187,11 +187,11 @@ box-icon {
                     };
                     console.log(CommunitySearchData);
                     if($(this).val().length < 1){
-                    	window.location.href="/sspl_finance/community/list.do";
+                    	window.location.href="list.do";
                     	return;
                     }
                     $.ajax({
-                        url: "/sspl_finance/restcommunity/listSearch",
+                        url: "listSearch",
                         type: "POST",
                         dataType: "json",
                         data: JSON.stringify(CommunitySearchData),
