@@ -2,7 +2,9 @@ $(function() {
 
 	  let save_id = localStorage.getItem("username");
 	  let fail;
-	  
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 	  // 페이지 로드 시 실행되는 코드
 	  if (localStorage.getItem("remember_password") === "true") {
 	    $("#user_id").val(localStorage.getItem("username"));
@@ -26,7 +28,7 @@ $(function() {
 	    let id = $('#user_id').val();
 	    
 	    $.ajax({
-		      url: '/sspl_finance/member/idcheck/' + id,
+		      url: extractedPart + '/member/idcheck/' + id,
 		      type: 'get',
 		      contentType: 'application/json;charset=UTF-8',
 		      dataType: 'json',

@@ -133,9 +133,11 @@ form {
 
 $(function () {
 	  let id = $('#id').val();
-	
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 	  $.ajax({
-	    url: '/sspl_finance/kanban/kanban-board/' + id,
+	    url: 'kanban-board/' + id,
 	    type: 'get',
 	    contentType: 'application/json;charset=UTF-8',
 	    dataType: 'json',
@@ -288,7 +290,7 @@ $(function () {
 		 	let stock_code = $(this).attr('id');
 		 	let stock_name = $(this).attr('stock_name'); 
 		 	console.log(user_id+","+stock_code+","+stock_name);
-		 	location.href = "/sspl_finance/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
+		 	location.href = extractedPart + "/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
 		 	
 	  });
 	  
@@ -315,7 +317,7 @@ $(function () {
 		    console.log("업데이트"+change_data);
 		    console.log("변환"+JSON.stringify(change_data));
 		    $.ajax({
-		        url: "/sspl_finance/kanban/kanban-board",
+		        url: "kanban-board",
 		        type: "PUT",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: JSON.stringify(change_data),
@@ -330,7 +332,7 @@ $(function () {
 	  function detail_data(stock_code, stock_name) {
 		    
 		    $.ajax({
-		        url: "/sspl_finance/search/searchByCode.do",
+		        url: extractedPart + "/search/searchByCode.do",
 		        type: "GET",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: {
@@ -372,7 +374,7 @@ $(function () {
 	  
 	  function delete_data(lookupListNo) {
 		  $.ajax({
-		      url: '/sspl_finance/kanban/kanban-board/'+lookupListNo,
+		      url: 'kanban-board/'+lookupListNo,
 		      type: 'DELETE', 
 		      dataType: 'test',
 		      success: function(data) {

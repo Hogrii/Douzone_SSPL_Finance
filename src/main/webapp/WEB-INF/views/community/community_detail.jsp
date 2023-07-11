@@ -131,7 +131,7 @@ $(function(){
 	  function getList(){
 	  $.ajax({
 	    type: "get",
-	    url: "/sspl_finance/restcommunity/replySelect/" + ${detail.comm_seq},
+	    url: "replySelect/" + ${detail.comm_seq},
 	    contentType: "application/json; charset=utf-8",
 
 	    success: function(data) {
@@ -196,7 +196,7 @@ $(function(){
 		  console.log(data);
 		  $.ajax({
 			  type: "post",
-			  url: "/sspl_finance/restcommunity/replyInsert",
+			  url: "replyInsert",
 			  data: data,
 			  dataType: "json",
 			  contentType: "application/json; charset=utf-8",
@@ -237,7 +237,7 @@ $(function(){
  
 	    	$.ajax({
 	  		  type: "post",
-	  		  url: "/sspl_finance/restcommunity/reReplyInsert",
+	  		  url: "reReplyInsert",
 	  		  data: data2,
 	  		  dataType: "json",
 	  		  contentType: "application/json; charset=utf-8",
@@ -253,7 +253,7 @@ $(function(){
 	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){<!--delete ajax!-->
 	    	let comm_reply_seq = $(this).val();
 		  	$.ajax({
-		  		url: "/sspl_finance/restcommunity/replyDelete/"+comm_reply_seq,
+		  		url: "replyDelete/"+comm_reply_seq,
 		  		type : 'get',
 		  		data: comm_reply_seq,
 		  		dataType: "json",
