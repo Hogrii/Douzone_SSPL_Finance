@@ -116,11 +116,10 @@
 			data : data,
 			type : "POST",
 			enctype : 'multipart/form-data',
-			url : "/sspl_finance/community/image",
+			url : "image",
 			contentType : false,
 			processData : false,
 			success : function(data) {
-				console.log("여기옴???????제발....");
 				//console.log(data);
 				//항상 업로드된 파일의 url이 있어야 한다.
 				//var json = JSON.parse(data);
@@ -134,9 +133,7 @@
 	}
 
 	$("#goWrite").on("click", function() {
-		console.log("여긴?????");
 		if ($("#comm_category").val() == "") {
-			console.log("여기타?");
 			alert("카테고리를 선택해주세요");
 			return false;
 		}

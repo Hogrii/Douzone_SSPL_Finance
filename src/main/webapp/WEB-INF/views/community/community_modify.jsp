@@ -124,7 +124,7 @@
 			$.ajax({
 				data : data,
 				type : "POST",
-				url : "/sspl_finance/community/image",
+				url : "image",
 				contentType : false,
 				processData : false,
 				success : function(data) {

@@ -7,9 +7,12 @@ $(function() {
 	  $('#id_check').on('click', function() {
 	    let id = $('#user_id').val();
 	    console.log(id);
-
+	    
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 	    $.ajax({
-	      url: '/sspl_finance/member/idcheck/' + id,
+	      url:'/sspl_finance/member/idcheck/' + id,
 	      type: 'get',
 	      contentType: 'application/json;charset=UTF-8',
 	      dataType: 'json',

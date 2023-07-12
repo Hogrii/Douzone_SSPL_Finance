@@ -34,8 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- comm_seq 조회 -->
 	<select id="getCommSeq" parameterType="int" resultType ="int">
-		select comm_seq from
-		community_reply
+		select comm_seq 
+			from community_reply
 		where comm_reply_seq =#{comm_reply_seq}
 	</select>
  

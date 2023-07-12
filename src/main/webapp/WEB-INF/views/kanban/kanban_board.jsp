@@ -78,10 +78,10 @@ form {
 <body>
 	<se:authentication property="name" var="LoginUser" />
 	<input type="hidden" name="id" id="id" value="${LoginUser}">
-
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
+	<!--
 	<div class="row_container d-flex justify-content-center mt-5">
 		<div class="row" style="width:88%">
 				<div class="col-3 column-header text-center fs-3">조회</div>
@@ -92,21 +92,21 @@ form {
 	</div>
 	<div class="board_container d-flex justify-content-center">
 		<div class="board" style="width:88%">
-			<div class="column sortable" style="overflow-y: hidden">
+			<div class="column sortable" >
 				<div class="sortable" id="todo" connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" style="overflow-y: hidden">
+			<div class="column sortable" >
 				<div class="sortable" id="inProgress" connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" style="overflow-y: hidden">
+			<div class="column sortable" >
 				<div class="sortable" id="done" connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" style="overflow-y: hidden">
+			<div class="column sortable" >
 				<div class="sortable" id="newColumn" connectWith=".sortable"></div>
 			</div>
 		</div>
 	</div>
-	<!-- 
+	 -->
 	<div class="board">
 		<div class="column sortable">
 			<div class="column-header text-center fs-3 sticky ">조회</div>
@@ -125,17 +125,16 @@ form {
 			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
 		</div>
 	</div>
-	 -->
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
 	<script>
-
 $(function () {
 	  let id = $('#id').val();
-	
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 	  $.ajax({
-	    url: '/sspl_finance/kanban/kanban-board/' + id,
+	    url: 'kanban-board/' + id,
 	    type: 'get',
 	    contentType: 'application/json;charset=UTF-8',
 	    dataType: 'json',
@@ -144,23 +143,21 @@ $(function () {
 	      $.each(data, function(index) {
 	        detail_data(data[index].stock_code, data[index].stock_name);
 	      });
-
 	      // 데이터 배열을 lookup_list_order를 기준으로 오름차순으로 정렬
 	      data.sort((a, b) => a.lookup_list_order - b.lookup_list_order);
-
 	      // 데이터 배열을 반복하며 동적으로 칸반 카드 생성
 	      data.forEach((item) => {
-	    	  
+	    	 
 	    	  //제목 글자 수 치환
-	        let change_name = item.stock_name; 
+	        let change_name = item.stock_name;
 	        	
 	        if (change_name.length > 12) {
-	        	 
-	   
+	        	
+	  
 	        	 change_name = change_name.substring(0, 12) + '...';
-	    
+	   
 			  }
-	    	  
+	    	 
 	        // 칸반 카드 요소 생성
 	        let xbtn = $('<button>')
 				  .addClass('btn btn-secondary btn-sm')
@@ -187,8 +184,6 @@ $(function () {
 				  .css({
 				    position: 'relative'
 				  });
-
-
 	        // lookup_category_num을 기준으로 대상 컬럼 결정
 	        let columnId = "";
 	        switch (item.lookup_category_num) {
@@ -207,9 +202,8 @@ $(function () {
 	          default:
 	            break;
 	        }
-
 	        // 카드를 대상 컬럼에 추가
-	        
+	       
 	        $(columnId).append(card);
 	        card.append(xbtn, cardContent);
 	        $('#'+item.stock_code).prepend(xbtn);
@@ -219,7 +213,6 @@ $(function () {
 	          detail_data(item.stock_code, item.stock_name);
 	        });
 	      });
-
 	      // 칸반 카드를 드래그 및 정렬 가능하도록 설정
 	      $(".sortable").sortable({
 	    	    connectWith: ".sortable",
@@ -227,14 +220,15 @@ $(function () {
 	    	    receive: function (event, ui) {
 	    	      // 드롭된 카드 가져오기
 	    	      let droppedCard = ui.item;
-
 	    	      // 대상 컬럼 ID 가져오기
 	    	      let targetColumnId = droppedCard.closest('.column')
 	    	      let sortableElement = droppedCard.parent();
-	    	      //let targetId = sortableElement.id;
 	    	      let targetId = sortableElement[0].id;
-				 
+				
 	    	      console.log(sortableElement);
+	    	   
+	    	
+	    	  
 	    	      // 카드의 위치 정보 변경
 	    	      let cards = droppedCard.parent().children(".card");
 	    	      cards.each(function (index) {
@@ -242,9 +236,8 @@ $(function () {
 	    	        card.attr("lookup_category_num", getCategoryNumber(targetId));
 	    	        card.attr("lookup_list_order", index);
 	    	      });
-
-	    	      
-	    	      
+	    	     
+	    	     
 	    	      // 변경된 카드 정보 수집
 	    	      let change_data = [];
 	    	      $(".sortable").each(function () {
@@ -263,7 +256,6 @@ $(function () {
 	    	            change_data.push(cardData);
 	    	          });
 	    	        });
-
 	    	      // change_data 변수에 저장된 변경된 카드 정보 출력
 	    	      console.log(change_data);
 	    	      update_data(change_data)
@@ -274,25 +266,24 @@ $(function () {
 	      console.error(error); // 에러 처리
 	    }
 	  });
-
-	  $(document).on( 'click' , '#xbtn' , function() { 
+	  $(document).on( 'click' , '#xbtn' , function() {
 		  let lookupListNo = $(this).parent().attr('lookup_list_num');
 		  console.log(lookupListNo);
 		  $(this).parent().remove();
 	      delete_data(lookupListNo);
-	  	  
+	  	 
 	  });
-	  
+	 
 	  $(document).on('dblclick', '.card' , function() {
 		    let user_id = id;
 		 	let stock_code = $(this).attr('id');
-		 	let stock_name = $(this).attr('stock_name'); 
+		 	let stock_name = $(this).attr('stock_name');
 		 	console.log(user_id+","+stock_code+","+stock_name);
-		 	location.href = "/sspl_finance/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
+		 	location.href = extractedPart + "/search/searchDetail.do?user_id=" + user_id + "&stock_code=" + stock_code + "&stock_name=" + stock_name;
 		 	
 	  });
-	  
-	  
+	 
+	 
 	  // 컬럼 ID를 기준으로 카테고리 번호를 가져오는 함수
 	  function getCategoryNumber(columnId) {
 		  console.log("진입"+columnId);
@@ -309,13 +300,12 @@ $(function () {
 	        return -1;
 	    }
 	  }
-
-	 
+	
 	  function update_data(change_data) {
 		    console.log("업데이트"+change_data);
 		    console.log("변환"+JSON.stringify(change_data));
 		    $.ajax({
-		        url: "/sspl_finance/kanban/kanban-board",
+		        url: "kanban-board",
 		        type: "PUT",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: JSON.stringify(change_data),
@@ -325,12 +315,11 @@ $(function () {
 		        }
 		    });
 		}
-	  
-
+	 
 	  function detail_data(stock_code, stock_name) {
-		    
+		   
 		    $.ajax({
-		        url: "/sspl_finance/search/searchByCode.do",
+		        url: extractedPart + "/search/searchByCode.do",
 		        type: "GET",
 		        contentType: 'application/json;charset=UTF-8',
 		        data: {
@@ -338,17 +327,14 @@ $(function () {
 		        },
 		        dataType: "JSON",
 		        success: function (data) {
-		     
+		    
 		            let cardId = "#" + stock_code;
 		            let card = $(cardId);
-
 		            // 기존의 상세 정보 삭제
 		            card.children(".card-details").remove();
-
-		            // 상세 정보 요소 생성  
+		            // 상세 정보 요소 생성
 		            let currentPrice = $("<div>").text("현재가: " + parseInt(data.output.stck_prpr).toLocaleString());
 		            let priceChangeRate = $("<div>").text("전일대비율: " + data.output.prdy_ctrt);
-
 		            // 조건부 CSS 설정
 		            let sign = data.output.prdy_vrss_sign;
 		            if (parseInt(sign) < 3) {
@@ -358,21 +344,19 @@ $(function () {
 		            } else if (parseInt(sign) === 3) {
 		                priceChangeRate.addClass("default-text");
 		            }
-
 		            // 상세 정보를 위한 컨테이너 div 생성
 		            let cardDetails = $("<div>")
 		                .addClass("card-details")
 		                .append(currentPrice, priceChangeRate);
-
 		            // 카드에 상세 정보 추가
 		            card.append(cardDetails);
 		        }
 		    });
 		}
-	  
+	 
 	  function delete_data(lookupListNo) {
 		  $.ajax({
-		      url: '/sspl_finance/kanban/kanban-board/'+lookupListNo,
+		      url: 'kanban-board/'+lookupListNo,
 		      type: 'DELETE', 
 		      dataType: 'test',
 		      success: function(data) {
@@ -382,8 +366,6 @@ $(function () {
 		       }
 		    });
 		  };
-
-
 	});
 </script>
 </body>

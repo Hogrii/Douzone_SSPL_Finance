@@ -144,7 +144,7 @@ hr {
 				data : data,
 				type : "POST",
 				enctype: 'multipart/form-data',
-				url : "/sspl_finance/qna/image",
+				url : "image",
 				contentType : false,
 				processData : false,
 				success : function(data) {
