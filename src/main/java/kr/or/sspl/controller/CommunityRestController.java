@@ -48,7 +48,6 @@ public class CommunityRestController {
 		String field = searchData.getField();
 		String query = searchData.getQuery();
 		
-		System.out.println("이거 들어와?:"+query);
 		if (cp == null || cp.trim().equals("")) {
 			cp = "1";
 		}
@@ -100,7 +99,7 @@ public class CommunityRestController {
 
 	//댓글 작성
 	@PostMapping("replyInsert")
-	public ResponseEntity<?> communityReplyInsert(@RequestBody CommunityReplyDto communityReplyDto, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<?> communityReplyInsert(@RequestBody CommunityReplyDto communityReplyDto) throws ClassNotFoundException, SQLException {
 		int result = communityservice.communityReplyInsert(communityReplyDto);		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

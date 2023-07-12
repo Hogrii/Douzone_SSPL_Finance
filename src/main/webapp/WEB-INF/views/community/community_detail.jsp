@@ -126,7 +126,6 @@
 <script>
 $(function(){
 
-	
 	 //전체 댓글
 	  function getList(){
 	  $.ajax({
@@ -156,7 +155,7 @@ $(function(){
 			    	html += "<div><button type ='button' style='display:none' value='"+this.comm_reply_seq+"' class='replydelete mx-3 btn btn-secondary'>삭제</button></div>";	
 					html += "</div>";		    	
 		          	html += "</div>";
-	    	  }else{// 댓
+	    	  }else{ 
 				  html += "<div class='d-flex justify-content-between' id='reply"+this.comm_reply_seq+"'>"
 				  html += "<div class='reply_item'>";
 				  html += "<div class='user_id'>" + this.user_id + "</div>";
@@ -182,36 +181,30 @@ $(function(){
 
 	   getList(); //댓글조회
 	   
-	  //버튼 누르면 댓글 추가 
-	  $('#reply_btn').on('click',function(){
-		  console.log("코맨트??????"+$("#comment").val());
-		 let requestdata = {
-			  "user_id" : "${LoginUser}", 
-			  "comm_reply_content" : $("#comment").val(),
-			  "comm_seq" : ${detail.comm_seq},
-			  
-		  }
-		 console.log("이거타? "+requestdata);
-		  let data = JSON.stringify(requestdata);
-		  console.log(data);
-		  $.ajax({
-			  type: "post",
-			  url: "replyInsert",
-			  data: data,
-			  dataType: "json",
-			  contentType: "application/json; charset=utf-8",
-			  success: function(data) {
-			      console.log("들어옴!!!");
-			      console.log(data);
-			      console.log(data.comm_reply_seq);
-			      getList();
-			      $('#comment').val("");
-			      $('#comment').focus();
-			      //getReRepyList();
-			    }
-		  })
-	  }); //댓글 추가 끝
- 
+	   $('#reply_btn').on('click',function(){
+			 let requestdata = {
+				  "user_id" : "${LoginUser}", 
+				  "comm_reply_content" : $("#comment").val(),
+				  "comm_seq" : ${detail.comm_seq},
+				  
+			  }
+			  let data = JSON.stringify(requestdata);
+			  console.log(data);
+			  $.ajax({
+				  type: "post",
+				  url: "/sspl_finance/restcommunity/replyInsert",
+				  data: data,
+				  dataType: "json",
+				  contentType: "application/json; charset=utf-8",
+				  success: function(data) {
+				      getList();
+				      $('#comment').val("");
+				      $('#comment').focus();
+				      //getReRepyList();
+				    }
+			  })
+		  }); //댓글 추가 끝
+		
 	    //대댓글 작성버튼
 	    $(document).on("click","button[class='reReply btn btn-secondary']",function(){
 			  let comm_reply_seq = $(this).val(); //댓글의 seq번호 (이 번호에 대해 대댓글 달아야 함 )
@@ -222,11 +215,10 @@ $(function(){
 			  html += "<button type='button' value='"+this.comm_reply_seq+"' class='col-5 m-2 btn btn-sm btn-secondary text-white'>취소</button></div>";
 			  html += "</div>";
 		  $('#hr'+comm_reply_seq).before(html);
-		  }); //대댓글 작성 완료 끝 
+		  });  
 		
 		//대댓글완료버튼 
 	    $(document).on("click","button[class='reReplyComplete col-5 m-2 btn btn-sm btn-secondary text-white']",function(){
-	    	//console.log("제발 :" +$(this).attr("comm_reply_seq"));
 	    	let data ={
 	    		"comm_reply_content" : 	$("#comm_reply_content").val(), //내용
 	    		"comm_reply_seq": $(this).attr("comm_reply_seq"), //기존댓글의 seq
@@ -242,7 +234,6 @@ $(function(){
 	  		  dataType: "json",
 	  		  contentType: "application/json; charset=utf-8",
 	  		  success: function(data) {
-	  		      console.log("대댓글 작성 됏유");
 	  		      console.log(data);
 	  		      getList();
 	  		    }
@@ -250,7 +241,7 @@ $(function(){
 	    }); // 작성완료 끝 
 	    
 	    //댓글 삭제 
-	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){<!--delete ajax!-->
+	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){ 
 	    	let comm_reply_seq = $(this).val();
 		  	$.ajax({
 		  		url: "replyDelete/"+comm_reply_seq,
@@ -258,7 +249,6 @@ $(function(){
 		  		data: comm_reply_seq,
 		  		dataType: "json",
 		  		success: function(result){
-		  			console.log("댓글 삭제완료");
 		  			 getList();
 		  		}
 		  		, error: function(error){

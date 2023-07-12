@@ -56,30 +56,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 		
 	</select>
-<!-- 조건검색 -->
+	
+	<!-- 조건검색 -->
 	<select id="searchList"
 		parameterType="kr.or.sspl.dto.CommunitySearchData"
 		resultType="kr.or.sspl.dto.CommunityDto">
 		
 			select comm_seq,
-			comm_category,
-			comm_title,
-		       user_id,
-		       comm_writen_date,
-		       
-		       comm_view_count
-		  from (
-		          select comm_seq,
-		                 user_id,
-		                 comm_title,
-		                 to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,
-		                 comm_category,
-		                 comm_view_count 
-			        from community
-		           where ${field} like '%${query}%'
-		           order by comm_writen_date desc
+				   comm_category,
+				   comm_title,
+		       	   user_id,
+		       	   comm_writen_date,
+		           comm_view_count
+		  	from 
+		  	(
+		       select comm_seq,
+		              user_id,
+		              comm_title,
+                      to_char(comm_writen_date, 'YYYY-MM-DD') as comm_writen_date ,
+  	                  comm_category,
+	                  comm_view_count 
+			    from community
+		        where ${field} like '%${query}%'
+		        order by comm_writen_date desc
 		      )
-		      
 	</select>
 
 
@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		parameterType="kr.or.sspl.dto.CommunityDto">
 		<selectKey order="BEFORE" keyProperty="comm_seq"
 			resultType="int">
-			SELECT nvl(MAX(comm_seq)+1,0) FROM community
+			select nvl(MAX(comm_seq)+1,0) from community
 		</selectKey>
 		insert into
 		community(comm_seq,user_id,comm_title,comm_content,comm_writen_date,comm_category,comm_view_count)

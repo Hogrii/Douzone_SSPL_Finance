@@ -12,7 +12,7 @@ $(function() {
 	  let pathSegments = path.split('/');
 	  let extractedPart = pathSegments.slice(0,2).join('/');
 	    $.ajax({
-	      url: extractedPart + '/member/idcheck/' + id,
+	      url:'/sspl_finance/member/idcheck/' + id,
 	      type: 'get',
 	      contentType: 'application/json;charset=UTF-8',
 	      dataType: 'json',
@@ -101,7 +101,7 @@ $(function() {
 
 	    console.log(formData);
 	    $.ajax({
-	      url: extractedPart + '/member/joinOk',
+	      url: '/sspl_finance/member/joinOk',
 	      type: 'POST',
 	      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 	      data: formData,
@@ -144,7 +144,7 @@ $(function() {
 
 	  function nextPage(message) {
 	    if (message.includes('성공')) {
-	      location.href = extractedPart + "/";
+	      location.href = "/sspl_finance/";
 	    } else if (message.includes('@')) {
 	      focusdata = '#email';
 	      focusOn(focusdata);
