@@ -48,7 +48,7 @@ form {
 .card {
 	padding: 10px;
 	background-color: #fff;
-	margin-bottom: 1px;
+	margin-bottom: 2px;
 	cursor: pointer;
 }
 
@@ -81,7 +81,7 @@ form {
 	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	</header>
-	<!--
+	
 	<div class="row_container d-flex justify-content-center mt-5">
 		<div class="row" style="width:88%">
 				<div class="col-3 column-header text-center fs-3">조회</div>
@@ -92,39 +92,21 @@ form {
 	</div>
 	<div class="board_container d-flex justify-content-center">
 		<div class="board" style="width:88%">
-			<div class="column sortable" >
-				<div class="sortable" id="todo" connectWith=".sortable"></div>
+			<div class="column sortable" id="todo" style="overflow-y: hidden">
+				<div class="sortable" connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" >
-				<div class="sortable" id="inProgress" connectWith=".sortable"></div>
+			<div class="column sortable" id="inProgress" style="overflow-y: hidden">
+				<div class="sortable"  connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" >
-				<div class="sortable" id="done" connectWith=".sortable"></div>
+			<div class="column sortable" id="done" style="overflow-y: hidden">
+				<div class="sortable"  connectWith=".sortable"></div>
 			</div>
-			<div class="column sortable" >
-				<div class="sortable" id="newColumn" connectWith=".sortable"></div>
+			<div class="column sortable" id="newColumn" style="overflow-y: hidden">
+				<div class="sortable"  connectWith=".sortable"></div>
 			</div>
 		</div>
 	</div>
-	 -->
-	<div class="board">
-		<div class="column sortable">
-			<div class="column-header text-center fs-3 sticky ">조회</div>
-			<div class="sortable" id="todo" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="column-header text-center fs-3 sticky text-warning text-opacity-75">즐겨찾기</div>
-			<div class="sortable" id="inProgress" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="column-header text-center fs-3 sticky text-danger">매수</div>
-			<div class="sortable" id="done" connectWith=".sortable"></div>
-		</div>
-		<div class="column sortable">
-			<div class="column-header text-center fs-3 sticky text-primary">매도</div>
-			<div class="sortable" id="newColumn" connectWith=".sortable"></div>
-		</div>
-	</div>
+
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<script>
@@ -217,18 +199,20 @@ $(function () {
 	      $(".sortable").sortable({
 	    	    connectWith: ".sortable",
 	    	    placeholder: "card-placeholder",
-	    	    receive: function (event, ui) {
+	    	    stop : function (event, ui) {
 	    	      // 드롭된 카드 가져오기
 	    	      let droppedCard = ui.item;
 	    	      // 대상 컬럼 ID 가져오기
 	    	      let targetColumnId = droppedCard.closest('.column')
 	    	      let sortableElement = droppedCard.parent();
-	    	      let targetId = sortableElement[0].id;
-				
+	    	      //let targetId = sor tableElement.id;
+	    	      let targetId = sortableElement[0].id;	
+				 
+	    	      console.log(targetColumnId);
 	    	      console.log(sortableElement);
-	    	   
-	    	
-	    	  
+	    	      console.log(targetId);
+	    	    
+	    	      
 	    	      // 카드의 위치 정보 변경
 	    	      let cards = droppedCard.parent().children(".card");
 	    	      cards.each(function (index) {

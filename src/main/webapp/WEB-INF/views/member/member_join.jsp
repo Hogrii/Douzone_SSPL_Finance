@@ -25,11 +25,13 @@ form {
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/resources/js/member/member_join.js"></script>
+	src="${pageContext.request.contextPath }/resources/js/member/member_join.js"></script> 
 <link
 	href="${pageContext.request.contextPath }/resources/css/global.css"
 	rel="stylesheet" type="text/css" />
+<script type="text/javascript">
 
+</script>
 </head>
 
 
@@ -52,8 +54,7 @@ form {
 					<input type="text" class="form-control" id="user_id" name="user_id"
 						placeholder="아이디를 입력하세요" />
 					<div class="input-group-append">
-						<button id="id_check" class="btn btn-secondary btn-sm">
-							중복확인</button>
+						<input type="button" class="btn btn-secondary btn-sm" id="id_check" value="중복확인">
 					</div>
 				</div>
 			</div>

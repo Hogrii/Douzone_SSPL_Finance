@@ -38,7 +38,7 @@ $(function() {
 			    	  localStorage.setItem("username", data.id);
 				      localStorage.setItem("remember_password", true);
 				     
-			    	if(fail){
+			    	if((fail && (data.id != null))){
 			    	  localStorage.setItem("username", save_id);
 				      localStorage.setItem("remember_password", true);	
 				      fail = false;

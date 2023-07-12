@@ -3,20 +3,24 @@ $(function() {
 	  let focusdata = '';
 	  let message = '';
 	  let id_check = 0;
+	  
+	  let path = window.location.pathname;
+	  let pathSegments = path.split('/');
+	  let extractedPart = pathSegments.slice(0,2).join('/');
 
 	  $('#id_check').on('click', function() {
 	    let id = $('#user_id').val();
 	    console.log(id);
 	    
-	  let path = window.location.pathname;
-	  let pathSegments = path.split('/');
-	  let extractedPart = pathSegments.slice(0,2).join('/');
+	  
 	    $.ajax({
 	      url:'/sspl_finance/member/idcheck/' + id,
 	      type: 'get',
 	      contentType: 'application/json;charset=UTF-8',
 	      dataType: 'json',
 	      success: function(data) {
+	        $('#resultMessage').empty();
+	       
 	        let idRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/;
 	        if (data.id != null) {
 	          message = '이미 존재한 아이디입니다';
@@ -25,9 +29,9 @@ $(function() {
 	        } else {
 	          message = '사용 가능한 아이디입니다';
 	          id_check = 1;
-	          focusdata = '#user_id';
+	          focusdata = '#password';
 	        }
-	        $('#resultMessage').empty();
+	        
 	        $('#resultModal').modal('show');
 	        $('#resultMessage').text(message);
 	      },

@@ -36,6 +36,7 @@
 		let path = window.location.pathname;
 	  	let pathSegments = path.split('/');
 	 	let extractedPart = pathSegments.slice(0,2).join('/');
+	 	
 		$.ajax({
 			url : 'userData',
 			type : 'get',
@@ -108,8 +109,7 @@
 							let formData = $(this).serialize();
 
 							console.log("sdfsdfsdf" + formData.name);
-							$
-									.ajax({
+							$.ajax({
 										url : 'passwordCheck', // 수정된 주소로 변경
 										type : 'POST',
 										contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -226,7 +226,7 @@
 							}
 
 							function update(userData) {
-
+								
 								if (equalsCheck() === 1) {
 									$('#resultModal').modal('show');
 									$('#resultMessage').text("수정된 데이터가 없습니다.");
