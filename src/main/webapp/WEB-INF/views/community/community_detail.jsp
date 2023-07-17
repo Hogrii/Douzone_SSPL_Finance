@@ -130,7 +130,7 @@ $(function(){
 	  function getList(){
 	  $.ajax({
 	    type: "get",
-	    url: "replySelect/" + ${detail.comm_seq},
+	    url: "/sspl_finance/restcommunity/replySelect/" + ${detail.comm_seq},
 	    contentType: "application/json; charset=utf-8",
 
 	    success: function(data) {
@@ -229,7 +229,7 @@ $(function(){
  
 	    	$.ajax({
 	  		  type: "post",
-	  		  url: "reReplyInsert",
+	  		  url: "/sspl_finance/restcommunity/reReplyInsert",
 	  		  data: data2,
 	  		  dataType: "json",
 	  		  contentType: "application/json; charset=utf-8",
@@ -244,7 +244,7 @@ $(function(){
 	    $(document).on("click","button[class='replydelete mx-3 btn btn-secondary']",function(){ 
 	    	let comm_reply_seq = $(this).val();
 		  	$.ajax({
-		  		url: "replyDelete/"+comm_reply_seq,
+		  		url: "/sspl_finance/restcommunity/replyDelete/"+comm_reply_seq,
 		  		type : 'get',
 		  		data: comm_reply_seq,
 		  		dataType: "json",
