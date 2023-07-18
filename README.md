@@ -33,5 +33,6 @@
  ## 문서
  - ERD
 ![erd](https://github.com/Hogrii/Douzone_SSPL_Finance/assets/91480271/8bc718b3-5a65-4ae2-90a0-320468abef96)
-
+ - 구글 드라이브
+https://drive.google.com/drive/folders/1a3uZV0alr6uEqrcATY1jcXn57FProsvW
  
